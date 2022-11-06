@@ -1,0 +1,5 @@
+------------------------------------------------------------ SIGNIN -----------------------------------------------------------------------
+1 - Ask username
+	1.1 - Check if username has beetwen 5 and 10 characters
+		1.1.1 - Check username function
+			1.1.1.1 - Check is the numbers of chars at each position of the array has beetwen 5 and 10 entrys tha fall unde ASCII values
