@@ -15,7 +15,10 @@ typedef struct
 void clear();
 bool check_length(char *credential);
 bool check_password(char *password, char *confirmation);
+void newcomer_message_first();
+void newcomer_message_second();
+void press_to_continue();
 
-// First Session functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-void signup();
+// ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+void signup_admin();
 //  void check_username(char *username);

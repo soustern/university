@@ -20,8 +20,6 @@ void clear()
 // Function that checks if a given credential falls under the specifications
 bool check_length(char *credential)
 {
-    // Multipurpose character storage variable
-    char storage;
 
     // Declare variable that will increment starting from zero
     int increment = 0;
@@ -60,14 +58,8 @@ bool check_length(char *credential)
 
             puts("\nNome de Usuario/Senha INVALIDO!");
             puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espaços");
-            puts("Aperte ENTER para tentar novamente...");
 
-            // Wait until user presses enter
-            scanf("%c", &storage);
-            while (storage != 10)
-            {
-                scanf("%c", &storage);
-            }
+            press_to_continue();
 
             return false;
         }
@@ -85,16 +77,8 @@ bool check_length(char *credential)
 
         puts("\nNome de usuario INVALIDO!");
         puts("Seu nome de usuario deve ter entre 5 e 10 caracteres quaisquer s/ espaços");
-        puts("Aperte ENTER para tentar novamente...");
 
-        // Wait until user presses enter
-        scanf("%c", &storage);
-        while (storage != 10)
-        {
-            scanf("%c", &storage);
-        }
-
-        return false;
+        press_to_continue();
     }
     else
     {
@@ -102,6 +86,8 @@ bool check_length(char *credential)
     }
 }
 
+// Function that will ask for a confirmation of a password
+// And validate if both given passwords are equal
 bool check_password(char *password, char *confirmation)
 {
 
@@ -113,9 +99,6 @@ bool check_password(char *password, char *confirmation)
 
     // Declare increment variable starting from zero
     int increment = 0;
-
-    // Multipurpose character storage variable
-    char storage;
 
     // Ask for password confirmation
     confirmation = strdup(getpass("Insira a senha novamente: "));
@@ -134,15 +117,9 @@ bool check_password(char *password, char *confirmation)
         }
         else
         {
-            puts("As senhas inseridas nao sao iguais!");
-            puts("Aperte ENTER para tentar novamente...");
+            puts("\nAs senhas inseridas nao sao iguais!");
 
-            // Wait until user presses enter
-            scanf("%c", &storage);
-            while (storage != 10)
-            {
-                scanf("%c", &storage);
-            }
+            press_to_continue();
 
             return false;
         }
@@ -151,15 +128,9 @@ bool check_password(char *password, char *confirmation)
     // Check if amount of times both array position match is equal to the lenght of the passed value "password"
     if (increment != strlen(password))
     {
-        puts("As senhas inseridas nao sao iguais!");
-        puts("Aperte ENTER para tentar novamente...");
+        puts("\nAs senhas inseridas nao sao iguais!");
 
-        // Wait until user presses enter
-        scanf("%c", &storage);
-        while (storage != 10)
-        {
-            scanf("%c", &storage);
-        }
+        press_to_continue();
 
         return false;
     }
@@ -171,11 +142,70 @@ bool check_password(char *password, char *confirmation)
     }
 }
 
-// First Session functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Function that will print a newcomer message
+void newcomer_message_first()
+{
+
+    // Clear terminal screen
+    clear();
+
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    puts("Seja bem-vindo(a) ao Simple Logistical System!\n");
+    puts("Para começar a utilizar o sistema, cadastre sua primeira conta");
+    puts("que, por padrão, tera o escopo de CONTA ADMINISTRADORA.\n");
+
+    puts("Para saber mais sobre as diferentes contas que o SLS suporta");
+    puts("e suas particularidades, precione seleciona a opção 10 no menu");
+    puts("ou acesse a seção 'Manual' em nosso site!\n");
+
+    press_to_continue();
+}
+
+// Function that will print another newcomer message
+void newcomer_message_second()
+{
+
+    // Clear terminal screen
+    clear();
+
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    puts("Conta criada com sucesso!\n");
+    puts("Não se esqueça de guardar as credenciaus fornecidas");
+    puts("em um lugar seguro.\n");
+
+    puts("A seguir você será redirecionado(a) para o MENU.");
+    puts("A tela do menu discrimina as diferentes funcionalidades do sistema");
+    puts("Assim com seu respectivo número de designação.\n");
+
+    puts("Para acessar qualquer funcionalidade que desejar");
+    puts("digite o número correspondente aquela ferramenta");
+    puts("e pressione ENTER\n");
+
+    press_to_continue();
+}
+
+// Fnction that waits until user presses ENTER to continue
+void press_to_continue()
+{
+
+    // Multipurpose character storage variable
+    char storage;
+
+    puts("Aperte ENTER para tentar novamente...");
+
+    // Wait until user presses enter
+    scanf("%c", &storage);
+    while (storage != 10)
+    {
+        scanf("%c", &storage);
+    }
+}
+
+// ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to signup the first account
 // The first account is always of ADMIN status
-void signup()
+void signup_admin()
 {
     // Clear terminal screen
     clear();
@@ -243,7 +273,7 @@ void signup()
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
         // printf("Senha (Entre 5 e 10 caracteres): ");
-        puts("*****A senha não aparecera enquanto a digitaçao ocorrer*****");
+        puts("\n*****A senha não aparecera enquanto a digitaçao ocorrer*****");
 
         // Turn off terminal echoing to mask password
         // TODO: REDO THIS FUNCTIONS FOR WINDOWS

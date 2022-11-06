@@ -29,8 +29,14 @@ int main()
     if (storage == '0')
     {
 
-        // Call signup function
-        signup();
+        // Call newcomer_message_first function
+        newcomer_message_first();
+
+        // Call signup_admin function
+        signup_admin();
+
+        //  Call newcomer_message_second functions
+        newcomer_message_second();
 
         // Change the value of "sessions_counter.txt" to 1
         // Give the char of '1' to the storage variable
