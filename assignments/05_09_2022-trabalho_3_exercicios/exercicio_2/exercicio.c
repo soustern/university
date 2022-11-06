@@ -1,0 +1,38 @@
+// 2 - Faça um programa em C que recebe os valores de 1 a 7 e mostra o dia da semana corresponde ao numero informado.
+
+//  Inclusions 
+#include <stdio.h>
+
+//  Main function 
+void main () {
+
+    // Variable declaration
+    int weekday;
+
+    // Collecting user input
+    printf("Choose a number from 1 to 7 and we will show you the corresponding weekday\nEnter your number: ");
+    scanf("%i", &weekday);
+
+    // Establishing conditions and printing results
+    if (weekday == 1) {
+        printf("Your number of choice was %i, that is SUNDAY", weekday);
+    }
+    else if (weekday == 2) {
+            printf("Your number of choice was %i, that is MONDAY", weekday);
+    }
+    else if (weekday == 3) {
+            printf("Your number of choice was %i, that is TUESDAY", weekday);
+    }
+    else if (weekday == 4) {
+            printf("Your number of choice was %i, that is WEDNESDAY", weekday);
+    }
+    else if (weekday == 5) {
+            printf("Your number of choice was %i, that is THURSDAY", weekday);
+    }
+    else if (weekday == 6) {
+        printf("Your number of choice was %i, that is FRIDAY", weekday);
+    }    
+    else {
+        printf("Your number of choice was %i, that is SATURDAY", weekday);
+    }
+}

@@ -1,0 +1,49 @@
+// 1 - Faça um programa em C que recebe 3 valores inteiros e os mostra em ordem crescente.
+
+// Inclusions 
+
+#include <stdio.h>
+
+// Main Function -----------------------
+
+void main() {
+
+    // Variables declaration -----------------------
+    int v1, v2, v3;
+
+    // Collection user input -----------------------
+    printf("This Program will organize your tree integers in crescent order\nplease enter the first number: ");
+    scanf("%i", &v1);
+    printf("Please enter the second number: ");
+    scanf("%i", &v2);
+    printf("Please enter the third number: ");
+    scanf("%i", &v3);
+
+    // setting conditions and printing results -----------------------
+    if (v1 > v2) {
+        if (v1 > v3) {
+            if (v2 > v3) {
+                printf("Your numbers in crescent order: %i, %i, %i", v3, v2, v1);
+            }
+            else {
+                printf("Your numbers in crescent order: %i, %i, %i", v2, v3, v1);
+            }
+        }
+        else {
+            printf("Your numbers in crescent order: %i, %i, %i", v2, v1, v3);
+        }
+    }
+    else {
+        if (v2 > v3) {
+            if (v1 > v3) { 
+                printf("Your numbers in crescent order: %i, %i, %i", v3, v1, v2);
+            }
+            else {
+                printf("Your numbers in crescent order: %i, %i, %i", v1, v3, v2);
+            }
+        }
+        else {
+            printf("Your numbers in crescent order: %i, %i, %i", v1, v2, v3);
+        }
+    }
+}

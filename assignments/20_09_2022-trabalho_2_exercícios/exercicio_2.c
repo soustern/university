@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+
+void main()
+{
+    // variables
+    float salary;
+    int nota_200, nota_100, nota_50, nota_20, nota_10, nota_5, nota_2, moeda_1;
+
+    // collecting salary
+    printf("Insira o salario do funcionario: ");
+    scanf("%f", &salary);
+
+    // logic that takes a decreasing salary value wich keep being divided by the different notes
+    nota_200 = floor(salary / 200);
+    salary = salary - (nota_200 * 200);
+    nota_100 = floor(salary / 100);
+    salary = salary - (nota_100 * 100);
+    nota_50 = floor(salary / 50);
+    salary = salary - (nota_50 * 50);
+    nota_20 = floor(salary / 20);
+    salary = salary - (nota_20 * 20);
+    nota_10 = floor(salary / 10);
+    salary = salary - (nota_10 * 10);
+    nota_5 = floor(salary / 5);
+    salary = salary - (nota_5 * 5);
+    nota_2 = floor(salary / 2);
+    salary = salary - (nota_2 * 2);
+    moeda_1 = floor(salary / 1);
+    salary = salary - (moeda_1 * 1);
+
+    printf("\n\n");
+
+    printf("Para realizar esse pagamento, serao necessarias: \n\n");
+    printf("Nota de 200: %i\n\n", nota_200);
+    printf("Nota de 100: %i\n\n", nota_100);
+    printf("Nota de 50: %i\n\n", nota_50);
+    printf("Nota de 20: %i\n\n", nota_20);
+    printf("Nota de 10: %i\n\n", nota_10);
+    printf("Nota de 5: %i\n\n", nota_5);
+    printf("Nota de 2: %i\n\n", nota_2);
+    printf("Moeda de 1: %i\n\n", moeda_1);
+}

@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+void main()
+{
+    // declaring variables
+    int sup_x, sup_y, inf_x, inf_y, met_x, met_y, quant, in = 0;
+
+    // getting superior left coordinates
+    printf("Cordenadas X e Y, respectivamente, da área superior esquerda da propriedade: \n\n");
+    printf("X:");
+    scanf("%i", &sup_x);
+    printf("\nY:");
+    scanf("%i", &sup_y);
+
+    // getting inferior right coordinates
+    printf("Cordenadas X e Y, respectivamente, da área inferior direita da propriedade: \n\n");
+    printf("X:");
+    scanf("%i", &inf_x);
+    printf("\nY:");
+    scanf("%i", &inf_y);
+
+    // getting meteorite quantity
+    printf("Insira quantos meteoritos cairam na regiao da propriedade: ");
+    scanf("%i", &quant);
+    printf("\n");
+
+    // getting each meteorite coordinate
+    for (int i = 0; i < quant; i++)
+    {
+        printf("\nMETEORITO %i -------------------------\n\n", i + 1);
+        printf("\nCoordenada X: ");
+        scanf("%i", &met_x);
+        printf("\nCoordenada Y: ");
+        scanf("%i", &met_y);
+
+        // validating the ones that landed inside the property
+        if (met_x >= sup_x && met_x <= inf_x && met_y >= inf_y && met_y <= sup_y)
+        {
+            in++;
+        }
+    }
+
+    printf("\n\n");
+
+    // printing result
+    printf("A quantidade de meteoritos que cairam dentro da propriedade e de: %i", in);
+}
