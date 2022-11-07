@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 // Include "linker" header file
 #include "functions.h"
@@ -218,6 +219,10 @@ void login()
 void load_databases()
 {
 
+    time_t t;
+    time(&t);
+    printf("\n\n%s\n\n", ctime(&t));
+
     // Create a buffer
     char *buffer = malloc(MAXSIZE);
     if (buffer == NULL)
@@ -226,12 +231,33 @@ void load_databases()
         return;
     }
 
+    char username[MAXSIZE];
+    char password[MAXSIZE];
+
     // Declare a variable that will receive hashed indexes
     int index;
 
-    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->
+    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 
     // clare a struct of the "account" type
+    // Initialize it to NULL
+    accountadmin *node = NULL;
+
+    // Open "account_admin.txt" file
+    FILE *data = fopen("macros/account_admin.txt", "r");
+
+    // Write each string inside the file onto the buffer
+    while (fscanf(data, "%s", buffer) == 1)
+    {
+
+        // Allocate new memory to node at each iteration
+
+        strcpy(username, buffer);
+        fscanf(data, "%s", buffer);
+        strcpy(password, buffer);
+    }
+
+    fclose(data);
 
     // Free all allocated memory
     free(buffer);
@@ -349,15 +375,9 @@ void save_account_admin(createaccount account)
     // Open the correct file
     data = fopen("macros/account_admin.txt", "a");
 
-    // Append "account.username" content to the opened file
-    fwrite(account.username, sizeof(account.username), 1, data);
-
-    // Append "account.password" content to the opened file
-    fwrite(account.password, sizeof(account.password) + 1, 1, data);
-
-    // Append TWO line-breaks (\n) to file
-    fprintf(data, "\n");
-    fprintf(data, "\n");
+    // Append username and password to file
+    fprintf(data, "%s", account.username);
+    fprintf(data, "%s\n", account.password);
 
     fclose(data);
 }

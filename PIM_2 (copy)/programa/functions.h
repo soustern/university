@@ -3,6 +3,7 @@
 
 // Define constant variable to be user elsewhere
 #define MAXSIZE 200
+#define TABLESIZE 1000
 
 // Structs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -14,11 +15,13 @@ typedef struct
 
 typedef struct accountadmin
 {
-    char *username;
-    char *password;
-    char *type;
+    char username[MAXSIZE];
+    char password[MAXSIZE];
+    char type[MAXSIZE];
     struct accountadmin *next;
 } accountadmin;
+
+// accountadmin table_account_admin[TABLESIZE];
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
