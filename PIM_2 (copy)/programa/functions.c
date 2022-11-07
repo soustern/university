@@ -75,8 +75,8 @@ bool check_length(char *credential)
 
         // puts("check == 10 && increment < 10 || increment > 10");
 
-        puts("\nNome de usuario INVALIDO!");
-        puts("Seu nome de usuario deve ter entre 5 e 10 caracteres quaisquer s/ espaços");
+        puts("\nNome de Usuario/Senha INVALIDO!");
+        puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espaços");
 
         press_to_continue();
     }
@@ -155,7 +155,7 @@ void newcomer_message_first()
     puts("que, por padrão, tera o escopo de CONTA ADMINISTRADORA.\n");
 
     puts("Para saber mais sobre as diferentes contas que o SLS suporta");
-    puts("e suas particularidades, precione seleciona a opção 10 no menu");
+    puts("e suas particularidades, selecione a opção 6 no menu");
     puts("ou acesse a seção 'Manual' em nosso site!\n");
 
     press_to_continue();
@@ -175,7 +175,7 @@ void newcomer_message_second()
 
     puts("A seguir você será redirecionado(a) para o MENU.");
     puts("A tela do menu discrimina as diferentes funcionalidades do sistema");
-    puts("Assim com seu respectivo número de designação.\n");
+    puts("assim como seu respectivo número de designação.\n");
 
     puts("Para acessar qualquer funcionalidade que desejar");
     puts("digite o número correspondente aquela ferramenta");
@@ -191,7 +191,7 @@ void press_to_continue()
     // Multipurpose character storage variable
     char storage;
 
-    puts("Aperte ENTER para tentar novamente...");
+    puts("Aperte ENTER para continuar...");
 
     // Wait until user presses enter
     scanf("%c", &storage);
@@ -203,8 +203,7 @@ void press_to_continue()
 
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Function to signup the first account
-// The first account is always of ADMIN status
+// Function to signup a ADMIN account
 void signup_admin()
 {
     // Clear terminal screen
@@ -218,7 +217,7 @@ void signup_admin()
     char *confirmation = (char *)malloc(MAXSIZE);
     if (confirmation == NULL)
     {
-        puts("ERRO 1: Memoria insuficiente no sistema");
+        puts("ERRO 1: Memória insuficiente no sistema");
         return;
     }
 
@@ -227,7 +226,7 @@ void signup_admin()
     storage.username = (char *)malloc(MAXSIZE);
     if (storage.username == NULL)
     {
-        puts("ERRO 1: Memoria insuficiente no sistema");
+        puts("ERRO 1: Memória insuficiente no sistema");
         return;
     }
 
@@ -236,7 +235,7 @@ void signup_admin()
     storage.password = (char *)malloc(MAXSIZE);
     if (storage.password == NULL)
     {
-        puts("ERRO 1: Memoria insuficiente no sistema");
+        puts("ERRO 1: Memória insuficiente no sistema");
         return;
     }
 
@@ -247,8 +246,7 @@ void signup_admin()
 
         // Boilerplate
         puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-        puts("Conta com status 'ADMINISTRADOR'");
-        puts("Salve as credenciais escolhidas em um lugar seguro!\n");
+        puts("Conta com status 'ADMINISTRADORA'\n");
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): ");
@@ -267,13 +265,12 @@ void signup_admin()
 
         // Boilerplate
         puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-        puts("Conta com status 'ADMINISTRADOR'");
-        puts("Salve as credenciais escolhidas em um lugar seguro!\n");
+        puts("Conta com status 'ADMINISTRADORA'\n");
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
         // printf("Senha (Entre 5 e 10 caracteres): ");
-        puts("\n*****A senha não aparecera enquanto a digitaçao ocorrer*****");
+        puts("\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
 
         // Turn off terminal echoing to mask password
         // TODO: REDO THIS FUNCTIONS FOR WINDOWS
@@ -287,4 +284,28 @@ void signup_admin()
     free(storage.username);
     free(storage.password);
     free(confirmation);
+}
+
+// Function that will render a functionality menu with ADMIN capabilities
+void menu_admin()
+{
+
+    // Clear terminal screen
+    clear();
+
+    // Boiler plate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    puts("Conta com status 'ADMINISTRADORA'\n");
+
+    // Available tools
+    puts("1 - Cadastrar item");
+    puts("2 - Vizualizar item\n");
+
+    puts("3 - Excluir item");
+    puts("4 - Editar item\n");
+
+    puts("5 - Configurações");
+    puts("6 - Manual\n");
+
+    puts("7 - Sair\n");
 }

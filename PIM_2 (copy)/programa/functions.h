@@ -5,6 +5,7 @@
 #define MAXSIZE 200
 
 // Structs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 typedef struct
 {
     char *username;
@@ -12,13 +13,21 @@ typedef struct
 } createperson;
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 void clear();
+
 bool check_length(char *credential);
+
 bool check_password(char *password, char *confirmation);
+
 void newcomer_message_first();
+
 void newcomer_message_second();
+
 void press_to_continue();
 
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 void signup_admin();
-//  void check_username(char *username);
+
+void menu_admin();

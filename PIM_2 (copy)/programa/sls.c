@@ -38,6 +38,9 @@ int main()
         //  Call newcomer_message_second functions
         newcomer_message_second();
 
+        // Call menu_admin function
+        menu_admin();
+
         // Change the value of "sessions_counter.txt" to 1
         // Give the char of '1' to the storage variable
         storage = '1';
