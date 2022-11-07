@@ -117,7 +117,7 @@ bool check_password(char *password, char *confirmation)
         }
         else
         {
-            puts("\nAs senhas inseridas nao sao iguais!");
+            puts("\nAs senhas inseridas não são iguais!");
 
             press_to_continue();
 
@@ -136,11 +136,19 @@ bool check_password(char *password, char *confirmation)
     }
     else
     {
-        puts("As senhas sao iguais");
-
         return true;
     }
 }
+
+/* // Function to remove the first space that is being added in front of the password input
+// A blank space character is being placed at array[0] at the password input saved string
+void remove_first_space(char *password)
+{
+    for (int i = 0, n = strlen(password) - 1; i < n; i++)
+    {
+        password[i] = password[i + 1];
+    }
+} */
 
 // Function that will print a newcomer message
 void newcomer_message_first()
@@ -278,12 +286,43 @@ void signup_admin()
 
     } while (check_password(storage.password, confirmation) == false);
 
-    printf("\n\n\n%s\n%s\n\n\n", storage.username, storage.password);
+    /* // Call remove_first_space function
+    remove_first_space(storage.password); */
+
+    press_to_continue();
+
+    // Call save_acount_admin function
+    save_account_admin(storage);
 
     // Free all allocated memory
     free(storage.username);
     free(storage.password);
     free(confirmation);
+}
+
+// Function that will save a new account when all the validations passes
+void save_account_admin(createperson account)
+{
+
+    // Declare e FILE Pointer
+    FILE *data;
+
+    // Save account.username in a file ->->->->->->
+
+    // Open the correct file
+    data = fopen("macros/account_admin.txt", "a");
+
+    // Append "account.username" content to the opened file
+    fwrite(account.username, sizeof(account.username), 1, data);
+
+    // Append "account.password" content to the opened file
+    fwrite(account.password, sizeof(account.password) + 1, 1, data);
+
+    // Append TWO line-breaks (\n) to file
+    fprintf(data, "\n");
+    fprintf(data, "\n");
+
+    fclose(data);
 }
 
 // Function that will render a functionality menu with ADMIN capabilities
