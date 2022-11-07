@@ -155,7 +155,7 @@ void newcomer_message_first()
     puts("que, por padrão, tera o escopo de CONTA ADMINISTRADORA.\n");
 
     puts("Para saber mais sobre as diferentes contas que o SLS suporta");
-    puts("e suas particularidades, selecione a opção 6 no menu");
+    puts("e suas particularidades, selecione a opção 8 no menu");
     puts("ou acesse a seção 'Manual' em nosso site!\n");
 
     press_to_continue();
@@ -304,8 +304,11 @@ void menu_admin()
     puts("3 - Excluir item");
     puts("4 - Editar item\n");
 
-    puts("5 - Configurações");
-    puts("6 - Manual\n");
+    puts("5 - Cadastrar conta\n");
 
-    puts("7 - Sair\n");
+    puts("6 - Relatórios");
+    puts("7 - Configurações");
+    puts("8 - Manual\n");
+
+    puts("9 - Sair\n");
 }
