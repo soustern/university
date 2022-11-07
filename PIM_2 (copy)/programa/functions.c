@@ -295,7 +295,7 @@ void menu_admin()
 
     // Boiler plate
     puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-    puts("Conta com status 'ADMINISTRADORA'\n");
+    puts("Conta com status 'ADMINISTRADORA'\n\n");
 
     // Available tools
     puts("1 - Cadastrar item");
@@ -311,4 +311,57 @@ void menu_admin()
     puts("8 - Manual\n");
 
     puts("9 - Sair\n");
+
+    // Call answer_admin function
+    answer_admin();
+}
+
+// Function that will receive user answer and will route another function
+void answer_admin()
+{
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch ((char)storage)
+    {
+    case '1':
+        /* code */
+        break;
+    case '2':
+        /* code */
+        break;
+    case '3':
+        /* code */
+        break;
+    case '4':
+        /* code */
+        break;
+    case '5':
+        /* code */
+        break;
+    case '6':
+        /* code */
+        break;
+    case '7':
+        /* code */
+        break;
+    case '8':
+        /* code */
+        break;
+    case '9':
+        getchar();
+        press_to_continue();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_admin();
+    }
 }

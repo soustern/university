@@ -31,3 +31,5 @@ void press_to_continue();
 void signup_admin();
 
 void menu_admin();
+
+void answer_admin();

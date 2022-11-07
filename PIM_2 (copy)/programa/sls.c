@@ -35,7 +35,7 @@ int main()
         // Call signup_admin function
         signup_admin();
 
-        //  Call newcomer_message_second functions
+        //  Call newcomer_message_second function
         newcomer_message_second();
 
         // Call menu_admin function
