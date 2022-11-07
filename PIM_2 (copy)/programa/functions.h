@@ -3,7 +3,8 @@
 
 // Define constant variable to be user elsewhere
 #define MAXSIZE 200
-#define TABLESIZE 1000
+#define MINTABLESIZE 200
+#define MAXTABLESIZE 200
 
 // Structs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -41,7 +42,7 @@ void press_to_continue();
 
 void login();
 
-void load_databases();
+bool load_databases();
 
 int hash_index(char *subject);
 

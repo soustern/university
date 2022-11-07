@@ -9,3 +9,6 @@ Implement a new functionality that checks if password already exists at database
 
 TODO: functions.h
 Create a function that will free all struct allocated memory
+
+TODO: functions.h -> hash_index()
+Comment hash_index() function line per line

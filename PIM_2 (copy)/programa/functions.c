@@ -3,9 +3,13 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <ctype.h>
 
 // Include "linker" header file
 #include "functions.h"
+
+// Declare global structs
+accountadmin table_account_admin[MINTABLESIZE];
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -216,23 +220,16 @@ void login()
 }
 
 // Function that will load all databases hashtables
-void load_databases()
+bool load_databases()
 {
-
-    time_t t;
-    time(&t);
-    printf("\n\n%s\n\n", ctime(&t));
 
     // Create a buffer
     char *buffer = malloc(MAXSIZE);
     if (buffer == NULL)
     {
         puts("ERRO 1: Não há memória suficiente no sistema");
-        return;
+        return false;
     }
-
-    char username[MAXSIZE];
-    char password[MAXSIZE];
 
     // Declare a variable that will receive hashed indexes
     int index;
@@ -246,26 +243,59 @@ void load_databases()
     // Open "account_admin.txt" file
     FILE *data = fopen("macros/account_admin.txt", "r");
 
-    // Write each string inside the file onto the buffer
+    // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
     while (fscanf(data, "%s", buffer) == 1)
     {
 
         // Allocate new memory to node at each iteration
+        node = malloc(sizeof(accountadmin));
+        if (node == NULL)
+        {
+            puts("ERRO 1: Não há memória suficiente no sistema");
+            return false;
+        }
 
-        strcpy(username, buffer);
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->username, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
         fscanf(data, "%s", buffer);
-        strcpy(password, buffer);
+
+        // Copy the string present at that line of the file to the password section of the current node
+        strcpy(node->password, buffer);
+
+        // Index variable receives the value returned by the hash(node->) func
+        index = hash_index(node->password);
+
+        printf("\n\n%i\n\n", index);
     }
 
     fclose(data);
 
     // Free all allocated memory
     free(buffer);
+
+    return true;
 }
 
 // Functions that will create a hash index based on a argument passed subject
 int hash_index(char *subject)
 {
+
+    // Declare "index" variable
+    int index = 0;
+
+    for (int i = 0, n = sizeof(subject) - 1; i < n; i++)
+    {
+        index = index + tolower(subject[i]);
+    }
+
+    if (index > MINTABLESIZE)
+    {
+        index = index % MINTABLESIZE;
+    }
+
+    return index;
 }
 
 // Function that will check all databases to see if given password already exists
@@ -351,8 +381,6 @@ void signup_admin()
 
     /* // Call remove_first_space function
     remove_first_space(storage.password); */
-
-    press_to_continue();
 
     // Call save_acount_admin function
     save_account_admin(storage);
