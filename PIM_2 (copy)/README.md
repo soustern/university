@@ -6,3 +6,6 @@ Implement a function that stops terminal echoing using termios.h and stop using 
 
 TODO: functions.h -> signup() and check_password()
 Implement a new functionality that checks if password already exists at database
+
+TODO: functions.h
+Create a function that will free all struct allocated memory

@@ -209,6 +209,43 @@ void press_to_continue()
     }
 }
 
+// Function that check databases to see if given credentials exists there
+void login()
+{
+}
+
+// Function that will load all databases hashtables
+void load_databases()
+{
+
+    // Create a buffer
+    char *buffer = malloc(MAXSIZE);
+    if (buffer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        return;
+    }
+
+    // Declare a variable that will receive hashed indexes
+    int index;
+
+    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->
+
+    // clare a struct of the "account" type
+
+    // Free all allocated memory
+    free(buffer);
+}
+
+// Functions that will create a hash index based on a argument passed subject
+int hash_index(char *subject)
+{
+}
+
+// Function that will check all databases to see if given password already exists
+
+// Functions that will free all structs
+
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to signup a ADMIN account
@@ -218,7 +255,7 @@ void signup_admin()
     clear();
 
     // Initialize a storage struct of type "createperson"
-    createperson storage;
+    createaccount storage;
 
     // Alloc a big chunck of memory to "confirmation" | The size will that of "MAXSIZE" constant
     // Declare storage variable that will be responsible for receiving "password confirmation" input
@@ -301,7 +338,7 @@ void signup_admin()
 }
 
 // Function that will save a new account when all the validations passes
-void save_account_admin(createperson account)
+void save_account_admin(createaccount account)
 {
 
     // Declare e FILE Pointer

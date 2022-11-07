@@ -61,7 +61,7 @@ int main()
     }
     else
     {
-        puts("Aqui foi!");
+        login();
     }
 
     return 0;

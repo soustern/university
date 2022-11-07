@@ -10,7 +10,15 @@ typedef struct
 {
     char *username;
     char *password;
-} createperson;
+} createaccount;
+
+typedef struct accountadmin
+{
+    char *username;
+    char *password;
+    char *type;
+    struct accountadmin *next;
+} accountadmin;
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -28,11 +36,17 @@ void newcomer_message_second();
 
 void press_to_continue();
 
+void login();
+
+void load_databases();
+
+int hash_index(char *subject);
+
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void signup_admin();
 
-void save_account_admin(createperson account);
+void save_account_admin(createaccount account);
 
 void menu_admin();
 
