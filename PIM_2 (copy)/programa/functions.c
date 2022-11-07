@@ -9,7 +9,7 @@
 #include "functions.h"
 
 // Declare global structs
-accountadmin table_account_admin[MINTABLESIZE];
+accountadmin *table_account_admin[MINTABLESIZE];
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -267,7 +267,26 @@ bool load_databases()
         // Index variable receives the value returned by the hash(node->) func
         index = hash_index(node->password);
 
-        printf("\n\n%i\n\n", index);
+        // Check if table_account_admin[index] is pointer is pointing to NULL
+        if (table_account_admin[index] == NULL)
+        {
+
+            // If so, current node "next" pointer must point to NULL
+            node->next = NULL;
+
+            // That array position of table_account_admin must point to the current node
+            table_account_admin[index] = node;
+
+            // Skip next lines of code a got to the next iteration
+            continue;
+        }
+
+        // If previous "if condition" is not met
+        // Current node "next" point must point to what table_account_admin[index] is pointing to
+        node->next = table_account_admin[index];
+
+        // table_account_admin must point to what the current node
+        table_account_admin[index] = node;
     }
 
     fclose(data);
@@ -301,6 +320,25 @@ int hash_index(char *subject)
 // Function that will check all databases to see if given password already exists
 
 // Functions that will free all structs
+
+// Unloads structs from memory, returning true if successful, else false
+bool unload()
+{
+
+    // Create a pointer of to a struct of type accountadmin that will serve as a cursor
+    accountadmin *cursor = NULL;
+
+    // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        for (accountadmin *tmp = table_account_admin[i]; tmp != NULL; tmp = cursor)
+        {
+            cursor = table_account_admin[i]->next;
+            free(table_account_admin[i]);
+            table_account_admin[i] = cursor;
+        }
+    }
+}
 
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -482,6 +520,7 @@ void answer_admin()
     case '9':
         getchar();
         press_to_continue();
+        unload();
         break;
     default:
         puts("Opção inválida!");

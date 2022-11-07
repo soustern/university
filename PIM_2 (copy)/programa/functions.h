@@ -46,6 +46,8 @@ bool load_databases();
 
 int hash_index(char *subject);
 
+bool unload();
+
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void signup_admin();
