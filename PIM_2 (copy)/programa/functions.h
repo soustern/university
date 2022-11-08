@@ -32,8 +32,6 @@ bool check_length(char *credential);
 
 bool check_password(char *password, char *confirmation);
 
-/* void remove_first_space(char *password); */
-
 void newcomer_message_first();
 
 void newcomer_message_second();
@@ -42,11 +40,13 @@ void press_to_continue();
 
 void login();
 
+bool check_login(account *input);
+
 bool load_account_databases();
 
 int hash_index(char *subject);
 
-bool unload();
+bool unload_account_databases();
 
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

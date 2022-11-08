@@ -145,16 +145,6 @@ bool check_password(char *password, char *confirmation)
     }
 }
 
-/* // Function to remove the first space that is being added in front of the password input
-// A blank space character is being placed at array[0] at the password input saved string
-void remove_first_space(char *password)
-{
-    for (int i = 0, n = strlen(password) - 1; i < n; i++)
-    {
-        password[i] = password[i + 1];
-    }
-} */
-
 // Function that will print a newcomer message
 void newcomer_message_first()
 {
@@ -350,7 +340,7 @@ bool load_account_databases()
     // Free all allocated memory ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     free(buffer);
 
-    for (int i = 0; i < MINTABLESIZE; i++)
+    /* for (int i = 0; i < MINTABLESIZE; i++)
     {
         if (table_account[i] != NULL)
         {
@@ -360,7 +350,7 @@ bool load_account_databases()
             }
             printf("\n%s\n%s\n%s\n", table_account[i]->username, table_account[i]->password, table_account[i]->type);
         }
-    }
+    } */
 
     return true;
 }
@@ -388,14 +378,93 @@ int hash_index(char *subject)
 // Function to login with a account
 void login()
 {
+
+    // Load all account databases onto memory
+    load_account_databases();
+
+    // Initialize a point to a struct of type account and allocate memory to it
+    // This needs to be a pointer so we can exchange information with the check_login func later on
+    account *storage = malloc(sizeof(account));
+    if (storage == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema.");
+        return;
+    }
+
+    do
+    {
+
+        // Clear terminal screen
+        clear();
+
+        // Boilerplate
+        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+        // Start asking for user input
+        printf("Nome de usuario (Entre 5 e 10 caracteres): ");
+        fgets(storage->username, MAXSIZE, stdin);
+
+        // Remove trailing newline that comes together with user input when fgets() is used
+        storage->username[strcspn(storage->username, "\n")] = 0;
+
+        puts("\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+
+        // Copy to the memory location at storage->password the value at the memory location getpass() is pointing to
+        strcpy(storage->password, getpass("Senha: "));
+    } while (check_login(storage) == false);
+
+    // If the value at memory location "storage->type" is "admin"
+    if (strcmp(storage->type, "admin") == 0)
+    {
+
+        // We unload database, unload the previously allocated memory that storage is pointing to, and inicitialize menu_admin()
+        unload_account_databases();
+        free(storage);
+        menu_admin();
+    }
+    else
+    {
+        // We unload database, unload the previously allocated memory that storage is pointing to, and inicitialize menu_parcial()
+        unload_account_databases();
+        free(storage);
+        puts("Deu certo, mas n existe essa conta");
+    }
+}
+
+// Function that will check if the credential provided at the login() function exists in the database
+bool check_login(account *input)
+{
+
+    // Declare a variable that will receive the valor returned by hash_index function
+    int index = hash_index(input->password);
+
+    // Create a pointer of to a struct of type account that will serve as a cursor
+    account *cursor = NULL;
+
+    // Navigate horizontally a linked list
+    for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
+    {
+
+        // If the the values of both input and tmp locations "->username" and "->password" are equal
+        if (strcmp(input->username, tmp->username) == 0 && strcmp(input->password, tmp->password) == 0)
+        {
+            // We copy the value present at the memory location "tmp->type" is pointing to
+            // To the memory location "input->type" is pointing to
+            strcpy(input->type, tmp->type);
+            return true;
+        }
+    }
+
+    // unload_account_databases();
+    puts("\nNome de usuário e/ou senha não encontrados.");
+    press_to_continue();
+    return false;
 }
 
 // Function that will check all databases to see if given password already exists
 
-// Functions that will free all structs
-
-// Unloads structs from memory, returning true if successful, else false
-bool unload()
+// Unloads table_account from memory, returning true if successful, else false
+bool unload_account_databases()
 {
 
     // Create a pointer of to a struct of type account that will serve as a cursor
@@ -404,6 +473,8 @@ bool unload()
     // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
     for (int i = 0; i < MINTABLESIZE; i++)
     {
+
+        // Navigate horizontally a linked list
         for (account *tmp = table_account[i]; tmp != NULL; tmp = cursor)
         {
             cursor = table_account[i]->next;
@@ -418,8 +489,6 @@ bool unload()
 // Function to signup a ADMIN account
 void signup_admin()
 {
-    // Clear terminal screen
-    clear();
 
     // Initialize a storage struct of type "createperson"
     createaccount storage;
@@ -546,7 +615,7 @@ void menu_admin()
     puts("8 - Configurações");
     puts("9 - Manual\n");
 
-    puts("10 - Sair\n");
+    puts("e - Sair\n");
 
     // Call answer_admin function
     answer_admin();
@@ -594,10 +663,9 @@ void answer_admin()
     case '9':
         /* code */
         break;
-    case '10':
+    case 'e':
         getchar();
         press_to_continue();
-        unload();
         break;
     default:
         puts("Opção inválida!");

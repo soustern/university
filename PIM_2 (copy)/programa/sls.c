@@ -61,9 +61,7 @@ int main()
     }
     else
     {
-        load_account_databases();
-        unload();
-        // login();
+        login();
     }
 
     return 0;
