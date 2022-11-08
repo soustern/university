@@ -4,7 +4,7 @@
 // Define constant variable to be user elsewhere
 #define MAXSIZE 200
 #define MINTABLESIZE 200
-#define MAXTABLESIZE 200
+#define MAXTABLESIZE 1000
 
 // Structs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -14,13 +14,13 @@ typedef struct
     char *password;
 } createaccount;
 
-typedef struct accountadmin
+typedef struct account
 {
     char username[MAXSIZE];
     char password[MAXSIZE];
     char type[MAXSIZE];
-    struct accountadmin *next;
-} accountadmin;
+    struct account *next;
+} account;
 
 // accountadmin table_account_admin[TABLESIZE];
 
@@ -42,7 +42,7 @@ void press_to_continue();
 
 void login();
 
-bool load_databases();
+bool load_account_databases();
 
 int hash_index(char *subject);
 

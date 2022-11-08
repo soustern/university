@@ -9,7 +9,7 @@
 #include "functions.h"
 
 // Declare global structs
-accountadmin *table_account_admin[MINTABLESIZE];
+account *table_account[MINTABLESIZE];
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -214,13 +214,8 @@ void press_to_continue()
     }
 }
 
-// Function that check databases to see if given credentials exists there
-void login()
-{
-}
-
 // Function that will load all databases hashtables
-bool load_databases()
+bool load_account_databases()
 {
 
     // Create a buffer
@@ -234,11 +229,11 @@ bool load_databases()
     // Declare a variable that will receive hashed indexes
     int index;
 
-    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-
     // clare a struct of the "account" type
     // Initialize it to NULL
-    accountadmin *node = NULL;
+    account *node = NULL;
+
+    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 
     // Open "account_admin.txt" file
     FILE *data = fopen("macros/account_admin.txt", "r");
@@ -248,7 +243,7 @@ bool load_databases()
     {
 
         // Allocate new memory to node at each iteration
-        node = malloc(sizeof(accountadmin));
+        node = malloc(sizeof(account));
         if (node == NULL)
         {
             puts("ERRO 1: Não há memória suficiente no sistema");
@@ -264,35 +259,108 @@ bool load_databases()
         // Copy the string present at that line of the file to the password section of the current node
         strcpy(node->password, buffer);
 
+        // Set the type of the account for that node
+        strcpy(node->type, "admin");
+
         // Index variable receives the value returned by the hash(node->) func
         index = hash_index(node->password);
 
-        // Check if table_account_admin[index] is pointer is pointing to NULL
-        if (table_account_admin[index] == NULL)
+        // Check if table_account[index] is pointer is pointing to NULL
+        if (table_account[index] == NULL)
         {
 
             // If so, current node "next" pointer must point to NULL
             node->next = NULL;
 
-            // That array position of table_account_admin must point to the current node
-            table_account_admin[index] = node;
+            // That array position of table_account must point to the current node
+            table_account[index] = node;
 
             // Skip next lines of code a got to the next iteration
             continue;
         }
 
         // If previous "if condition" is not met
-        // Current node "next" point must point to what table_account_admin[index] is pointing to
-        node->next = table_account_admin[index];
+        // Current node "next" point must point to what table_account[index] is pointing to
+        node->next = table_account[index];
 
-        // table_account_admin must point to what the current node
-        table_account_admin[index] = node;
+        // table_account must point to what the current node
+        table_account[index] = node;
     }
 
+    // Close the previously opened file
     fclose(data);
 
-    // Free all allocated memory
+    // Load "account_partial" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+
+    // Open "account_partial.txt" file
+    data = fopen("macros/account_partial.txt", "r");
+
+    // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
+    while (fscanf(data, "%s", buffer) == 1)
+    {
+
+        // Allocate new memory to node at each iteration
+        node = malloc(sizeof(account));
+        if (node == NULL)
+        {
+            puts("ERRO 1: Não há memória suficiente no sistema");
+            return false;
+        }
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->username, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fscanf(data, "%s", buffer);
+
+        // Copy the string present at that line of the file to the password section of the current node
+        strcpy(node->password, buffer);
+
+        // Set the type of the account for that node
+        strcpy(node->type, "partial");
+
+        // Index variable receives the value returned by the hash(node->) func
+        index = hash_index(node->password);
+
+        // Check if table_account[index] is pointer is pointing to NULL
+        if (table_account[index] == NULL)
+        {
+
+            // If so, current node "next" pointer must point to NULL
+            node->next = NULL;
+
+            // That array position of table_account must point to the current node
+            table_account[index] = node;
+
+            // Skip next lines of code a got to the next iteration
+            continue;
+        }
+
+        // If previous "if condition" is not met
+        // Current node "next" point must point to what table_account[index] is pointing to
+        node->next = table_account[index];
+
+        // table_account must point to what the current node
+        table_account[index] = node;
+    }
+
+    // Close the previously opened file
+    fclose(data);
+
+    // Free all allocated memory ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
     free(buffer);
+
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        if (table_account[i] != NULL)
+        {
+            if (table_account[i]->next != NULL)
+            {
+                printf("\n%s\n%s\n%s\n", table_account[i]->next->username, table_account[i]->next->password, table_account[i]->next->type);
+            }
+            printf("\n%s\n%s\n%s\n", table_account[i]->username, table_account[i]->password, table_account[i]->type);
+        }
+    }
 
     return true;
 }
@@ -317,6 +385,11 @@ int hash_index(char *subject)
     return index;
 }
 
+// Function to login with a account
+void login()
+{
+}
+
 // Function that will check all databases to see if given password already exists
 
 // Functions that will free all structs
@@ -325,17 +398,17 @@ int hash_index(char *subject)
 bool unload()
 {
 
-    // Create a pointer of to a struct of type accountadmin that will serve as a cursor
-    accountadmin *cursor = NULL;
+    // Create a pointer of to a struct of type account that will serve as a cursor
+    account *cursor = NULL;
 
     // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
     for (int i = 0; i < MINTABLESIZE; i++)
     {
-        for (accountadmin *tmp = table_account_admin[i]; tmp != NULL; tmp = cursor)
+        for (account *tmp = table_account[i]; tmp != NULL; tmp = cursor)
         {
-            cursor = table_account_admin[i]->next;
-            free(table_account_admin[i]);
-            table_account_admin[i] = cursor;
+            cursor = table_account[i]->next;
+            free(table_account[i]);
+            table_account[i] = cursor;
         }
     }
 }
@@ -466,13 +539,14 @@ void menu_admin()
     puts("3 - Excluir item");
     puts("4 - Editar item\n");
 
-    puts("5 - Cadastrar conta\n");
+    puts("5 - Cadastrar conta");
+    puts("6 - Excluir conta\n");
 
-    puts("6 - Relatórios");
-    puts("7 - Configurações");
-    puts("8 - Manual\n");
+    puts("7 - Relatórios");
+    puts("8 - Configurações");
+    puts("9 - Manual\n");
 
-    puts("9 - Sair\n");
+    puts("10 - Sair\n");
 
     // Call answer_admin function
     answer_admin();
@@ -518,6 +592,9 @@ void answer_admin()
         /* code */
         break;
     case '9':
+        /* code */
+        break;
+    case '10':
         getchar();
         press_to_continue();
         unload();
