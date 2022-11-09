@@ -3,6 +3,7 @@
 
 // Define constant variable to be user elsewhere
 #define MAXSIZE 200
+#define MAXMAXSIZE 500
 #define MINTABLESIZE 200
 #define MAXTABLESIZE 1000
 
@@ -21,6 +22,26 @@ typedef struct account
     char type[MAXSIZE];
     struct account *next;
 } account;
+
+/////////////////////////////////
+
+typedef struct
+{
+    char *name;
+    char *role;
+    float salary;
+    char *admission;
+} createemployee;
+
+typedef struct
+{
+    char name[MAXMAXSIZE];
+    char role[MAXMAXSIZE];
+    float salary;
+    char admission[MAXMAXSIZE];
+    struct employee *next;
+    struct employee *previous;
+} employee;
 
 // accountadmin table_account_admin[TABLESIZE];
 

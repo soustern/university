@@ -10,6 +10,7 @@
 
 // Declare global structs
 account *table_account[MINTABLESIZE];
+employee *table_employee[MINTABLESIZE];
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -258,6 +259,9 @@ bool load_account_databases()
         // Index variable receives the value returned by the hash(node->) func
         index = hash_index(node->username);
 
+        printf("\n%i %s\n", index, node->username);
+        press_to_continue();
+
         // Check if table_account[index] is pointer is pointing to NULL
         if (table_account[index] == NULL)
         {
@@ -382,7 +386,10 @@ bool check_login(account *input)
 {
 
     // Declare a variable that will receive the valor returned by hash_index function
-    int index = hash_index(input->password);
+    int index = hash_index(input->username);
+
+    printf("\n%i %s %s", index, input->username, table_account[index]->username);
+    press_to_continue();
 
     // Navigate horizontally a linked list
     for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
@@ -652,3 +659,5 @@ void answer_admin()
         menu_admin();
     }
 }
+
+// Function to print the options presents at "1 - "
