@@ -249,6 +249,69 @@ void signup_employee()
         puts("ERRO 1: Não há memória suficiente no sistema");
         return;
     }
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Star asking for user input
+    printf("Nome do funcionario: ");
+    fgets(storage.name, MAXMAXSIZE, stdin);
+
+    // Remove trailing newline that comes together with user input when fgets() is used
+    storage.name[strcspn(storage.name, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Start asking for user input
+    printf("Nome do funcionario: %s\n", storage.name);
+
+    printf("Cargo do funcionario: ");
+    fgets(storage.role, MAXMAXSIZE, stdin);
+
+    // Remove trailing newline that comes together with user input when fgets() is used
+    storage.role[strcspn(storage.role, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Star asking for user input
+    printf("Nome do funcionario: %s\n", storage.name);
+    printf("Cargo do funcionario: %s\n", storage.role);
+
+    printf("Salario do funcionario: ");
+    scanf("%i", &storage.salary);
+
+    // Use a getchar here to get the trailing newline (\n) character scanf leave behind
+    getchar();
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // star asking fot user input
+    printf("Nome do funcionário: %s\n", storage.name);
+    printf("Cargo do funcionário: %s\n", storage.role);
+    printf("Salario do funcionario: %f\n", storage.salary);
 }
 
 // Function that will save a new employee
