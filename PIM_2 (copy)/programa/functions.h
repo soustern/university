@@ -32,6 +32,8 @@ bool check_length(char *credential);
 
 bool check_password(char *password, char *confirmation);
 
+bool check_username(char *username);
+
 void newcomer_message_first();
 
 void newcomer_message_second();

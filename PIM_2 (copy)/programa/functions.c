@@ -256,7 +256,7 @@ bool load_account_databases()
         strcpy(node->type, buffer);
 
         // Index variable receives the value returned by the hash(node->) func
-        index = hash_index(node->password);
+        index = hash_index(node->username);
 
         // Check if table_account[index] is pointer is pointing to NULL
         if (table_account[index] == NULL)
@@ -384,13 +384,9 @@ bool check_login(account *input)
     // Declare a variable that will receive the valor returned by hash_index function
     int index = hash_index(input->password);
 
-    // Create a pointer of to a struct of type account that will serve as a cursor
-    account *cursor = NULL;
-
     // Navigate horizontally a linked list
     for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
     {
-        printf("\n%s %s %s\n", tmp->username, tmp->password, tmp->type);
         // If the the values of both input and tmp locations "->username" and "->password" are equal
         if (strcmp(input->username, tmp->username) == 0 && strcmp(input->password, tmp->password) == 0)
         {
@@ -407,7 +403,31 @@ bool check_login(account *input)
     return false;
 }
 
-// Function that will check all databases to see if given password already exists
+// Function that will check all databases to see if given username already exists
+bool check_username(char *username)
+{
+
+    // Declare a variable that will receive the valor returned by hash_index function
+    int index = hash_index(username);
+
+    // Navigate horizontally a linked list
+    for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
+    {
+
+        // If the the values of both input and tmp locations "->username"  are equal
+        if (strcmp(username, tmp->username) == 0)
+        {
+
+            // If so, return false, that name already exists
+            puts("\nNome de usuário já existe!");
+            press_to_continue();
+            return false;
+        }
+    }
+
+    // Default
+    return true;
+}
 
 // Unloads table_account from memory, returning true if successful, else false
 bool unload_account_databases()
@@ -435,6 +455,9 @@ bool unload_account_databases()
 // Function to signup a ADMIN account
 void signup_admin()
 {
+
+    // Load all account databases onto memory
+    load_account_databases();
 
     // Initialize a storage struct of type "createperson"
     createaccount storage;
@@ -478,7 +501,11 @@ void signup_admin()
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): ");
         fgets(storage.username, MAXSIZE, stdin);
-    } while (check_length(storage.username) == false);
+
+        // Remove trailing newline that comes together with user input when fgets() is used
+        storage.username[strcspn(storage.username, "\n")] = 0;
+
+    } while (check_length(storage.username) == false || check_username(storage.username) == false);
 
     /* FILE *f = fopen("credential.txt", "a");
     fwrite(storage.username, strlen(storage.username), 1, f);
@@ -496,17 +523,14 @@ void signup_admin()
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
-        // printf("Senha (Entre 5 e 10 caracteres): ");
-        puts("\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+
+        puts("\n\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
 
         // Turn off terminal echoing to mask password
         // TODO: REDO THIS FUNCTIONS FOR WINDOWS
         storage.password = strdup(getpass("Senha (Entre 5 e 10 caracteres): "));
 
     } while (check_password(storage.password, confirmation) == false);
-
-    /* // Call remove_first_space function
-    remove_first_space(storage.password); */
 
     // Call save_acount_admin function
     save_account_admin(storage);
@@ -515,6 +539,9 @@ void signup_admin()
     free(storage.username);
     free(storage.password);
     free(confirmation);
+
+    // Unload initially loaded database
+    unload_account_databases();
 }
 
 // Function that will save a new account when all the validations passes
@@ -527,10 +554,15 @@ void save_account_admin(createaccount account)
     // Save account.username in a file ->->->->->->
 
     // Open the correct file
-    data = fopen("macros/accounts.txt", "a");
+    data = fopen("macros/account.txt", "a");
 
     // Append username and password to file
     fprintf(data, "%s", account.username);
+
+    // Print a line break in beetween
+    // This must be done because we removed the \n at the last position of the account.username[] array
+    fprintf(data, "\n");
+
     fprintf(data, "%s\n", account.password);
     fprintf(data, "admin\n");
 
