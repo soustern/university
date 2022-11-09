@@ -80,3 +80,13 @@ void save_account_admin(createaccount account);
 void menu_admin();
 
 void answer_admin();
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+void signup_employee();
+
+void menu_register_item();
+
+void answer_register_item();
+
+bool load_employee_databases();
