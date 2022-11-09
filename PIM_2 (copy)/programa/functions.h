@@ -33,12 +33,12 @@ typedef struct
     char *admission;
 } createemployee;
 
-typedef struct
+typedef struct employee
 {
     char name[MAXMAXSIZE];
     char role[MAXMAXSIZE];
-    float salary;
-    char admission[MAXMAXSIZE];
+    char salary[MAXSIZE];
+    char admission[MAXSIZE];
     struct employee *next;
     struct employee *previous;
 } employee;
@@ -85,7 +85,7 @@ void answer_admin();
 
 void signup_employee();
 
-void save_employee();
+void save_employee(createemployee employee);
 
 void menu_register_item();
 
