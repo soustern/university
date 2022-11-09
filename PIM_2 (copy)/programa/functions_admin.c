@@ -222,6 +222,38 @@ void answer_admin()
 // Function to create a new employee
 void signup_employee()
 {
+
+    // Initialize a storage struct of type "createemployee"
+    createemployee storage;
+
+    // Alloc a big chunk of memory to "name" | The size will that of "MAXMAXSIZE" constant
+    storage.name = (char *)malloc(MAXMAXSIZE);
+    if (storage.name == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        return;
+    }
+
+    // Alloc a big chunk of memory to "role" | The size will that of "MAXMAXSIZE" constant
+    storage.role = (char *)malloc(MAXMAXSIZE);
+    if (storage.role == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        return;
+    }
+
+    // Alloc a big chunk of memory to "role" | The size will that of "MAXMAXSIZE" constant
+    storage.admission = (char *)malloc(MAXMAXSIZE);
+    if (storage.admission == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        return;
+    }
+}
+
+// Function that will save a new employee
+void save_employee()
+{
 }
 
 // Function to print the options presents at "1 - Register Item"
@@ -275,9 +307,6 @@ void answer_register_item()
     case '3':
         /* code */
         break;
-    case '4':
-        /* code */
-        break;
     case 'e':
         increment_answer_register_item = 0;
         getchar();
@@ -323,4 +352,17 @@ bool load_employee_databases()
     }
 
     // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
+    while (fscanf(data, "%s", buffer) == 1)
+    {
+
+        // Allocate new memory chunk to node at each iteration
+        node = malloc(sizeof(account));
+        if (node == NULL)
+        {
+            puts("ERRO 1: Não há memória suficiente no sistema");
+            return false;
+        }
+
+        // Copy the string present at that line of the file to the username section of the current node
+    }
 }

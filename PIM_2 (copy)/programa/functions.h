@@ -85,6 +85,8 @@ void answer_admin();
 
 void signup_employee();
 
+void save_employee();
+
 void menu_register_item();
 
 void answer_register_item();

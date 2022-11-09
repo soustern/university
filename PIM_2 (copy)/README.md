@@ -12,3 +12,7 @@ Create a function that will free all struct allocated memory
 
 TODO: functions.h -> hash_index()
 Comment hash_index() function line per line
+
+TODO: functions_admin.c -> signup_employee
+Create a function to check if a employee
+name the user gives already exists in database
