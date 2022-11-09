@@ -223,10 +223,10 @@ bool load_account_databases()
     // Initialize it to NULL
     account *node = NULL;
 
-    // Load "account_admin" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+    // Load "account" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
 
     // Open "account_admin.txt" file
-    FILE *data = fopen("macros/account_admin.txt", "r");
+    FILE *data = fopen("macros/account.txt", "r");
 
     // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
     while (fscanf(data, "%s", buffer) == 1)
@@ -249,65 +249,11 @@ bool load_account_databases()
         // Copy the string present at that line of the file to the password section of the current node
         strcpy(node->password, buffer);
 
-        // Set the type of the account for that node
-        strcpy(node->type, "admin");
-
-        // Index variable receives the value returned by the hash(node->) func
-        index = hash_index(node->password);
-
-        // Check if table_account[index] is pointer is pointing to NULL
-        if (table_account[index] == NULL)
-        {
-
-            // If so, current node "next" pointer must point to NULL
-            node->next = NULL;
-
-            // That array position of table_account must point to the current node
-            table_account[index] = node;
-
-            // Skip next lines of code a got to the next iteration
-            continue;
-        }
-
-        // If previous "if condition" is not met
-        // Current node "next" point must point to what table_account[index] is pointing to
-        node->next = table_account[index];
-
-        // table_account must point to what the current node
-        table_account[index] = node;
-    }
-
-    // Close the previously opened file
-    fclose(data);
-
-    // Load "account_partial" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
-
-    // Open "account_partial.txt" file
-    data = fopen("macros/account_partial.txt", "r");
-
-    // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
-    while (fscanf(data, "%s", buffer) == 1)
-    {
-
-        // Allocate new memory to node at each iteration
-        node = malloc(sizeof(account));
-        if (node == NULL)
-        {
-            puts("ERRO 1: Não há memória suficiente no sistema");
-            return false;
-        }
-
-        // Copy the string present at that line of the file to the username section of the current node
-        strcpy(node->username, buffer);
-
         // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
         fscanf(data, "%s", buffer);
 
-        // Copy the string present at that line of the file to the password section of the current node
-        strcpy(node->password, buffer);
-
         // Set the type of the account for that node
-        strcpy(node->type, "partial");
+        strcpy(node->type, buffer);
 
         // Index variable receives the value returned by the hash(node->) func
         index = hash_index(node->password);
@@ -444,7 +390,7 @@ bool check_login(account *input)
     // Navigate horizontally a linked list
     for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
     {
-
+        printf("\n%s %s %s\n", tmp->username, tmp->password, tmp->type);
         // If the the values of both input and tmp locations "->username" and "->password" are equal
         if (strcmp(input->username, tmp->username) == 0 && strcmp(input->password, tmp->password) == 0)
         {
@@ -581,11 +527,12 @@ void save_account_admin(createaccount account)
     // Save account.username in a file ->->->->->->
 
     // Open the correct file
-    data = fopen("macros/account_admin.txt", "a");
+    data = fopen("macros/accounts.txt", "a");
 
     // Append username and password to file
     fprintf(data, "%s", account.username);
     fprintf(data, "%s\n", account.password);
+    fprintf(data, "admin\n");
 
     fclose(data);
 }
