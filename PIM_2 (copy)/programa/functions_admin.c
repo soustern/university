@@ -14,7 +14,7 @@ employee *table_employee[MINTABLESIZE];
 // Declare global variables
 int increment_answer_register_item = 0;
 
-// ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// GENERAL functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to signup a ADMIN account
 void signup_admin()
@@ -184,7 +184,7 @@ void answer_admin()
         menu_register_item();
         break;
     case '2':
-        /* code */
+        show_employee_database_all();
         break;
     case '3':
         /* code */
@@ -213,12 +213,13 @@ void answer_admin()
         break;
     default:
         puts("Opção inválida!");
+        getchar();
         press_to_continue();
         menu_admin();
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
+// EMPLOYEE functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new employee
 void signup_employee()
@@ -382,6 +383,48 @@ void save_employee(createemployee employee)
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+// Function that will show all content present at employee databases
+void show_employee_database_all()
+{
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Load all employee databases
+    load_employee_databases();
+
+    // Clear terminal screen
+    clear();
+
+    // Boiler plate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    puts("FUNCIONÁRIOS:\n");
+
+    // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        // Navigate horizontally a linked list
+        for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+        {
+            increment++;
+            printf("\n%i ---------------------------------------------------\n", increment);
+            printf("Nome: %s\n", tmp->name);
+            printf("Cargo: %s\n", tmp->role);
+            printf("Salario: %s\n", tmp->salary);
+            printf("Data de admissao: %s\n", tmp->admission);
+            printf("\n");
+        }
+    }
+
+    // Unload all employee databases
+    unload_employee_databases();
+
+    getchar();
+    press_to_continue();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 // Function to print the options presents at "1 - Register Item"
 void menu_register_item()
 {
@@ -481,8 +524,6 @@ bool load_employee_databases()
     while (fgets(buffer, MAXMAXSIZE, data))
     {
 
-        puts("AQUI FOI");
-
         // Allocate new memory chunk to node at each iteration
         node = malloc(sizeof(account));
         if (node == NULL)
@@ -521,8 +562,8 @@ bool load_employee_databases()
             // If so, current node "next" pointer must point to NULL
             node->next = NULL;
 
-            // And the current node "previous" pointer must point to NULL as well
-            node->next = NULL;
+            // set current node "previous" pointer to NULL
+            node->previous = NULL;
 
             // That array position of table_account must point to the current node
             table_employee[index] = node;
@@ -536,22 +577,8 @@ bool load_employee_databases()
         // Set the struct at location table_employee[index] "previous" section to point to current node
         table_employee[index]->previous = node;
 
-        puts("AQUI FOI");
-
-        printf("\n\n%s\n\n", table_employee[index]->previous->name);
-
-        press_to_continue();
-        press_to_continue();
-
         // Current node "next" point must point to what table_account[index] is pointing to
         node->next = table_employee[index];
-
-        puts("AQUI FOI");
-
-        printf("\n\n%s\n\n", node->next->name);
-
-        press_to_continue();
-        press_to_continue();
 
         // set current node "previous" pointer to NULL
         node->previous = NULL;
@@ -559,4 +586,26 @@ bool load_employee_databases()
         // table_account must point to what the current node
         table_employee[index] = node;
     }
+}
+
+// Unloads table_employee from memory, returning true if successful, else false
+bool unload_employee_databases()
+{
+
+    // Create a pointer of to a struct of type employee that will serve as a cursor
+    employee *cursor = NULL;
+
+    // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        // Navigate horizontally a linked list
+        for (employee *tmp = table_employee[i]; tmp != NULL; tmp = cursor)
+        {
+            cursor = table_employee[i]->next;
+            free(table_employee[i]);
+            table_employee[i] = cursor;
+        }
+    }
+
+    return true;
 }

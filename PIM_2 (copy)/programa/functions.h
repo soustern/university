@@ -87,8 +87,12 @@ void signup_employee();
 
 void save_employee(createemployee employee);
 
+void show_employee_database_all();
+
 void menu_register_item();
 
 void answer_register_item();
 
 bool load_employee_databases();
+
+bool unload_employee_databases();

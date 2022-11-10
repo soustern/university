@@ -444,4 +444,6 @@ bool unload_account_databases()
             table_account[i] = cursor;
         }
     }
+
+    return true;
 }
