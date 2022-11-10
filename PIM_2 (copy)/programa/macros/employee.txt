@@ -1,12 +1,12 @@
+Karla de Souza Antoniassi
+Professora
+10000.50
+1/01/22
+Rafael Antoniassi Vicechio
+Desempregado
+0.00
+5/07/01
 Maria Eduarda Neves Corveloni
-Arquiteta Mestra
-3500.00
-0/11/22
-Maria Eduarda Neves Corveloni
-Enfermeira Mestra
-3500.00
-0/11/22
-Maria Eduarda Neves Corveloni
-Mestre de obras
+Arquiteta
 4000.00
-0/11/2022
+1/01/22

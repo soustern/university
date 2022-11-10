@@ -184,7 +184,7 @@ void answer_admin()
         menu_register_item();
         break;
     case '2':
-        show_employee_database_all();
+        menu_show_items();
         break;
     case '3':
         /* code */
@@ -418,9 +418,6 @@ void show_employee_database_all()
 
     // Unload all employee databases
     unload_employee_databases();
-
-    getchar();
-    press_to_continue();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -609,3 +606,7 @@ bool unload_employee_databases()
 
     return true;
 }
+
+// PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Function to create a new product

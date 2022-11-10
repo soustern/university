@@ -43,8 +43,6 @@ typedef struct employee
     struct employee *previous;
 } employee;
 
-// accountadmin table_account_admin[TABLESIZE];
-
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void clear();
@@ -70,6 +68,10 @@ bool load_account_databases();
 int hash_index(char *subject);
 
 bool unload_account_databases();
+
+void menu_show_items();
+
+void answer_show_items();
 
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

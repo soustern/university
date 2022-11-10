@@ -11,6 +11,9 @@
 // Declare global structs
 account *table_account[MINTABLESIZE];
 
+// Declare global variables
+int increment_answer_debub = 0;
+
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to clean terminal screen
@@ -377,9 +380,6 @@ bool check_login(account *input)
     // Declare a variable that will receive the valor returned by hash_index function
     int index = hash_index(input->username);
 
-    printf("\n%i %s %s", index, input->username, table_account[index]->username);
-    press_to_continue();
-
     // Navigate horizontally a linked list
     for (account *tmp = table_account[index]; tmp != NULL; tmp = table_account[index]->next)
     {
@@ -446,4 +446,131 @@ bool unload_account_databases()
     }
 
     return true;
+}
+
+// Function that will present the options avaiable at the "show items" section
+void menu_show_items()
+{
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    puts("1 - Vizualizar PRODUTOS\n");
+    puts("2 - Vizualizar FORNECEDORES\n");
+    puts("3 - Vizualizar FUNCIONÁRIOS\n");
+
+    puts("e - Voltar");
+
+    // Call answer_show_items function
+    answer_show_items();
+}
+
+// Function get a answer and display further options within the "show items" functionality
+void answer_show_items()
+{
+
+    // Global incrementor that will make it so every trailing \n character at "stdin" is removed by getchar
+    // Preventing weird behavior such as the switch func detecting and invalid input instantly
+    if (increment_answer_debub == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_debub++;
+
+    // Declare the variable wich will receive user answer
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    // tolower() function is invoked so the program works if user input is capslock
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* code */
+        break;
+    case '2':
+        /* code */
+        break;
+    case '3':
+        // Get trailing new line (\n) character
+        getchar();
+
+        // Clear terminal screen
+        clear();
+
+        // Boilerplate
+        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        puts("1 - Vizualizar TODOS\n");
+        puts("2 - Pesquisar\n");
+
+        puts("e - Voltar");
+
+        printf("\nFerramenta escolhida (Insira o numero): ");
+
+        // Get user input
+        scanf("%c", &storage);
+
+        // Route depending on user input
+        // tolower() function is invoked so the program works if user input is capslock
+        switch (tolower((char)storage))
+        {
+        case '1':
+            show_employee_database_all();
+            // Boilerplate
+            puts("\t\t\t<<<<< OPCÕES >>>>>\n");
+
+            puts("1 - Salvar no computador\n");
+            puts("Qualquer tecla - Voltar\n");
+
+            printf("\nFerramenta escolhida (Insira o numero): ");
+
+            // Get user input
+            scanf("%c", &storage);
+
+            switch (tolower((char)storage))
+            {
+            case '1':
+                /* Function to save on computer */
+                break;
+            default:
+                getchar();
+                press_to_continue();
+                menu_show_items();
+                break;
+            }
+            break;
+        case '2':
+            /* Function to search */
+            break;
+        case 'e':
+            getchar();
+            menu_show_items();
+            break;
+        default:
+            puts("Opção inválida!");
+            press_to_continue();
+            menu_show_items();
+            break;
+        }
+        break;
+    case 'e':
+        increment_answer_debub = 0;
+        getchar();
+        menu_admin();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_show_items();
+        break;
+    }
 }
