@@ -4,7 +4,7 @@
 // Define constant variable to be user elsewhere
 #define MAXSIZE 200
 #define MAXMAXSIZE 500
-#define MINTABLESIZE 200
+#define MINTABLESIZE 500
 #define MAXTABLESIZE 1000
 
 // Structs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -42,6 +42,25 @@ typedef struct employee
     struct employee *next;
     struct employee *previous;
 } employee;
+
+/////////////////////////////////
+typedef struct
+{
+    char *name;
+    int quantity;
+    float unitary_value;
+    float total_value;
+} createproduct;
+
+typedef struct product
+{
+    char name[MAXMAXSIZE];
+    char quantity[MAXSIZE];
+    char unitary_value[MAXMAXSIZE];
+    char total_value[MAXMAXSIZE];
+    struct product *next;
+    struct product *previous;
+} product;
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -85,16 +104,30 @@ void answer_admin();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+void menu_register_item();
+
+void answer_register_item();
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 void signup_employee();
 
 void save_employee(createemployee employee);
 
 void show_employee_database_all();
 
-void menu_register_item();
-
-void answer_register_item();
-
 bool load_employee_databases();
 
 bool unload_employee_databases();
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+void signup_product();
+
+void save_product(createproduct product);
+
+void show_product_database_all();
+
+bool load_product_databases();
+
+bool unload_product_databases();

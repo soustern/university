@@ -10,6 +10,7 @@
 
 // Declare global structs
 employee *table_employee[MINTABLESIZE];
+product *table_product[MINTABLESIZE];
 
 // Declare global variables
 int increment_answer_register_item = 0;
@@ -466,8 +467,8 @@ void answer_register_item()
     switch (tolower((char)storage))
     {
     case '1':
-        load_employee_databases();
-        break;
+        signup_product();
+        menu_register_item();
     case '2':
         /* code */
         break;
@@ -522,7 +523,7 @@ bool load_employee_databases()
     {
 
         // Allocate new memory chunk to node at each iteration
-        node = malloc(sizeof(account));
+        node = malloc(sizeof(employee));
         if (node == NULL)
         {
             puts("ERRO 1: Não há memória suficiente no sistema");
@@ -562,7 +563,7 @@ bool load_employee_databases()
             // set current node "previous" pointer to NULL
             node->previous = NULL;
 
-            // That array position of table_account must point to the current node
+            // That array position of table_employee must point to the current node
             table_employee[index] = node;
 
             // Skip next lines of code a got to the next iteration
@@ -610,3 +611,282 @@ bool unload_employee_databases()
 // PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new product
+void signup_product()
+{
+
+    // Initialize a storage struct of type "createproduct"
+    createproduct storage;
+
+    // Alloc a big chunck of memory to "name"
+    // The size will be that of "MAXMAXSIZE" constant
+    storage.name = (char *)malloc(MAXMAXSIZE);
+    if (storage.name == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        return;
+    }
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Start asking for user input
+    printf("Nome do produto: ");
+    getchar();
+    fgets(storage.name, MAXMAXSIZE, stdin);
+
+    // Remove trailing newline that comes together with user input when fgets() is used
+    storage.name[strcspn(storage.name, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Start asking for user input
+    printf("Nome do produto: %s\n", storage.name);
+
+    printf("Quantidade do produto (Número inteiro)): ");
+    scanf("%i", &storage.quantity);
+
+    // Use a getchar here to get the trailing newline (\n) character scanf leave behind
+    getchar();
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Start asking for user input
+    printf("Nome do produto: %s\n", storage.name);
+    printf("Quantidade do produto (Número inteiro): %i\n", storage.quantity);
+
+    printf("Valor por unidade metrica: ");
+    scanf("%f", &storage.unitary_value);
+
+    // Use a getchar here to get the trailing newline (\n) character scanf leave behind
+    getchar();
+
+    // -------------------------------------------------
+
+    // Call save_product function
+    save_product(storage);
+
+    // Free all allocated memory
+    free(storage.name);
+
+    // -------------------------------------------------
+
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    puts("Produto salvo com sucesso!");
+
+    press_to_continue();
+}
+
+// Function that will save a new product
+void save_product(createproduct product)
+{
+
+    // Declare a FILE Pointer
+    FILE *data;
+
+    // Open the correct file
+    data = fopen("macros/product.txt", "a");
+
+    // Append all user input to file
+    fprintf(data, "%s", product.name);
+
+    // Print a line break in beetween
+    // This must be done because we removed the \n at the last position of the product.name[] array
+    fprintf(data, "\n");
+
+    fprintf(data, "%i", product.quantity);
+
+    // Print a line break in beetween || For the same reason as previously
+    fprintf(data, "\n");
+
+    fprintf(data, "%.2f", product.unitary_value);
+
+    // Print a line break in beetween || For the same reason as previously
+    fprintf(data, "\n");
+
+    fprintf(data, "%.2f", product.quantity * product.unitary_value);
+
+    // Print a line break in beetween || For the same reason as previously
+    fprintf(data, "\n");
+
+    fclose(data);
+}
+
+// FUnction that will show all content at product databases
+void show_product_database_all()
+{
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Load all product databases
+    load_product_databases();
+
+    // Clear terminal screen
+    clear();
+
+    // Boiler plate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    puts("PRODUTOS:\n");
+
+    // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        // Navigate horizontally a linked list
+        for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+        {
+            increment++;
+            printf("\n%i ---------------------------------------------------\n", increment);
+            printf("Nome: %s\n", tmp->name);
+            printf("Quantidade: %s\n", tmp->quantity);
+            printf("Valor por unidade de medida: %s\n", tmp->unitary_value);
+            printf("Valor total: %s\n", tmp->total_value);
+            printf("\n");
+        }
+    }
+
+    // Unload all employee databases
+    unload_product_databases();
+}
+
+// Function that will load all databases hashtables of products
+bool load_product_databases()
+{
+    // Create a buffer
+    char *buffer = malloc(MAXMAXSIZE);
+    if (buffer == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return false;
+    }
+
+    // Declare variable that will receive hashed indexes
+    int index;
+
+    // Declare a struct o "product" type
+    // Initialize it to NULL
+    product *node = NULL;
+
+    // Load "product" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+
+    // Open "product.txt" file
+    FILE *data = fopen("macros/product.txt", "r");
+    if (data == NULL)
+    {
+        puts("ERRO 2: Não foi possível abrir o arquivo necessário");
+        return false;
+    }
+
+    // Load "product" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+
+    // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
+    while (fgets(buffer, MAXMAXSIZE, data))
+    {
+        // Allocate new memory chunck to node at each iteration
+        node = malloc(sizeof(product));
+        if (node == NULL)
+        {
+            puts("ERRO 1: Não há memória suficiente no sistema");
+            return false;
+        }
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->name, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->quantity, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->unitary_value, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->total_value, buffer);
+
+        // Index variable receives the value returned by the hash(node->) func
+        index = hash_index(node->name);
+
+        // Check if table_product[index] pointer is pointing to NULL
+        if (table_product[index] == NULL)
+        {
+
+            // If so, current node "next" pointer must point to NULL
+            node->next = NULL;
+
+            // Set current node "previous" pointer to NULL
+            node->previous = NULL;
+
+            // THat array position of table_product must point to the current node
+            table_product[index] = node;
+
+            // Skip next lines of code and go to the next iteration
+            continue;
+        }
+
+        // If previous "if condition" is not met
+
+        // Set the struct at location table_product[index] "previous" section to point to current node
+        table_product[index]->previous = node;
+
+        // Current node "next" point must point to what table_product[index] is pointing to
+        node->next = table_product[index];
+
+        // Set current node "previous" pointer to NULL
+        node->previous = NULL;
+
+        // table_product must point to the current node
+        table_product[index] = node;
+    }
+}
+
+// Unloads table_product from memory, returning true if successful, else false
+bool unload_product_databases()
+{
+
+    // Create a pointer to a struct o type product that will serve as a cursor
+    product *cursor = NULL;
+
+    // Loop that will go around the amount of times it is specified in the MINTABLESIZE const
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate horizontally a linked list
+        for (product *tmp = table_product[i]; tmp != NULL; tmp = cursor)
+        {
+            cursor = table_product[i]->next;
+            free(table_product[i]);
+            table_product[i] = cursor;
+        }
+    }
+
+    return true;
+}
