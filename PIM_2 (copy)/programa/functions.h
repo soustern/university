@@ -141,6 +141,8 @@ void save_employee(createemployee employee);
 
 void show_employee_database_all();
 
+void show_employee_database_detailed(char *option);
+
 bool load_employee_databases();
 
 bool unload_employee_databases();

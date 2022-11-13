@@ -527,6 +527,7 @@ void answer_show_items()
         // tolower() function is invoked so the program works if user input is capslock
         switch (tolower((char)storage))
         {
+        // PRODUCT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         case '1':
             show_product_database_all();
             // Boilerplate
@@ -553,8 +554,7 @@ void answer_show_items()
             }
             break;
         case '2':
-            /* Function to search */
-            break;
+            /* FUNCTION */
         case 'e':
             getchar();
             menu_show_items();
@@ -566,6 +566,7 @@ void answer_show_items()
             break;
         }
         break;
+    // DEALER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     case '2':
         // Get trailing new line (\n) character
         getchar();
@@ -613,9 +614,7 @@ void answer_show_items()
                 getchar();
                 press_to_continue();
                 menu_show_items();
-                break;
             }
-            break;
         case '2':
             /* Function to search */
             break;
@@ -630,6 +629,7 @@ void answer_show_items()
             break;
         }
         break;
+    // EMPLOYEES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     case '3':
         // Get trailing new line (\n) character
         getchar();
@@ -656,7 +656,10 @@ void answer_show_items()
         switch (tolower((char)storage))
         {
         case '1':
+
+            // Call show_employee_database_all function
             show_employee_database_all();
+
             // Boilerplate
             puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
 
@@ -664,6 +667,7 @@ void answer_show_items()
             puts("Qualquer tecla - Voltar\n");
 
             printf("\nFerramenta escolhida (Insira o numero): ");
+            getchar();
 
             // Get user input
             scanf("%c", &storage);
@@ -674,14 +678,103 @@ void answer_show_items()
                 /* Function to save on computer */
                 break;
             default:
-                getchar();
                 press_to_continue();
                 menu_show_items();
                 break;
             }
             break;
         case '2':
-            /* Function to search */
+            boilerplate();
+
+            // Present user with options
+            puts("1 - Procurar por NOME\n");
+            puts("2 - Procurar por CARGO\n");
+            puts("3 - Procurar por SALÁRIO\n");
+            puts("e - Voltar\n");
+            printf("Ferramenta escolhida (Insira o numero): ");
+
+            getchar();
+            // Get user input
+            scanf("%c", &storage);
+
+            char *option;
+
+            switch (tolower((char)storage))
+            {
+            case '1':
+                option = "name";
+                show_employee_database_detailed(option);
+                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+                puts("1 - Salvar no computador\n");
+                puts("Qualquer tecla - Voltar\n");
+
+                printf("\nFerramenta escolhida (Insira o numero): ");
+                getchar();
+
+                // Get user input
+                scanf("%c", &storage);
+
+                switch (tolower((char)storage))
+                {
+                case '1':
+                    /* Function to save on computer */
+                    break;
+                default:
+                    press_to_continue();
+                    menu_show_items();
+                }
+            case '2':
+                option = "role";
+                show_employee_database_detailed(option);
+                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+                puts("1 - Salvar no computador\n");
+                puts("Qualquer tecla - Voltar\n");
+
+                printf("\nFerramenta escolhida (Insira o numero): ");
+                getchar();
+
+                // Get user input
+                scanf("%c", &storage);
+
+                switch (tolower((char)storage))
+                {
+                case '1':
+                    /* Function to save on computer */
+                    break;
+                default:
+                    press_to_continue();
+                    menu_show_items();
+                }
+            case '3':
+                option = "salary";
+                show_employee_database_detailed(option);
+                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+                puts("1 - Salvar no computador\n");
+                puts("Qualquer tecla - Voltar\n");
+
+                printf("\nFerramenta escolhida (Insira o numero): ");
+                getchar();
+
+                // Get user input
+                scanf("%c", &storage);
+
+                switch (tolower((char)storage))
+                {
+                case '1':
+                    /* Function to save on computer */
+                    break;
+                default:
+                    press_to_continue();
+                    menu_show_items();
+                }
+            default:
+                puts("Opção inválida!");
+                press_to_continue();
+                menu_show_items();
+            }
             break;
         case 'e':
             getchar();
@@ -703,6 +796,5 @@ void answer_show_items()
         puts("Opção inválida!");
         press_to_continue();
         menu_show_items();
-        break;
     }
 }

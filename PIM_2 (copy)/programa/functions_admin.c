@@ -212,7 +212,7 @@ void answer_admin()
     case 'e':
         getchar();
         press_to_continue();
-        break;
+        return;
     default:
         puts("Opção inválida!");
         getchar();
@@ -383,8 +383,6 @@ void save_employee(createemployee employee)
     fclose(data);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
-
 // Function that will show all content present at employee databases
 void show_employee_database_all()
 {
@@ -420,6 +418,159 @@ void show_employee_database_all()
 
     // Unload all employee databases
     unload_employee_databases();
+}
+
+// Function to allow the user to search for a specific employee by giving a input
+void show_employee_database_detailed(char *option)
+{
+
+    // Load ass employee databases
+    load_employee_databases();
+
+    // Declare a variable that will increment
+    int increment = 0;
+
+    // Declare a variable that will receive user input
+    char *input = (char *)malloc(MAXMAXSIZE);
+
+    boilerplate();
+    puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+    // "If conditions" to check in what way user has decided to search for his/her employee(s)
+    if (strcasecmp(option, "name") == 0)
+    {
+
+        printf("Insira o nome do funcionario: ");
+        getchar();
+        fgets(input, MAXMAXSIZE, stdin);
+        // input[strcspn(input, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // Loop that will go around MINTABLESIZE amount of times
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+            // Loop that will navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // Check if any option is equal to user input {not case sensitive}
+                if (strcasecmp(input, tmp->name) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        // If increment is equal to zero, that means there is no match to user input
+        if (increment == 0)
+        {
+            puts("Nenhum item foi encontrado!");
+
+            press_to_continue();
+
+            // Call menu_show_items function
+            menu_show_items();
+        }
+    }
+    if (strcasecmp(option, "role") == 0)
+    {
+
+        printf("Insira o cargo do funcionario: ");
+        getchar();
+        fgets(input, MAXMAXSIZE, stdin);
+        // input[strcspn(input, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // Loop that will go around MINTABLESIZE amount of times
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Loop that will navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // Check if any option is equal to user input {not case sensitive}
+                if (strcasecmp(input, tmp->role) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        // If increment is equal to zero, that means there is no match to user input
+        if (increment == 0)
+        {
+            puts("Nenhum item foi encontrado!");
+
+            press_to_continue();
+
+            // Call menu_show_items function
+            menu_show_items();
+        }
+    }
+    if (strcasecmp(option, "salary") == 0)
+    {
+
+        printf("Insira o salario do funcionario: ");
+        getchar();
+        fgets(input, MAXMAXSIZE, stdin);
+        // input[strcspn(input, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // Loop that will go around MINTABLESIZE amount of times
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Loop that will navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // Check if any option is equal to user input {not case sensitive}
+                if (strcasecmp(input, tmp->salary) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        // If increment is equal to zero, that means there is no match to user input
+        if (increment == 0)
+        {
+            puts("Nenhum item foi encontrado!");
+
+            press_to_continue();
+
+            // Call menu_show_items function
+            menu_show_items();
+        }
+    }
+
+    // Free all allocated memory
+    free(input);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

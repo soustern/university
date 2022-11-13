@@ -19,3 +19,5 @@ name the user gives already exists in database
 
 TODO: functions_admin.c -> signup_employee
 Create a function to check if given admission date conforms to specifications
+
+TODO: Separate the big amount of switch cases to their own functions
