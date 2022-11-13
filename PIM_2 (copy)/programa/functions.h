@@ -62,9 +62,34 @@ typedef struct product
     struct product *previous;
 } product;
 
+/////////////////////////////////
+typedef struct
+{
+    char *name;
+    char *owner_name;
+    char *city;
+    char *service_type;
+    char *contact;
+    char *email;
+} createdealer;
+
+typedef struct dealer
+{
+    char name[MAXMAXSIZE];
+    char owner_name[MAXMAXSIZE];
+    char city[MAXMAXSIZE];
+    char service_type[MAXMAXSIZE];
+    char contact[MAXMAXSIZE];
+    char email[MAXMAXSIZE];
+    struct dealer *next;
+    struct dealer *previous;
+} dealer;
+
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void clear();
+
+void boilerplate();
 
 bool check_length(char *credential);
 
@@ -131,3 +156,15 @@ void show_product_database_all();
 bool load_product_databases();
 
 bool unload_product_databases();
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+void signup_dealer();
+
+void save_dealer(createdealer dealer);
+
+void show_dealer_database_all();
+
+bool load_dealer_databases();
+
+bool unload_dealer_databases();

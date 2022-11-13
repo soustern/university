@@ -25,6 +25,16 @@ void clear()
     // system("clr");
 }
 
+// Print boilerplate on screen
+void boilerplate()
+{
+    // Clear terminal screen
+    clear();
+
+    // Boilerplate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+}
+
 // Function that checks if a given credential falls under the specifications
 bool check_length(char *credential)
 {
@@ -556,9 +566,69 @@ void answer_show_items()
             break;
         }
         break;
-        break;
     case '2':
-        /* code */
+        // Get trailing new line (\n) character
+        getchar();
+
+        // Clear terminal screen
+        clear();
+
+        // Boilerplate
+        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        puts("1 - Vizualizar TODOS\n");
+        puts("2 - Pesquisar\n");
+
+        puts("e - Voltar");
+
+        printf("\nFerramenta escolhida (Insira o numero): ");
+
+        // Get user input
+        scanf("%c", &storage);
+
+        // Route depending on user input
+        // tolower() function is invoked so the program works if user input is capslock
+        switch (tolower((char)storage))
+        {
+        case '1':
+            show_dealer_database_all();
+            // Boilerplate
+            puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+            puts("1 - Salvar no computador\n");
+            puts("Qualquer tecla - Voltar\n");
+
+            printf("\nFerramenta escolhida (Insira o numero): ");
+
+            // Get user input
+            scanf("%c", &storage);
+
+            switch (tolower((char)storage))
+            {
+            case '1':
+                /* Function to save on computer */
+                break;
+            default:
+                getchar();
+                press_to_continue();
+                menu_show_items();
+                break;
+            }
+            break;
+        case '2':
+            /* Function to search */
+            break;
+        case 'e':
+            getchar();
+            menu_show_items();
+            break;
+        default:
+            puts("Opção inválida!");
+            press_to_continue();
+            menu_show_items();
+            break;
+        }
         break;
     case '3':
         // Get trailing new line (\n) character

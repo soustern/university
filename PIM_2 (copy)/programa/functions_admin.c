@@ -11,6 +11,7 @@
 // Declare global structs
 employee *table_employee[MINTABLESIZE];
 product *table_product[MINTABLESIZE];
+dealer *table_dealer[MINTABLESIZE];
 
 // Declare global variables
 int increment_answer_register_item = 0;
@@ -470,8 +471,8 @@ void answer_register_item()
         signup_product();
         menu_register_item();
     case '2':
-        /* code */
-        break;
+        signup_dealer();
+        menu_register_item();
     case '3':
         signup_employee();
         menu_register_item();
@@ -774,7 +775,7 @@ void show_product_database_all()
 bool load_product_databases()
 {
     // Create a buffer
-    char *buffer = malloc(MAXMAXSIZE);
+    char *buffer = (char *)malloc(MAXMAXSIZE);
     if (buffer == NULL)
     {
         puts("ERRO 1: Não há memória o suficiente no sistema");
@@ -885,6 +886,356 @@ bool unload_product_databases()
             cursor = table_product[i]->next;
             free(table_product[i]);
             table_product[i] = cursor;
+        }
+    }
+
+    return true;
+}
+
+// PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Function to create a new dealer
+void signup_dealer()
+{
+
+    // Initialize a storage struct of type "createdealer"
+    createdealer storage;
+
+    // Allocate all needed memory
+
+    storage.name = (char *)malloc(MAXMAXSIZE);
+    if (storage.name == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    storage.owner_name = (char *)malloc(MAXMAXSIZE);
+    if (storage.owner_name == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    storage.city = (char *)malloc(MAXMAXSIZE);
+    if (storage.city == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    storage.service_type = (char *)malloc(MAXMAXSIZE);
+    if (storage.service_type == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    storage.contact = (char *)malloc(MAXMAXSIZE);
+    if (storage.contact == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    storage.email = (char *)malloc(MAXMAXSIZE);
+    if (storage.email == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return;
+    }
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Start asking for user input
+    printf("Nome da empresa: ");
+    getchar();
+    fgets(storage.name, MAXMAXSIZE, stdin);
+
+    // Remove trailing newline that comes together with user input when fgets() is used
+    storage.name[strcspn(storage.name, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Start asking for user input
+    printf("Nome da empresa: %s\n", storage.name);
+
+    printf("Nome do/da responsável: ");
+    fgets(storage.owner_name, MAXMAXSIZE, stdin);
+
+    // Remove trailing newline that comes together with user input when fgets() is used
+    storage.owner_name[strcspn(storage.owner_name, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Star asking for user input
+    printf("Nome da empresa: %s\n", storage.name);
+    printf("Nome do/da responsável: %s\n", storage.owner_name);
+
+    printf("Cidade: ");
+    fgets(storage.city, MAXMAXSIZE, stdin);
+
+    storage.city[strcspn(storage.city, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Start asking for user input
+    printf("Nome da empresa: %s\n", storage.name);
+    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Cidade: %s\n", storage.city);
+
+    printf("Tipo de servico: ");
+    fgets(storage.service_type, MAXMAXSIZE, stdin);
+
+    storage.service_type[strcspn(storage.service_type, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Start asking for user input
+    printf("Nome da empresa: %s\n", storage.name);
+    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Cidade: %s\n", storage.city);
+    printf("Tipo de servico: %s\n", storage.service_type);
+
+    printf("Contato: ");
+    fgets(storage.contact, MAXMAXSIZE, stdin);
+
+    storage.contact[strcspn(storage.contact, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    // Start asking for user input
+    printf("Nome da empresa: %s\n", storage.name);
+    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Cidade: %s\n", storage.city);
+    printf("Tipo de servico: %s\n", storage.service_type);
+    printf("Contato: %s\n", storage.contact);
+
+    printf("Email: ");
+    fgets(storage.email, MAXMAXSIZE, stdin);
+
+    storage.email[strcspn(storage.email, "\n")] = 0;
+
+    // -------------------------------------------------
+
+    // Call function that saves
+    save_dealer(storage);
+
+    // Free all allocated memory
+    free(storage.name);
+    free(storage.owner_name);
+    free(storage.city);
+    free(storage.service_type);
+    free(storage.contact);
+    free(storage.email);
+
+    // -------------------------------------------------
+
+    boilerplate();
+
+    puts("Fornecedor salvo com sucesso!");
+
+    press_to_continue();
+}
+
+//  Function that will save a new dealer
+void save_dealer(createdealer dealer)
+{
+
+    // Declare a file pointer
+    FILE *data;
+
+    // Open the correct file
+    data = fopen("macros/dealer.txt", "a");
+
+    // Append all user input to file
+
+    fprintf(data, "%s", dealer.name);
+    fprintf(data, "\n");
+    fprintf(data, "%s", dealer.owner_name);
+    fprintf(data, "\n");
+    fprintf(data, "%s", dealer.city);
+    fprintf(data, "\n");
+    fprintf(data, "%s", dealer.service_type);
+    fprintf(data, "\n");
+    fprintf(data, "%s", dealer.contact);
+    fprintf(data, "\n");
+    fprintf(data, "%s", dealer.email);
+    fprintf(data, "\n");
+
+    fclose(data);
+}
+
+// FUnction that will show all content at dealer databases
+void show_dealer_database_all()
+{
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Load all dealer databases
+    load_dealer_databases();
+
+    boilerplate();
+
+    puts("FORNECEDORES:\n");
+
+    // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+        // Navigate horizontally a linked list
+        for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+        {
+            increment++;
+            printf("\n%i ---------------------------------------------------\n", increment);
+            printf("Nome da empresa: %s\n", tmp->name);
+            printf("Nome do/da responsável: %s\n", tmp->owner_name);
+            printf("Cidade: %s\n", tmp->city);
+            printf("Tipo de servico: %s\n", tmp->service_type);
+            printf("Contato: %s\n", tmp->contact);
+            printf("Email: %s\n", tmp->email);
+            printf("\n");
+        }
+    }
+
+    // Unload all dealer databases
+    unload_dealer_databases();
+}
+
+// Function that will load all databases hashtables of delers
+bool load_dealer_databases()
+{
+
+    // Create a buffer
+    char *buffer = (char *)malloc(MAXMAXSIZE);
+    if (buffer == NULL)
+    {
+        puts("ERRO 1: Não há memória o suficiente no sistema");
+        return false;
+    }
+
+    // Declare a variable that will receive hashed indexes
+    int index;
+
+    // Declare a struct o "dealer" type
+    // Initialize it to NULL
+    dealer *node = NULL;
+
+    // Load "dealer" databases ->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->->
+
+    // Open "dealer.txt" file
+    FILE *data = fopen("macros/dealer.txt", "r");
+    if (data == NULL)
+    {
+        puts("ERRO 2: Não foi possível abrir o arquivo necessário");
+        return false;
+    }
+
+    // Write each string inside the file onto the buffer | buffer content is overwritten at this moment
+    while (fgets(buffer, MAXMAXSIZE, data))
+    {
+
+        // Allocate a new memory chunck to node at each iteration
+        node = malloc(sizeof(dealer));
+        if (node == NULL)
+        {
+            puts("ERRO 1: Não há memória o suficiente no sistema");
+            return false;
+        }
+
+        // Copy the string present at that line of the file to the username section of the current node
+        strcpy(node->name, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        strcpy(node->owner_name, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        strcpy(node->city, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        strcpy(node->service_type, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        strcpy(node->contact, buffer);
+
+        // Scan string from another line of the file to the buffer once again | buffer content is overwritten at this moment
+        fgets(buffer, MAXMAXSIZE, data);
+
+        strcpy(node->email, buffer);
+
+        // Index variable receives the value returned by the hash(node->) func
+        index = hash_index(node->name);
+
+        // Check if table_dealer[index] pointer is pointing to NULL
+        if (table_dealer[index] == NULL)
+        {
+
+            // If so, current conde "next" pointer must point to NULL
+            node->next = NULL;
+
+            // Set curremt node "previous" pointer to NULL
+            node->previous = NULL;
+
+            // That array position of table_dealer must point to the current node
+            table_dealer[index] = node;
+
+            // Skip next lines of code and go to the next iteration
+            continue;
+        }
+
+        // If previous "if condition" is not met
+
+        // Set the struct at location table_dealer[index] "previous" section to point to current node
+        table_dealer[index]->previous = node;
+
+        // Current node "next" pointer must point to waht table_dealer[index] is pointing to
+        node->next = table_dealer[index];
+
+        // Set current node "previous" pointer to NULL
+        node->previous = NULL;
+
+        // table_dealer must point to the current node
+        table_dealer[index] = node;
+    }
+}
+
+// Unload table_dealer from memory, returning true if successful, else false
+bool unload_dealer_databases()
+{
+
+    // Create a pointer to a struct of type dealer that will serve as a cursor
+    dealer *cursor = NULL;
+
+    // Loop that will got around the amount of times it is specified int the MINTABLESIZE const
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate horizontally a linked list
+        for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = cursor)
+        {
+            cursor = table_dealer[i]->next;
+            free(table_dealer[i]);
+            table_dealer[i] = cursor;
         }
     }
 
