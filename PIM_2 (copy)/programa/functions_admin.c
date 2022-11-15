@@ -17,6 +17,7 @@ dealer *table_dealer[MINTABLESIZE];
 int increment_answer_register_item = 0;
 int increment_answer_general_debug_employee = 0;
 int increment_answer_general_debug_product = 0;
+int increment_answer_general_debug_dealer = 0;
 
 //
 //
@@ -649,7 +650,7 @@ bool unload_employee_databases()
     return true;
 }
 
-// Search function for empolyee databases
+// Search function for employee databases
 void show_employee_database_detailed()
 {
 
@@ -1177,7 +1178,7 @@ bool unload_product_databases()
     return true;
 }
 
-// Search function for empolyee databases
+// Search function for product databases
 void show_product_database_detailed()
 {
     // Load all employee databases
@@ -1248,7 +1249,7 @@ void show_product_database_detailed()
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome: %s\n", tmp->name);
                     printf("Quantidade: %s\n", tmp->quantity);
-                    printf("Valor unitario: %s\n", tmp->unitary_value);
+                    printf("Valor por unidade de medida: %s\n", tmp->unitary_value);
                     printf("Valor total: %s\n", tmp->total_value);
                     printf("\n");
                 }
@@ -1290,9 +1291,9 @@ void show_product_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->quantity);
-                    printf("Salario: %s\n", tmp->unitary_value);
-                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("Quantidade: %s\n", tmp->quantity);
+                    printf("Valor por unidade de medida: %s\n", tmp->unitary_value);
+                    printf("Valor total: %s\n", tmp->total_value);
                     printf("\n");
                 }
             }
@@ -1332,9 +1333,9 @@ void show_product_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->quantity);
-                    printf("Salario: %s\n", tmp->unitary_value);
-                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("Quantidade: %s\n", tmp->quantity);
+                    printf("Valor por unidade de medida: %s\n", tmp->unitary_value);
+                    printf("Valor total: %s\n", tmp->total_value);
                     printf("\n");
                 }
             }
@@ -1374,9 +1375,9 @@ void show_product_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->quantity);
-                    printf("Salario: %s\n", tmp->unitary_value);
-                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("Quantidade: %s\n", tmp->quantity);
+                    printf("Valor por unidade de medida: %s\n", tmp->unitary_value);
+                    printf("Valor total: %s\n", tmp->total_value);
                     printf("\n");
                 }
             }
@@ -1812,4 +1813,259 @@ bool unload_dealer_databases()
     }
 
     return true;
+}
+
+// Search function for dealer databases
+void show_dealer_database_detailed()
+{
+    // Load all employee databases
+    load_dealer_databases();
+
+    // Global incrementor that will make it so every trailing \n character at "stdin" is removed by getchar
+    // Preventing weird behavior such as the switch func detecting and invalid input instantly
+    if (increment_answer_general_debug_dealer == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_general_debug_dealer++;
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Declare 2 storage variables
+    char storage;
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    puts("VIZUALIZAR FORNECEDORES:\n");
+
+    puts("1 - Pesquisar por NOME\n");
+    puts("2 - Pesquisar por NOME DO RESPONSÁVEL\n");
+    puts("3 - Pesquisar por CIDADE\n");
+    puts("4 - Pesquisar por TIPO DE SERVIÇO\n");
+    puts("e - Voltar");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        boilerplate();
+
+        printf("Nome do fornecedor: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR FORNECEDORES:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->name) == 0)
+                {
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome da empresa: %s\n", tmp->name);
+                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Cidade: %s\n", tmp->city);
+                    printf("Tipo de servico: %s\n", tmp->service_type);
+                    printf("Contato: %s\n", tmp->contact);
+                    printf("Email: %s\n", tmp->email);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_dealer_database_detailed();
+        }
+
+        break;
+    case '2':
+        boilerplate();
+
+        printf("Nome do responsavel: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+        // answer[strcspn(answer, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR FORNECEDORES:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->owner_name) == 0)
+                {
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome da empresa: %s\n", tmp->name);
+                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Cidade: %s\n", tmp->city);
+                    printf("Tipo de servico: %s\n", tmp->service_type);
+                    printf("Contato: %s\n", tmp->contact);
+                    printf("Email: %s\n", tmp->email);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_dealer_database_detailed();
+        }
+
+        break;
+    case '3':
+        boilerplate();
+
+        printf("Nome da cidade: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR FORNECEDORES:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->city) == 0)
+                {
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome da empresa: %s\n", tmp->name);
+                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Cidade: %s\n", tmp->city);
+                    printf("Tipo de servico: %s\n", tmp->service_type);
+                    printf("Contato: %s\n", tmp->contact);
+                    printf("Email: %s\n", tmp->email);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_dealer_database_detailed();
+        }
+
+        break;
+    case '4':
+        boilerplate();
+
+        printf("Tipo de servico: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR FORNECEDORES:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->service_type) == 0)
+                {
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome da empresa: %s\n", tmp->name);
+                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Cidade: %s\n", tmp->city);
+                    printf("Tipo de servico: %s\n", tmp->service_type);
+                    printf("Contato: %s\n", tmp->contact);
+                    printf("Email: %s\n", tmp->email);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_dealer_database_detailed();
+        }
+
+        break;
+    case 'e':
+        unload_dealer_databases();
+        free(answer);
+        increment_answer_general_debug_dealer = 0;
+        getchar();
+        menu_show_items();
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        show_dealer_database_detailed();
+    }
+
+    unload_dealer_databases();
+    free(answer);
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        increment_answer_general_debug_dealer = 0;
+        press_to_continue();
+        menu_show_items();
+    }
 }

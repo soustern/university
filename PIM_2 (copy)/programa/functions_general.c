@@ -560,7 +560,7 @@ void answer_show_items()
         case '1':
             show_dealer_database_all();
         case '2':
-            show_employee_database_detailed();
+            show_dealer_database_detailed();
         case 'e':
             getchar();
             menu_show_items();
