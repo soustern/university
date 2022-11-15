@@ -12,7 +12,7 @@
 account *table_account[MINTABLESIZE];
 
 // Declare global variables
-int increment_answer_debub = 0;
+int increment_answer_debug = 0;
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -461,11 +461,7 @@ bool unload_account_databases()
 // Function that will present the options avaiable at the "show items" section
 void menu_show_items()
 {
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     puts("1 - Vizualizar PRODUTOS\n");
     puts("2 - Vizualizar FORNECEDORES\n");
@@ -483,15 +479,16 @@ void answer_show_items()
 
     // Global incrementor that will make it so every trailing \n character at "stdin" is removed by getchar
     // Preventing weird behavior such as the switch func detecting and invalid input instantly
-    if (increment_answer_debub == 0)
+    if (increment_answer_debug == 0)
     {
         getchar();
     }
 
-    increment_answer_debub++;
+    increment_answer_debug++;
 
-    // Declare the variable wich will receive user answer
+    // Declare the variable wich will receive user answer and a esecond one
     char storage;
+    char storage2;
 
     printf("\nFerramenta escolhida (Insira o numero): ");
 
@@ -506,12 +503,9 @@ void answer_show_items()
         // Get trailing new line (\n) character
         getchar();
 
-        // Clear terminal screen
-        clear();
+        boilerplate();
 
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+        puts("VIZUALIZAR PRODUTOS:\n");
 
         puts("1 - Vizualizar TODOS\n");
         puts("2 - Pesquisar\n");
@@ -521,62 +515,33 @@ void answer_show_items()
         printf("\nFerramenta escolhida (Insira o numero): ");
 
         // Get user input
-        scanf("%c", &storage);
+        scanf("%c", &storage2);
 
         // Route depending on user input
         // tolower() function is invoked so the program works if user input is capslock
-        switch (tolower((char)storage))
+        switch (tolower((char)storage2))
         {
         // PRODUCT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         case '1':
             show_product_database_all();
-            // Boilerplate
-            puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-            puts("1 - Salvar no computador\n");
-            puts("Qualquer tecla - Voltar\n");
-
-            printf("\nFerramenta escolhida (Insira o numero): ");
-
-            // Get user input
-            scanf("%c", &storage);
-
-            switch (tolower((char)storage))
-            {
-            case '1':
-                /* Function to save on computer */
-                break;
-            default:
-                getchar();
-                press_to_continue();
-                menu_show_items();
-                break;
-            }
-            break;
         case '2':
-            /* FUNCTION */
+            show_product_database_detailed();
         case 'e':
             getchar();
             menu_show_items();
-            break;
         default:
             puts("Opção inválida!");
             press_to_continue();
             menu_show_items();
-            break;
         }
-        break;
     // DEALER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     case '2':
         // Get trailing new line (\n) character
         getchar();
 
-        // Clear terminal screen
-        clear();
+        boilerplate();
 
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+        puts("VIZUALIZAR FORNECEDORES:\n");
 
         puts("1 - Vizualizar TODOS\n");
         puts("2 - Pesquisar\n");
@@ -586,59 +551,31 @@ void answer_show_items()
         printf("\nFerramenta escolhida (Insira o numero): ");
 
         // Get user input
-        scanf("%c", &storage);
+        scanf("%c", &storage2);
 
         // Route depending on user input
         // tolower() function is invoked so the program works if user input is capslock
-        switch (tolower((char)storage))
+        switch (tolower((char)storage2))
         {
         case '1':
             show_dealer_database_all();
-            // Boilerplate
-            puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-            puts("1 - Salvar no computador\n");
-            puts("Qualquer tecla - Voltar\n");
-
-            printf("\nFerramenta escolhida (Insira o numero): ");
-
-            // Get user input
-            scanf("%c", &storage);
-
-            switch (tolower((char)storage))
-            {
-            case '1':
-                /* Function to save on computer */
-                break;
-            default:
-                getchar();
-                press_to_continue();
-                menu_show_items();
-            }
         case '2':
-            /* Function to search */
-            break;
+            show_employee_database_detailed();
         case 'e':
             getchar();
             menu_show_items();
-            break;
         default:
             puts("Opção inválida!");
             press_to_continue();
             menu_show_items();
-            break;
         }
-        break;
     // EMPLOYEES XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     case '3':
         // Get trailing new line (\n) character
         getchar();
 
-        // Clear terminal screen
-        clear();
+        boilerplate();
 
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
         puts("VIZUALIZAR FUNCIONÁRIOS:\n");
 
         puts("1 - Vizualizar TODOS\n");
@@ -649,149 +586,32 @@ void answer_show_items()
         printf("\nFerramenta escolhida (Insira o numero): ");
 
         // Get user input
-        scanf("%c", &storage);
+        scanf("%c", &storage2);
 
         // Route depending on user input
         // tolower() function is invoked so the program works if user input is capslock
-        switch (tolower((char)storage))
+        switch (tolower((char)storage2))
         {
         case '1':
 
             // Call show_employee_database_all function
             show_employee_database_all();
-
-            // Boilerplate
-            puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-            puts("1 - Salvar no computador\n");
-            puts("Qualquer tecla - Voltar\n");
-
-            printf("\nFerramenta escolhida (Insira o numero): ");
-            getchar();
-
-            // Get user input
-            scanf("%c", &storage);
-
-            switch (tolower((char)storage))
-            {
-            case '1':
-                /* Function to save on computer */
-                break;
-            default:
-                press_to_continue();
-                menu_show_items();
-                break;
-            }
-            break;
         case '2':
-            boilerplate();
 
-            // Present user with options
-            puts("1 - Procurar por NOME\n");
-            puts("2 - Procurar por CARGO\n");
-            puts("3 - Procurar por SALÁRIO\n");
-            puts("e - Voltar\n");
-            printf("Ferramenta escolhida (Insira o numero): ");
-
-            getchar();
-            // Get user input
-            scanf("%c", &storage);
-
-            char *option;
-
-            switch (tolower((char)storage))
-            {
-            case '1':
-                option = "name";
-                show_employee_database_detailed(option);
-                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-                puts("1 - Salvar no computador\n");
-                puts("Qualquer tecla - Voltar\n");
-
-                printf("\nFerramenta escolhida (Insira o numero): ");
-                getchar();
-
-                // Get user input
-                scanf("%c", &storage);
-
-                switch (tolower((char)storage))
-                {
-                case '1':
-                    /* Function to save on computer */
-                    break;
-                default:
-                    press_to_continue();
-                    menu_show_items();
-                }
-            case '2':
-                option = "role";
-                show_employee_database_detailed(option);
-                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-                puts("1 - Salvar no computador\n");
-                puts("Qualquer tecla - Voltar\n");
-
-                printf("\nFerramenta escolhida (Insira o numero): ");
-                getchar();
-
-                // Get user input
-                scanf("%c", &storage);
-
-                switch (tolower((char)storage))
-                {
-                case '1':
-                    /* Function to save on computer */
-                    break;
-                default:
-                    press_to_continue();
-                    menu_show_items();
-                }
-            case '3':
-                option = "salary";
-                show_employee_database_detailed(option);
-                puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
-
-                puts("1 - Salvar no computador\n");
-                puts("Qualquer tecla - Voltar\n");
-
-                printf("\nFerramenta escolhida (Insira o numero): ");
-                getchar();
-
-                // Get user input
-                scanf("%c", &storage);
-
-                switch (tolower((char)storage))
-                {
-                case '1':
-                    /* Function to save on computer */
-                    break;
-                default:
-                    press_to_continue();
-                    menu_show_items();
-                }
-            default:
-                puts("Opção inválida!");
-                press_to_continue();
-                menu_show_items();
-            }
-            break;
+            // Call show_employee_database_detailed function
+            show_employee_database_detailed();
         case 'e':
             getchar();
             menu_show_items();
-            break;
         default:
             puts("Opção inválida!");
             press_to_continue();
             menu_show_items();
-            break;
         }
-        break;
     case 'e':
-        increment_answer_debub = 0;
+        increment_answer_debug = 0;
         getchar();
         menu_admin();
-        break;
     default:
         puts("Opção inválida!");
         press_to_continue();

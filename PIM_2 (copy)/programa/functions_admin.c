@@ -15,7 +15,20 @@ dealer *table_dealer[MINTABLESIZE];
 
 // Declare global variables
 int increment_answer_register_item = 0;
+int increment_answer_general_debug_employee = 0;
+int increment_answer_general_debug_product = 0;
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // GENERAL functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to signup a ADMIN account
@@ -167,20 +180,20 @@ void menu_admin()
 }
 
 // Function that will receive user answer and will route another function
-void answer_admin()
+int answer_admin()
 {
 
     // Declare a multipurpose storage variable
-    char storage;
+    char answer;
 
     printf("\nFerramenta escolhida (Insira o numero): ");
 
     // Get user input
-    scanf("%c", &storage);
+    scanf("%c", &answer);
 
     // Route depending on user input
     // tolower() function is invoked so the program works if user input is capslock
-    switch (tolower((char)storage))
+    switch (tolower((char)answer))
     {
     case '1':
         menu_register_item();
@@ -212,7 +225,7 @@ void answer_admin()
     case 'e':
         getchar();
         press_to_continue();
-        return;
+        exit(0);
     default:
         puts("Opção inválida!");
         getchar();
@@ -221,6 +234,81 @@ void answer_admin()
     }
 }
 
+// Function to print the options presents at "1 - Register Item"
+void menu_register_item()
+{
+    // Clear terminal screen
+    clear();
+
+    // Boiler plate
+    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+
+    // Available tools
+    puts("1 - Cadastar PRODUTO\n");
+    puts("2 - Cadastrar FORNECEDOR\n");
+    puts("3 - Cadastrar FUNCIONÁRIO\n");
+
+    puts("e - Voltar");
+
+    // Call answer_register_item function
+    answer_register_item();
+}
+
+// Function that will receive user answer and will route another function
+// tolower() function is invoked so the program works if user input is capslock
+void answer_register_item()
+{
+
+    if (increment_answer_register_item == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_register_item++;
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        signup_product();
+        menu_register_item();
+    case '2':
+        signup_dealer();
+        menu_register_item();
+    case '3':
+        signup_employee();
+        menu_register_item();
+    case 'e':
+        increment_answer_register_item = 0;
+        getchar();
+        menu_admin();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_register_item();
+    }
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // EMPLOYEE functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new employee
@@ -390,14 +478,14 @@ void show_employee_database_all()
     // Declare variable that will increment
     int increment = 0;
 
+    // Declare a storage variable
+    char storage;
+
     // Load all employee databases
     load_employee_databases();
 
-    // Clear terminal screen
-    clear();
+    boilerplate();
 
-    // Boiler plate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
     puts("FUNCIONÁRIOS:\n");
 
     // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
@@ -418,228 +506,29 @@ void show_employee_database_all()
 
     // Unload all employee databases
     unload_employee_databases();
-}
 
-// Function to allow the user to search for a specific employee by giving a input
-void show_employee_database_detailed(char *option)
-{
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
 
-    // Load ass employee databases
-    load_employee_databases();
-
-    // Declare a variable that will increment
-    int increment = 0;
-
-    // Declare a variable that will receive user input
-    char *input = (char *)malloc(MAXMAXSIZE);
-
-    boilerplate();
-    puts("VIZUALIZAR FUNCIONÁRIOS:\n");
-
-    // "If conditions" to check in what way user has decided to search for his/her employee(s)
-    if (strcasecmp(option, "name") == 0)
-    {
-
-        printf("Insira o nome do funcionario: ");
-        getchar();
-        fgets(input, MAXMAXSIZE, stdin);
-        // input[strcspn(input, "\n")] = 0;
-
-        boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
-
-        // Loop that will go around MINTABLESIZE amount of times
-        for (int i = 0; i < MINTABLESIZE; i++)
-        {
-            // Loop that will navigate a linked list horizontally
-            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
-            {
-
-                // Check if any option is equal to user input {not case sensitive}
-                if (strcasecmp(input, tmp->name) == 0)
-                {
-                    increment++;
-                    printf("\n%i ---------------------------------------------------\n", increment);
-                    printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->role);
-                    printf("Salario: %s\n", tmp->salary);
-                    printf("Data de admissao: %s\n", tmp->admission);
-                    printf("\n");
-                }
-            }
-        }
-
-        // If increment is equal to zero, that means there is no match to user input
-        if (increment == 0)
-        {
-            puts("Nenhum item foi encontrado!");
-
-            press_to_continue();
-
-            // Call menu_show_items function
-            menu_show_items();
-        }
-    }
-    if (strcasecmp(option, "role") == 0)
-    {
-
-        printf("Insira o cargo do funcionario: ");
-        getchar();
-        fgets(input, MAXMAXSIZE, stdin);
-        // input[strcspn(input, "\n")] = 0;
-
-        boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
-
-        // Loop that will go around MINTABLESIZE amount of times
-        for (int i = 0; i < MINTABLESIZE; i++)
-        {
-
-            // Loop that will navigate a linked list horizontally
-            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
-            {
-
-                // Check if any option is equal to user input {not case sensitive}
-                if (strcasecmp(input, tmp->role) == 0)
-                {
-                    increment++;
-                    printf("\n%i ---------------------------------------------------\n", increment);
-                    printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->role);
-                    printf("Salario: %s\n", tmp->salary);
-                    printf("Data de admissao: %s\n", tmp->admission);
-                    printf("\n");
-                }
-            }
-        }
-
-        // If increment is equal to zero, that means there is no match to user input
-        if (increment == 0)
-        {
-            puts("Nenhum item foi encontrado!");
-
-            press_to_continue();
-
-            // Call menu_show_items function
-            menu_show_items();
-        }
-    }
-    if (strcasecmp(option, "salary") == 0)
-    {
-
-        printf("Insira o salario do funcionario: ");
-        getchar();
-        fgets(input, MAXMAXSIZE, stdin);
-        // input[strcspn(input, "\n")] = 0;
-
-        boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
-
-        // Loop that will go around MINTABLESIZE amount of times
-        for (int i = 0; i < MINTABLESIZE; i++)
-        {
-
-            // Loop that will navigate a linked list horizontally
-            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
-            {
-
-                // Check if any option is equal to user input {not case sensitive}
-                if (strcasecmp(input, tmp->salary) == 0)
-                {
-                    increment++;
-                    printf("\n%i ---------------------------------------------------\n", increment);
-                    printf("Nome: %s\n", tmp->name);
-                    printf("Cargo: %s\n", tmp->role);
-                    printf("Salario: %s\n", tmp->salary);
-                    printf("Data de admissao: %s\n", tmp->admission);
-                    printf("\n");
-                }
-            }
-        }
-
-        // If increment is equal to zero, that means there is no match to user input
-        if (increment == 0)
-        {
-            puts("Nenhum item foi encontrado!");
-
-            press_to_continue();
-
-            // Call menu_show_items function
-            menu_show_items();
-        }
-    }
-
-    // Free all allocated memory
-    free(input);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
-// Function to print the options presents at "1 - Register Item"
-void menu_register_item()
-{
-    // Clear terminal screen
-    clear();
-
-    // Boiler plate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-
-    // Available tools
-    puts("1 - Cadastar PRODUTO\n");
-    puts("2 - Cadastrar FORNECEDOR\n");
-    puts("3 - Cadastrar FUNCIONÁRIO\n");
-
-    puts("e - Voltar");
-
-    // Call answer_register_item function
-    answer_register_item();
-}
-
-// Function that will receive user answer and will route another function
-// tolower() function is invoked so the program works if user input is capslock
-void answer_register_item()
-{
-
-    if (increment_answer_register_item == 0)
-    {
-        getchar();
-    }
-
-    increment_answer_register_item++;
-
-    // Declare a multipurpose storage variable
-    char storage;
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
 
     printf("\nFerramenta escolhida (Insira o numero): ");
 
     // Get user input
     scanf("%c", &storage);
 
-    // Route depending on user input
     switch (tolower((char)storage))
     {
     case '1':
-        signup_product();
-        menu_register_item();
-    case '2':
-        signup_dealer();
-        menu_register_item();
-    case '3':
-        signup_employee();
-        menu_register_item();
-    case 'e':
-        increment_answer_register_item = 0;
-        getchar();
-        menu_admin();
+        /* Function to save on computer */
         break;
     default:
-        puts("Opção inválida!");
+        getchar();
         press_to_continue();
-        menu_register_item();
+        menu_show_items();
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////
 
 // Function that will load all databases hashtables of employees
 bool load_employee_databases()
@@ -760,6 +649,226 @@ bool unload_employee_databases()
     return true;
 }
 
+// Search function for empolyee databases
+void show_employee_database_detailed()
+{
+
+    // Load all employee databases
+    load_employee_databases();
+
+    // Global incrementor that will make it so every trailing \n character at "stdin" is removed by getchar
+    // Preventing weird behavior such as the switch func detecting and invalid input instantly
+    if (increment_answer_general_debug_employee == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_general_debug_employee++;
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Declare 2 storage variables
+    char storage;
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+    puts("1 - Pesquisar por NOME\n");
+    puts("2 - Pesquisar por CARGO\n");
+    puts("3 - Pesquisar por SALÁRIO\n");
+    puts("e - Voltar");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        boilerplate();
+
+        printf("Nome do funcionario: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->name) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_employee_database_detailed();
+        }
+
+        break;
+    case '2':
+        boilerplate();
+
+        printf("Cargo do funcionario: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+        // answer[strcspn(answer, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->role) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_employee_database_detailed();
+        }
+
+        break;
+    case '3':
+        boilerplate();
+
+        printf("Salario do funcionario: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->salary) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->role);
+                    printf("Salario: %s\n", tmp->salary);
+                    printf("Data de admissao: %s\n", tmp->admission);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_employee_database_detailed();
+        }
+
+        break;
+    case 'e':
+        unload_employee_databases();
+        free(answer);
+        increment_answer_general_debug_employee = 0;
+        getchar();
+        menu_show_items();
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        show_employee_database_detailed();
+    }
+
+    unload_employee_databases();
+    free(answer);
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        increment_answer_general_debug_employee = 0;
+        press_to_continue();
+        menu_show_items();
+    }
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new product
@@ -892,6 +1001,9 @@ void show_product_database_all()
     // Declare variable that will increment
     int increment = 0;
 
+    // Declare a storage variable
+    char storage;
+
     // Load all product databases
     load_product_databases();
 
@@ -920,6 +1032,28 @@ void show_product_database_all()
 
     // Unload all employee databases
     unload_product_databases();
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        getchar();
+        press_to_continue();
+        menu_show_items();
+    }
 }
 
 // Function that will load all databases hashtables of products
@@ -1043,6 +1177,268 @@ bool unload_product_databases()
     return true;
 }
 
+// Search function for empolyee databases
+void show_product_database_detailed()
+{
+    // Load all employee databases
+    load_product_databases();
+
+    // Global incrementor that will make it so every trailing \n character at "stdin" is removed by getchar
+    // Preventing weird behavior such as the switch func detecting and invalid input instantly
+    if (increment_answer_general_debug_product == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_general_debug_product++;
+
+    // Declare variable that will increment
+    int increment = 0;
+
+    // Declare 2 storage variables
+    char storage;
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    puts("VIZUALIZAR PRODUTOS:\n");
+
+    puts("1 - Pesquisar por NOME\n");
+    puts("2 - Pesquisar por QUANTIDADE\n");
+    puts("3 - Pesquisar por VALOR UNITÁRIO\n");
+    puts("4 - Pesquisar por VALOR TOTAL\n");
+    puts("e - Voltar");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        boilerplate();
+
+        printf("Nome do produto: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR PRODUTOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->name) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Quantidade: %s\n", tmp->quantity);
+                    printf("Valor unitario: %s\n", tmp->unitary_value);
+                    printf("Valor total: %s\n", tmp->total_value);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_product_database_detailed();
+        }
+
+        break;
+    case '2':
+        boilerplate();
+
+        printf("Quantidade do produto: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+        // answer[strcspn(answer, "\n")] = 0;
+
+        boilerplate();
+        puts("VIZUALIZAR PRODUTOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->quantity) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->quantity);
+                    printf("Salario: %s\n", tmp->unitary_value);
+                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_product_database_detailed();
+        }
+
+        break;
+    case '3':
+        boilerplate();
+
+        printf("Valor Unitario do produto: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR PRODUTOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->unitary_value) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->quantity);
+                    printf("Salario: %s\n", tmp->unitary_value);
+                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_product_database_detailed();
+        }
+
+        break;
+    case '4':
+        boilerplate();
+
+        printf("Valor Total do produto: ");
+        getchar();
+
+        // Get user input
+        fgets(answer, MAXMAXSIZE, stdin);
+
+        boilerplate();
+        puts("VIZUALIZAR PRODUTOS:\n");
+
+        // All possible positions at a table of MINTABLESIZE size
+        for (int i = 0; i < MINTABLESIZE; i++)
+        {
+
+            // Navigate a linked list horizontally
+            for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+            {
+
+                // For every match, print
+                if (strcasecmp(answer, tmp->total_value) == 0)
+                {
+                    increment++;
+                    printf("\n%i ---------------------------------------------------\n", increment);
+                    printf("Nome: %s\n", tmp->name);
+                    printf("Cargo: %s\n", tmp->quantity);
+                    printf("Salario: %s\n", tmp->unitary_value);
+                    printf("Data de admissao: %s\n", tmp->total_value);
+                    printf("\n");
+                }
+            }
+        }
+
+        if (increment == 0)
+        {
+            puts("Nenhum item encontrado!");
+            press_to_continue();
+            show_product_database_detailed();
+        }
+
+        break;
+    case 'e':
+        unload_product_databases();
+        free(answer);
+        increment_answer_general_debug_product = 0;
+        getchar();
+        menu_show_items();
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        show_product_database_detailed();
+    }
+
+    unload_product_databases();
+    free(answer);
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        increment_answer_general_debug_product = 0;
+        press_to_continue();
+        menu_show_items();
+    }
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new dealer
@@ -1236,6 +1632,9 @@ void show_dealer_database_all()
     // Declare variable that will increment
     int increment = 0;
 
+    // Declare a storage variable
+    char storage;
+
     // Load all dealer databases
     load_dealer_databases();
 
@@ -1263,6 +1662,28 @@ void show_dealer_database_all()
 
     // Unload all dealer databases
     unload_dealer_databases();
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        getchar();
+        press_to_continue();
+        menu_show_items();
+    }
 }
 
 // Function that will load all databases hashtables of delers

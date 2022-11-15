@@ -3,5 +3,8 @@
         "functions.h": "c",
         "stdio.h": "c",
         "string.h": "c"
-    }
+    },
+    "cSpell.words": [
+        "MAXMAXSIZE"
+    ]
 }

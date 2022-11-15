@@ -125,7 +125,7 @@ void save_account_admin(createaccount account);
 
 void menu_admin();
 
-void answer_admin();
+int answer_admin();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -141,11 +141,11 @@ void save_employee(createemployee employee);
 
 void show_employee_database_all();
 
-void show_employee_database_detailed(char *option);
-
 bool load_employee_databases();
 
 bool unload_employee_databases();
+
+void show_employee_database_detailed();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -159,6 +159,8 @@ bool load_product_databases();
 
 bool unload_product_databases();
 
+void show_product_database_detailed();
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void signup_dealer();
@@ -170,3 +172,5 @@ void show_dealer_database_all();
 bool load_dealer_databases();
 
 bool unload_dealer_databases();
+
+void show_dealer_database_detailed();
