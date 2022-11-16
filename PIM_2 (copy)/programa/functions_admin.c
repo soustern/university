@@ -15,6 +15,7 @@ dealer *table_dealer[MINTABLESIZE];
 
 // Declare global variables
 int increment_answer_register_item = 0;
+int increment_answer_remove_item = 0;
 int increment_answer_general_debug_employee = 0;
 int increment_answer_general_debug_product = 0;
 int increment_answer_general_debug_dealer = 0;
@@ -203,7 +204,7 @@ int answer_admin()
         menu_show_items();
         break;
     case '3':
-        /* code */
+        menu_remove_item();
         break;
     case '4':
         /* code */
@@ -229,7 +230,6 @@ int answer_admin()
         exit(0);
     default:
         puts("Opção inválida!");
-        getchar();
         press_to_continue();
         menu_admin();
     }
@@ -238,11 +238,7 @@ int answer_admin()
 // Function to print the options presents at "1 - Register Item"
 void menu_register_item()
 {
-    // Clear terminal screen
-    clear();
-
-    // Boiler plate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Available tools
     puts("1 - Cadastar PRODUTO\n");
@@ -296,6 +292,67 @@ void answer_register_item()
         puts("Opção inválida!");
         press_to_continue();
         menu_register_item();
+    }
+}
+
+// Function to display the options inside "remove item" tool
+void menu_remove_item()
+{
+
+    boilerplate();
+
+    // boilerplate
+    puts("1 - Remover PRODUTO\n");
+    puts("2 - Remover FORNECEDOR\n");
+    puts("3 - Remover FUNCIONÁRIO\n");
+
+    puts("e - Voltar");
+
+    // Call answer_remove_item function
+    answer_remove_item();
+}
+
+// Function that will receive user answer and will route another function
+void answer_remove_item()
+{
+
+    if (increment_answer_remove_item == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_remove_item++;
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramente escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        remove_product();
+        break;
+    case '2':
+        /* code */
+        break;
+    case '3':
+        remove_employee();
+        break;
+    case 'e':
+        increment_answer_remove_item = 0;
+        getchar();
+        menu_admin();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_remove_item();
+        break;
     }
 }
 
@@ -408,7 +465,6 @@ void signup_employee()
     printf("Salario do funcionario: %.2f\n", storage.salary);
 
     printf("Data de admissao (ex.: 01/01/22): ");
-    getchar();
     fgets(storage.admission, MAXSIZE, stdin);
 
     // Remove trailing newline that comes together with user input when fgets() is used
@@ -626,6 +682,14 @@ bool load_employee_databases()
         // table_account must point to what the current node
         table_employee[index] = node;
     }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(buffer);
+
+    return true;
 }
 
 // Unloads table_employee from memory, returning true if successful, else false
@@ -859,6 +923,105 @@ void show_employee_database_detailed()
     }
 }
 
+// Remove function for employee databases
+void remove_employee()
+{
+
+    // Load all employee databases
+    load_employee_databases();
+
+    // Replace the content of "employee.txt" with the current content of table_employee at all indexes
+    // We must open the database and erase its contents by using the parameter "w" at fopen()
+    FILE *data = fopen("macros/employee.txt", "w");
+
+    // Close so it can be reopened with a append "a" mode
+    fclose(data);
+
+    data = fopen("macros/employee.txt", "a");
+
+    // Make it so the file is line buffered, not block buffered
+    // This makes it so we can write onto the file while the program is running
+    // Otherwise, we woul have to wait until the program is closed
+    setlinebuf(data);
+
+    // Declare two cursors
+    employee storage;
+
+    // Declare a variable that will increment
+    int increment = 0;
+
+    // declare a storage variable
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    printf("\nNome do funcionario: ");
+    getchar();
+
+    // Get user input
+    fgets(answer, MAXMAXSIZE, stdin);
+
+    // Loop that goes around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+        {
+
+            // Check if user input is present at database
+            // Check if this is an intermediate position at the linked list
+            if (strcasecmp(answer, tmp->name) == 0)
+            {
+                increment++;
+                continue;
+            }
+
+            // Copy the string present at this position of tmp to the storage.(appropriate section)
+            strcpy(storage.name, tmp->name);
+            strcpy(storage.role, tmp->role);
+            strcpy(storage.salary, tmp->salary);
+            strcpy(storage.admission, tmp->admission);
+
+            // Append the strings present at storage.(section) onto the file
+            fprintf(data, "%s", storage.name);
+            fprintf(data, "%s", storage.role);
+            fprintf(data, "%s", storage.salary);
+            fprintf(data, "%s", storage.admission);
+        }
+    }
+
+    if (increment == 0)
+    {
+        boilerplate();
+        puts("Nenhum item encontrado!");
+        // free(answer);
+        unload_employee_databases();
+        press_to_continue();
+        menu_remove_item();
+    }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(answer);
+
+    // Onload all loaded databases
+    unload_employee_databases();
+
+    boilerplate();
+
+    puts("Funcionário excluído com sucesso!");
+    press_to_continue();
+    menu_remove_item();
+}
+
 //
 //
 //
@@ -915,7 +1078,7 @@ void signup_product()
     // Start asking for user input
     printf("Nome do produto: %s\n", storage.name);
 
-    printf("Quantidade do produto (Número inteiro)): ");
+    printf("Quantidade do produto (Número inteiro): ");
     scanf("%i", &storage.quantity);
 
     // Use a getchar here to get the trailing newline (\n) character scanf leave behind
@@ -1153,6 +1316,14 @@ bool load_product_databases()
         // table_product must point to the current node
         table_product[index] = node;
     }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(buffer);
+
+    return true;
 }
 
 // Unloads table_product from memory, returning true if successful, else false
@@ -1429,6 +1600,105 @@ void show_product_database_detailed()
     }
 }
 
+// Remove function for product databases
+void remove_product()
+{
+
+    // Load all product databases
+    load_product_databases();
+
+    // Replace the content of "product.txt" with the current content of table_product at all indexes
+    // We must open the database and erase its contents by using the parameter "w" at fopen()
+    FILE *data = fopen("macros/product.txt", "w");
+
+    // Close so it can be reopened with a append "a" mode
+    fclose(data);
+
+    data = fopen("macros/product.txt", "a");
+
+    // Make it so the file is line buffered, not block buffered
+    // This makes it so we can write onto the file while the program is running
+    // Otherwise, we woul have to wait until the program is closed
+    setlinebuf(data);
+
+    // Declare two cursors
+    product storage;
+
+    // Declare a variable that will increment
+    int increment = 0;
+
+    // declare a storage variable
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    printf("\nNome do produto: ");
+    getchar();
+
+    // Get user input
+    fgets(answer, MAXMAXSIZE, stdin);
+
+    // Loop that goes around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+        {
+
+            // Check if user input is present at database
+            // Check if this is an intermediate position at the linked list
+            if (strcasecmp(answer, tmp->name) == 0)
+            {
+                increment++;
+                continue;
+            }
+
+            // Copy the string present at this position of tmp to the storage.(appropriate section)
+            strcpy(storage.name, tmp->name);
+            strcpy(storage.quantity, tmp->quantity);
+            strcpy(storage.unitary_value, tmp->unitary_value);
+            strcpy(storage.total_value, tmp->total_value);
+
+            // Append the strings present at storage.(section) onto the file
+            fprintf(data, "%s", storage.name);
+            fprintf(data, "%s", storage.quantity);
+            fprintf(data, "%s", storage.unitary_value);
+            fprintf(data, "%s", storage.total_value);
+        }
+    }
+
+    if (increment == 0)
+    {
+        boilerplate();
+        puts("Nenhum item encontrado!");
+        // free(answer);
+        unload_product_databases();
+        press_to_continue();
+        menu_remove_item();
+    }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(answer);
+
+    // Onload all loaded databases
+    unload_product_databases();
+
+    boilerplate();
+
+    puts("Produto excluído com sucesso!");
+    press_to_continue();
+    menu_remove_item();
+}
+
 //
 //
 //
@@ -1440,7 +1710,7 @@ void show_product_database_detailed()
 //
 //
 //
-// PRODUCT functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// DEALER functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Function to create a new dealer
 void signup_dealer()
@@ -1790,6 +2060,14 @@ bool load_dealer_databases()
         // table_dealer must point to the current node
         table_dealer[index] = node;
     }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(buffer);
+
+    return true;
 }
 
 // Unload table_dealer from memory, returning true if successful, else false
@@ -1882,6 +2160,7 @@ void show_dealer_database_detailed()
                 // For every match, print
                 if (strcasecmp(answer, tmp->name) == 0)
                 {
+                    increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
                     printf("Nome do/da responsável: %s\n", tmp->owner_name);
@@ -1926,6 +2205,7 @@ void show_dealer_database_detailed()
                 // For every match, print
                 if (strcasecmp(answer, tmp->owner_name) == 0)
                 {
+                    increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
                     printf("Nome do/da responsável: %s\n", tmp->owner_name);
@@ -1969,6 +2249,7 @@ void show_dealer_database_detailed()
                 // For every match, print
                 if (strcasecmp(answer, tmp->city) == 0)
                 {
+                    increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
                     printf("Nome do/da responsável: %s\n", tmp->owner_name);
@@ -2012,6 +2293,7 @@ void show_dealer_database_detailed()
                 // For every match, print
                 if (strcasecmp(answer, tmp->service_type) == 0)
                 {
+                    increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
                     printf("Nome do/da responsável: %s\n", tmp->owner_name);
@@ -2068,4 +2350,107 @@ void show_dealer_database_detailed()
         press_to_continue();
         menu_show_items();
     }
+}
+
+// Remove function for delaer databases
+void remove_dealer()
+{
+
+    // Load all dealer databases
+    load_dealer_databases();
+
+    // Replace the content of "dealer.txt" with the current content of table_dealer at all indexes
+    // We must open the database and erase its contents by using the parameter "w" at fopen()
+    FILE *data = fopen("macros/dealer.txt", "w");
+
+    // Close so it can be reopened with a append "a" mode
+    fclose(data);
+
+    data = fopen("macros/dealer.txt", "a");
+
+    // Make it so the file is line buffered, not block buffered
+    // This makes it so we can write onto the file while the program is running
+    // Otherwise, we woul have to wait until the program is closed
+    setlinebuf(data);
+
+    // Declare two cursors
+    dealer storage;
+
+    // Declare a variable that will increment
+    int increment = 0;
+
+    // declare a storage variable
+    char *answer = (char *)malloc(MAXMAXSIZE);
+    if (answer == NULL)
+    {
+        puts("ERRO 1: Não há memória suficiente no sistema");
+        exit(1);
+    }
+
+    boilerplate();
+
+    printf("\nNome do fornecedor: ");
+    getchar();
+
+    // Get user input
+    fgets(answer, MAXMAXSIZE, stdin);
+
+    // Loop that goes around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+        {
+
+            // Check if user input is present at database
+            // Check if this is an intermediate position at the linked list
+            if (strcasecmp(answer, tmp->name) == 0)
+            {
+                increment++;
+                continue;
+            }
+
+            // Copy the string present at this position of tmp to the storage.(appropriate section)
+            strcpy(storage.name, tmp->name);
+            strcpy(storage.owner_name, tmp->owner_name);
+            strcpy(storage.city, tmp->city);
+            strcpy(storage.service_type, tmp->service_type);
+            strcpy(storage.contact, tmp->contact);
+            strcpy(storage.email, tmp->email);
+
+            // Append the strings present at storage.(section) onto the file
+            fprintf(data, "%s", storage.name);
+            fprintf(data, "%s", storage.owner_name);
+            fprintf(data, "%s", storage.city);
+            fprintf(data, "%s", storage.service_type);
+            fprintf(data, "%s", storage.contact);
+            fprintf(data, "%s", storage.email);
+        }
+    }
+
+    if (increment == 0)
+    {
+        boilerplate();
+        puts("Nenhum item encontrado!");
+        // free(answer);
+        unload_dealer_databases();
+        press_to_continue();
+        menu_remove_item();
+    }
+
+    // Close all opened files
+    fclose(data);
+
+    // Free all allocated memory
+    free(answer);
+
+    // Onload all loaded databases
+    unload_dealer_databases();
+
+    boilerplate();
+
+    puts("Fornecedor excluído com sucesso!");
+    press_to_continue();
+    menu_remove_item();
 }

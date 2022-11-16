@@ -127,11 +127,13 @@ void menu_admin();
 
 int answer_admin();
 
-////////////////////////////////////////////////////////////////////////////////////////////
-
 void menu_register_item();
 
 void answer_register_item();
+
+void menu_remove_item();
+
+void answer_remove_item();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -147,6 +149,8 @@ bool unload_employee_databases();
 
 void show_employee_database_detailed();
 
+void remove_employee();
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void signup_product();
@@ -161,6 +165,8 @@ bool unload_product_databases();
 
 void show_product_database_detailed();
 
+void remove_product();
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void signup_dealer();
@@ -174,3 +180,5 @@ bool load_dealer_databases();
 bool unload_dealer_databases();
 
 void show_dealer_database_detailed();
+
+void remove_dealer();
