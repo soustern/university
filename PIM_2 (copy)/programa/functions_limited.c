@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <ctype.h>
 
 // Include "linker" header file
 #include "functions.h"
@@ -41,7 +42,7 @@ void answer_limited()
         menu_show_items();
         break;
     case '2':
-        //
+        menu_manual_limited();
         break;
     case 'e':
         getchar();

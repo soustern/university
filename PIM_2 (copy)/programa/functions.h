@@ -84,6 +84,18 @@ typedef struct dealer
     struct dealer *previous;
 } dealer;
 
+// Counters XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+int count_numerical_quantity_employee();
+
+int count_numerical_quantity_product();
+
+int count_numerical_quantity_dealer();
+
+void count_total_money_amount_employee();
+
+void count_total_money_amount_product();
+
 // Tutorials XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void newcomer_message_first();
@@ -91,6 +103,8 @@ void newcomer_message_first();
 void newcomer_message_second();
 
 void tutorial_accounts();
+
+void first_steps();
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -123,6 +137,16 @@ void answer_show_items();
 bool check_if_current_account(char *username);
 
 bool remove_account(char *username);
+
+// // // // // // // //
+
+void menu_manual_admin();
+
+void menu_manual_limited();
+
+void answer_manual_admin();
+
+void answer_manual_limited();
 
 // LIMITED functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

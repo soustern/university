@@ -14,6 +14,7 @@ char current_account[MAXMAXSIZE];
 
 // Declare global variables
 int increment_answer_debug = 0;
+int increment_answer_manual = 0;
 
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -685,4 +686,111 @@ bool remove_account(char *username)
     unload_account_databases();
 
     return true;
+}
+
+// Function that will render a functionality menu for a manual
+void menu_manual_admin()
+{
+
+    boilerplate();
+
+    // Boilerplate
+    puts("1 - Diferança entre as contas do SLS 1.0\n");
+    puts("e - voltar");
+
+    // Call answer_manual function
+    answer_manual_admin();
+}
+
+void menu_manual_limited()
+{
+    boilerplate();
+
+    // Boilerplate
+    puts("1 - Diferança entras as contas do SLS 1.0\n");
+    puts("e - voltar");
+
+    // Call answer_manual function
+    answer_manual_limited();
+}
+
+// Function that will receive user answer and will route another function
+void answer_manual_admin()
+{
+
+    if (increment_answer_manual == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_manual++;
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        tutorial_accounts();
+        getchar();
+        press_to_continue();
+        menu_manual_admin();
+        break;
+    case 'e':
+        increment_answer_manual = 0;
+        getchar();
+        menu_admin();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_manual_admin();
+        break;
+    }
+}
+
+// Function that will receive user answer and will route another function
+void answer_manual_limited()
+{
+
+    if (increment_answer_manual == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_manual++;
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        tutorial_accounts();
+        getchar();
+        press_to_continue();
+        menu_manual_limited();
+    case 'e':
+        increment_answer_manual = 0;
+        getchar();
+        menu_limited();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_manual_limited();
+        break;
+    }
 }

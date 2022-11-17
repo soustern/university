@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
 #include <ctype.h>
 
 // Include "linker" header file
@@ -24,6 +23,116 @@ int increment_answer_remove_item = 0;
 int increment_answer_general_debug_employee = 0;
 int increment_answer_general_debug_product = 0;
 int increment_answer_general_debug_dealer = 0;
+
+// Declare global variables that will be used at reports
+int count_employee_amount;
+int count_product_amount;
+int count_dealer_amount;
+
+//
+//
+//
+//
+// COUNTERS XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Function to count the total amount of items are present at all databases
+int count_numerical_quantity_employee()
+{
+
+    // Load all employee databases
+    load_employee_databases();
+
+    // Declare an increment variable
+    int increment = 0;
+
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+        {
+            // For every iteration, increment goes up by one
+            increment++;
+        }
+    }
+
+    // Unload all employee databases
+    unload_employee_databases();
+
+    return increment;
+}
+
+int count_numerical_quantity_product()
+{
+
+    // Load all product databases
+    load_product_databases();
+
+    // Declare an increment variable
+    int increment = 0;
+
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+        {
+            // For every iteration, increment goes up by one
+            increment++;
+        }
+    }
+
+    // Unload all product databases
+    unload_product_databases();
+
+    return increment;
+}
+
+int count_numerical_quantity_dealer()
+{
+
+    // Load all dealer databases
+    load_dealer_databases();
+
+    // Declare an increment variable
+    int increment = 0;
+
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (dealer *tmp = table_dealer[i]; tmp != NULL; tmp = tmp->next)
+        {
+            // For every iteration, increment goes up by one
+            increment++;
+        }
+    }
+
+    // Unload all dealer databases
+    unload_dealer_databases();
+
+    return increment;
+}
+
+void count_total_money_amount_employee()
+{
+
+    // Load all employee databases
+    load_employee_databases();
+
+    // Declare a float variable
+    float amount;
+
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Fo
+    }
+}
 
 //
 //
@@ -285,8 +394,7 @@ void menu_admin()
     puts("6 - Excluir conta\n");
 
     puts("7 - Relatórios");
-    puts("8 - Configurações");
-    puts("9 - Manual\n");
+    puts("8 - Manual\n");
 
     puts("e - Sair\n");
 
@@ -312,30 +420,21 @@ void answer_admin()
     {
     case '1':
         menu_register_item();
-        break;
     case '2':
         menu_show_items();
-        break;
     case '3':
         menu_remove_item();
-        break;
     case '4':
         menu_edit_item();
-        break;
     case '5':
         menu_signup_account();
-        break;
     case '6':
         remove_account_menu_and_answer();
-        break;
     case '7':
         /* code */
         break;
     case '8':
-        /* code */
-        break;
-    case '9':
-        /* code */
+        menu_manual_admin();
         break;
     case 'e':
         getchar();
@@ -414,7 +513,7 @@ void menu_remove_item()
 
     boilerplate();
 
-    // boilerplate
+    // Boilerplate
     puts("1 - Remover PRODUTO\n");
     puts("2 - Remover FORNECEDOR\n");
     puts("3 - Remover FUNCIONÁRIO\n");

@@ -66,3 +66,8 @@ void tutorial_accounts()
 
     puts("É possível acessar o manual com ambos os tipos de contas.\n");
 }
+
+// Tutorial about the first steps one may take
+/* void first_steps()
+{
+} */
