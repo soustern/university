@@ -84,6 +84,14 @@ typedef struct dealer
     struct dealer *previous;
 } dealer;
 
+// Tutorials XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+void newcomer_message_first();
+
+void newcomer_message_second();
+
+void tutorial_accounts();
+
 // General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void clear();
@@ -95,10 +103,6 @@ bool check_length(char *credential);
 bool check_password(char *password, char *confirmation);
 
 bool check_username(char *username);
-
-void newcomer_message_first();
-
-void newcomer_message_second();
 
 void press_to_continue();
 
@@ -116,15 +120,29 @@ void menu_show_items();
 
 void answer_show_items();
 
+bool check_if_current_account(char *username);
+
+bool remove_account(char *username);
+
+// LIMITED functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+void menu_limited();
+
+void answer_limited();
+
 // ADMIN functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void signup_admin();
 
+void signup_limited();
+
 void save_account_admin(createaccount account);
+
+void save_account_limited(createaccount account);
 
 void menu_admin();
 
-int answer_admin();
+void answer_admin();
 
 void menu_register_item();
 
@@ -141,6 +159,8 @@ void answer_edit_item();
 void menu_signup_account();
 
 void answer_signup_account();
+
+void remove_account_menu_and_answer();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 

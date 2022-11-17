@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -14,6 +15,9 @@ product *table_product[MINTABLESIZE];
 dealer *table_dealer[MINTABLESIZE];
 
 // Declare global variables
+int increment_remove_account = 0;
+int increment_signup_admin = 0;
+int increment_answer_signup_account = 0;
 int increment_answer_edit_item = 0;
 int increment_answer_register_item = 0;
 int increment_answer_remove_item = 0;
@@ -21,13 +25,6 @@ int increment_answer_general_debug_employee = 0;
 int increment_answer_general_debug_product = 0;
 int increment_answer_general_debug_dealer = 0;
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -73,12 +70,19 @@ void signup_admin()
 
     do
     {
-        // Clear terminal screen
-        clear();
 
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+        boilerplate();
+
         puts("Conta com status 'ADMINISTRADORA'\n");
+
+        // Check if we have already entered the menu
+        // If so, we must clear te buffer, otherwise the next fgets will get conflicted
+        // If we haven´t already entered the menu, that can only mean this is the first tine
+        // The program is being executed, getchar is not necessary in this case
+        if (increment_signup_admin != 0)
+        {
+            getchar();
+        }
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): ");
@@ -96,16 +100,12 @@ void signup_admin()
     do
     {
 
-        // Clear terminal screen
-        clear();
+        boilerplate();
 
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
         puts("Conta com status 'ADMINISTRADORA'\n");
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
-
         puts("\n\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
 
         // Turn off terminal echoing to mask password
@@ -116,6 +116,94 @@ void signup_admin()
 
     // Call save_acount_admin function
     save_account_admin(storage);
+
+    // Free all allocated memory
+    free(storage.username);
+    free(storage.password);
+    free(confirmation);
+
+    // Unload initially loaded database
+    unload_account_databases();
+}
+
+// Function to signup a LIMITED account
+void signup_limited()
+{
+
+    // Load all account databases onto memory
+    load_account_databases();
+
+    // Initialize a storage struct of type "createperson"
+    createaccount storage;
+
+    // Alloc a big chunck of memory to "confirmation" | The size will that of "MAXSIZE" constant
+    // Declare storage variable that will be responsible for receiving "password confirmation" input
+    char *confirmation = (char *)malloc(MAXSIZE);
+    if (confirmation == NULL)
+    {
+        puts("ERRO 1: Memória insuficiente no sistema");
+        return;
+    }
+
+    // Alloc a big chunck of memory to "storage.username" | The size will that of "MAXSIZE" constant
+    // The memory allocated has to be big as to be user-error proof
+    storage.username = (char *)malloc(MAXSIZE);
+    if (storage.username == NULL)
+    {
+        puts("ERRO 1: Memória insuficiente no sistema");
+        return;
+    }
+
+    // Alloc a big chunck of memory to "storage.password" | The size will that of "MAXSIZE" constant
+    // The memory allocated has to be big as to be user-error proof
+    storage.password = (char *)malloc(MAXSIZE);
+    if (storage.password == NULL)
+    {
+        puts("ERRO 1: Memória insuficiente no sistema");
+        return;
+    }
+
+    do
+    {
+
+        boilerplate();
+
+        puts("Conta com status 'LIMITADA'\n");
+
+        getchar();
+
+        // Start asking for user input
+        printf("Nome de usuario (Entre 5 e 10 caracteres): ");
+        fgets(storage.username, MAXSIZE, stdin);
+
+        // Remove trailing newline that comes together with user input when fgets() is used
+        storage.username[strcspn(storage.username, "\n")] = 0;
+
+    } while (check_length(storage.username) == false || check_username(storage.username) == false);
+
+    /* FILE *f = fopen("credential.txt", "a");
+    fwrite(storage.username, strlen(storage.username), 1, f);
+    fclose(f); */
+
+    do
+    {
+
+        boilerplate();
+
+        puts("Conta com status 'LIMITADA'\n");
+
+        // Start asking for user input
+        printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
+        puts("\n\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+
+        // Turn off terminal echoing to mask password
+        // TODO: REDO THIS FUNCTIONS FOR WINDOWS
+        storage.password = strdup(getpass("Senha (Entre 5 e 10 caracteres): "));
+
+    } while (check_password(storage.password, confirmation) == false);
+
+    // Call save_acount_admin function
+    save_account_limited(storage);
 
     // Free all allocated memory
     free(storage.username);
@@ -151,15 +239,39 @@ void save_account_admin(createaccount account)
     fclose(data);
 }
 
+// Function that will save a new account when all the validations passes
+void save_account_limited(createaccount account)
+{
+
+    // Declare e FILE Pointer
+    FILE *data;
+
+    // Save account.username in a file ->->->->->->
+
+    // Open the correct file
+    data = fopen("macros/account.txt", "a");
+
+    // Append username and password to file
+    fprintf(data, "%s", account.username);
+
+    // Print a line break in beetween
+    // This must be done because we removed the \n at the last position of the account.username[] array
+    fprintf(data, "\n");
+
+    fprintf(data, "%s\n", account.password);
+    fprintf(data, "limited\n");
+
+    fclose(data);
+}
+
 // Function that will render a functionality menu with ADMIN capabilities
 void menu_admin()
 {
 
-    // Clear terminal screen
-    clear();
+    increment_signup_admin++;
 
-    // Boiler plate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
+
     puts("Conta com status 'ADMINISTRADORA'\n\n");
 
     // Available tools
@@ -183,7 +295,7 @@ void menu_admin()
 }
 
 // Function that will receive user answer and will route another function
-int answer_admin()
+void answer_admin()
 {
 
     // Declare a multipurpose storage variable
@@ -214,7 +326,7 @@ int answer_admin()
         menu_signup_account();
         break;
     case '6':
-        /* code */
+        remove_account_menu_and_answer();
         break;
     case '7':
         /* code */
@@ -429,16 +541,164 @@ void menu_signup_account()
     puts("2 - Criar conta LIMITADA\n");
     puts("3 - Saiba Mais\n");
 
-    puts("e - Voltar")
+    puts("e - Voltar");
+
+    // Call answer_signup_account function
+    answer_signup_account();
 }
 
-//
-//
-//
-//
-//
-//
-//
+// Function that will receive user answer and will route to another function
+void answer_signup_account()
+{
+
+    if (increment_answer_signup_account == 0)
+    {
+        getchar();
+    }
+
+    increment_answer_signup_account++;
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        signup_admin();
+        boilerplate();
+        puts("Conta criada com sucesso!");
+        press_to_continue();
+        menu_signup_account();
+        break;
+    case '2':
+        signup_limited();
+        boilerplate();
+        puts("Conta criada com sucesso!");
+        press_to_continue();
+        menu_signup_account();
+        break;
+    case '3':
+        tutorial_accounts();
+        getchar();
+        press_to_continue();
+        menu_signup_account();
+        break;
+    case 'e':
+        increment_answer_signup_account = 0;
+        getchar();
+        menu_admin();
+        break;
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        menu_signup_account();
+        break;
+    }
+}
+
+// Function that makes it so it is possible to remove an account
+void remove_account_menu_and_answer()
+{
+
+    boilerplate();
+
+    puts("Para que seja possível remover uma conta");
+    puts("será necessário inserir seu nome de usuário.\n");
+    puts("Uma vez que uma conta é excluida com sucesso");
+    puts("não será possível recuperar a mesma.\n");
+    puts("Não é possível exlcluir a conta");
+    puts("que esta sendo utilizada no momento!\n");
+
+    puts("1 - Continuar\n");
+    puts("e - Voltar");
+
+    // Declare a multipurpose storage variable
+    char storage;
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    if (increment_remove_account == 0)
+    {
+        getchar();
+    }
+
+    increment_remove_account++;
+
+    // Get user input
+    scanf("%c", &storage);
+
+    // Route depending on user input
+    switch (tolower((char)storage))
+    {
+    case '1':
+        char answer[MAXMAXSIZE];
+
+        // Declare an increment variable
+        int increment = 0;
+
+        // Declare a decrement variable
+        int decrement = 4;
+
+        // Ask for user input
+        // Check if user is trying to remove the currently loged account
+        // Ask for user input while check_if_current_account func is returning false
+        do
+        {
+            do
+            {
+                boilerplate();
+                printf("%i tentativas restantes.\n", decrement);
+                increment++;
+                decrement--;
+                printf("Nome de usuário da conta: ");
+
+                // Get trailing newline "\n" in the buffer if this is the first iteration of this loop
+                if (increment == 1)
+                {
+                    getchar();
+                }
+                fgets(answer, MAXMAXSIZE, stdin);
+
+                // CHeck if user is trying again and again without success
+                if (increment == 4)
+                {
+                    increment_remove_account = 0;
+                    boilerplate();
+                    puts("\nLimite de tentativas atingido!");
+                    puts("tente novamente mais tarde!\n");
+                    press_to_continue();
+                    menu_admin();
+                }
+
+                // Call remove account function
+                // This function needs to be located at the functions_general file
+                // Because it is where the table_account is located
+            } while (!check_if_current_account(answer));
+        } while (!remove_account(answer));
+
+        boilerplate();
+
+        puts("Conta excluida com sucesso!");
+        press_to_continue();
+
+        menu_admin();
+    case 'e':
+        increment_remove_account = 0;
+        getchar();
+        menu_admin();
+    default:
+        puts("Opção inválida!");
+        press_to_continue();
+        remove_account_menu_and_answer();
+    }
+}
+
 //
 //
 //
@@ -1210,13 +1470,6 @@ void edit_employee()
     menu_edit_item();
 }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1999,13 +2252,6 @@ void edit_product()
     menu_edit_item();
 }
 
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //

@@ -10,6 +10,7 @@
 
 // Declare global structs
 account *table_account[MINTABLESIZE];
+char current_account[MAXMAXSIZE];
 
 // Declare global variables
 int increment_answer_debug = 0;
@@ -158,48 +159,6 @@ bool check_password(char *password, char *confirmation)
     }
 }
 
-// Function that will print a newcomer message
-void newcomer_message_first()
-{
-
-    // Clear terminal screen
-    clear();
-
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-    puts("Seja bem-vindo(a) ao Simple Logistical System!\n");
-    puts("Para começar a utilizar o sistema, cadastre sua primeira conta");
-    puts("que, por padrão, tera o escopo de CONTA ADMINISTRADORA.\n");
-
-    puts("Para saber mais sobre as diferentes contas que o SLS suporta");
-    puts("e suas particularidades, selecione a opção 8 no menu");
-    puts("ou acesse a seção 'Manual' em nosso site!\n");
-
-    press_to_continue();
-}
-
-// Function that will print another newcomer message
-void newcomer_message_second()
-{
-
-    // Clear terminal screen
-    clear();
-
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-    puts("Conta criada com sucesso!\n");
-    puts("Não se esqueça de guardar as credenciaus fornecidas");
-    puts("em um lugar seguro.\n");
-
-    puts("A seguir você será redirecionado(a) para o MENU.");
-    puts("A tela do menu discrimina as diferentes funcionalidades do sistema");
-    puts("assim como seu respectivo número de designação.\n");
-
-    puts("Para acessar qualquer funcionalidade que desejar");
-    puts("digite o número correspondente aquela ferramenta");
-    puts("e pressione ENTER\n");
-
-    press_to_continue();
-}
-
 // Fnction that waits until user presses ENTER to continue
 void press_to_continue()
 {
@@ -346,11 +305,7 @@ void login()
     do
     {
 
-        // Clear terminal screen
-        clear();
-
-        // Boilerplate
-        puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+        boilerplate();
 
         // Start asking for user input
         printf("Nome de usuario (Entre 5 e 10 caracteres): ");
@@ -364,6 +319,9 @@ void login()
         // Copy to the memory location at storage->password the value at the memory location getpass() is pointing to
         strcpy(storage->password, getpass("Senha: "));
     } while (check_login(storage) == false);
+
+    // Copy user input to current_account of struct of account type
+    strcpy(current_account, storage->username);
 
     // If the value at memory location "storage->type" is "admin"
     if (strcmp(storage->type, "admin") == 0)
@@ -379,7 +337,7 @@ void login()
         // We unload database, unload the previously allocated memory that storage is pointing to, and inicitialize menu_parcial()
         unload_account_databases();
         free(storage);
-        puts("Deu certo, mas n existe essa conta");
+        menu_limited();
     }
 }
 
@@ -617,4 +575,114 @@ void answer_show_items()
         press_to_continue();
         menu_show_items();
     }
+}
+
+// Function that will check if user is trying to remove an account that is present at current_account
+bool check_if_current_account(char *username)
+{
+
+    // Remove the trailing newline character "\n" currently present at the last array position of username
+    username[strcspn(username, "\n")] = 0;
+
+    // Check if user input is equal to what is present at current_account globar variable
+    if (strcmp(current_account, username) == 0)
+    {
+        boilerplate();
+        puts("Não é possível excluir a conta que");
+        puts("esta sendo utilizada no momento!\n");
+        press_to_continue();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+// Function to remove an account or signal if it doesnt exist
+bool remove_account(char *username)
+{
+
+    // Load all account databases
+    load_account_databases();
+
+    // Declare a variable that will increment
+    int increment = 0;
+
+    // FIRST WE CHECK IF USER INPUT IS PRESENT AT THE DATABASE AT ALL
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (account *tmp = table_account[i]; tmp != NULL; tmp = tmp->next)
+        {
+            printf("\n%s %s\n", username, tmp->username);
+            if (strcmp(tmp->username, username) == 0)
+            {
+                increment++;
+            }
+        }
+    }
+
+    if (increment == 0)
+    {
+        boilerplate();
+        puts("Nenhum item foi encontrado");
+        unload_account_databases();
+        press_to_continue();
+        return false;
+    }
+
+    // If the function does not return, WE CAN BEGIN
+
+    // Replace the content of "account.txt" with the current content of table_account at all indexes
+    // We must open the database and erase its contents by using the parameter "w" at fopen()
+    FILE *data = fopen("macros/account.txt", "w");
+
+    // Close so it can be reopened with a append "a" mode
+    fclose(data);
+
+    data = fopen("macros/account.txt", "a");
+
+    // Make it so the file is line buffered, not block buffered
+    // This makes it so we can write onto the file while the program is running
+    // Otherwise, we woul have to wait until the program is closed
+    setlinebuf(data);
+
+    // Declare a storage struct of type "account"
+    account storage;
+
+    // Loop that goes around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (account *tmp = table_account[i]; tmp != NULL; tmp = tmp->next)
+        {
+
+            if (strcmp(tmp->username, username) == 0)
+            {
+                continue;
+            }
+
+            // Copy the string present at this position of tmp to the storage.(appropriate section)
+            strcpy(storage.username, tmp->username);
+            strcpy(storage.password, tmp->password);
+            strcpy(storage.type, tmp->type);
+
+            // Append the strings present at storage.(section) onto the file
+            fprintf(data, "%s\n", storage.username);
+            fprintf(data, "%s\n", storage.password);
+            fprintf(data, "%s\n", storage.type);
+        }
+    }
+
+    // Close all opened files
+    fclose(data);
+
+    // Unload all loaded databases
+    unload_account_databases();
+
+    return true;
 }

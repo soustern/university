@@ -35,12 +35,6 @@ int main()
         // Call signup_admin function
         signup_admin();
 
-        //  Call newcomer_message_second function
-        newcomer_message_second();
-
-        // Call menu_admin function
-        menu_admin();
-
         // Change the value of "sessions_counter.txt" to 1
         // Give the char of '1' to the storage variable
         storage = '1';
@@ -56,6 +50,14 @@ int main()
 
         // Write the value of storage onto the "session counter file"
         fwrite(&storage, sizeof(char), 1, data);
+
+        fclose(data);
+
+        //  Call newcomer_message_second function
+        newcomer_message_second();
+
+        // Call menu_admin function
+        menu_admin();
 
         return 0;
     }
