@@ -24,7 +24,6 @@ typedef struct account
 } account;
 
 /////////////////////////////////
-
 typedef struct
 {
     char *name;
@@ -135,6 +134,14 @@ void menu_remove_item();
 
 void answer_remove_item();
 
+void menu_edit_item();
+
+void answer_edit_item();
+
+void menu_signup_account();
+
+void answer_signup_account();
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void signup_employee();
@@ -150,6 +157,8 @@ bool unload_employee_databases();
 void show_employee_database_detailed();
 
 void remove_employee();
+
+void edit_employee();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -167,6 +176,8 @@ void show_product_database_detailed();
 
 void remove_product();
 
+void edit_product();
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void signup_dealer();
@@ -182,3 +193,5 @@ bool unload_dealer_databases();
 void show_dealer_database_detailed();
 
 void remove_dealer();
+
+void edit_dealer();
