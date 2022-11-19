@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 // Include "linker" header file
 #include "functions.h"
@@ -24,18 +25,13 @@ int increment_answer_general_debug_employee = 0;
 int increment_answer_general_debug_product = 0;
 int increment_answer_general_debug_dealer = 0;
 
-// Declare global variables that will be used at reports
-int count_employee_amount;
-int count_product_amount;
-int count_dealer_amount;
+//
+//
+//
+//
+// REPORT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-//
-//
-//
-//
-// COUNTERS XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-// Function to count the total amount of items are present at all databases
+// Functions to count the total amount of items are present at all databases
 int count_numerical_quantity_employee()
 {
 
@@ -117,21 +113,76 @@ int count_numerical_quantity_dealer()
     return increment;
 }
 
-void count_total_money_amount_employee()
+// Function to calculate the total amount of money it is needed to pay for employee salaries
+float calculate_total_money_amount_employee()
 {
 
     // Load all employee databases
     load_employee_databases();
 
     // Declare a float variable
-    float amount;
+    float amount = 0;
 
     // Loop that will go around MINTABLESIZE times
     for (int i = 0; i < MINTABLESIZE; i++)
     {
 
-        // Fo
+        // Navigate a linked list horizontally
+        for (employee *tmp = table_employee[i]; tmp != NULL; tmp = tmp->next)
+        {
+            amount = amount + atoi(tmp->salary);
+        }
     }
+
+    // Unload all loaded databasess
+    unload_employee_databases();
+
+    return amount;
+}
+
+// Function to calculate the arithmetical medium of employee salaries
+float calculate_medium_money_amount_employee()
+{
+    return calculate_total_money_amount_employee() / count_numerical_quantity_employee();
+}
+
+// Function to calculate the total amount of money has been spent with products
+float calculate_total_money_amount_product()
+{
+
+    // Load all product databases
+    load_product_databases();
+
+    // Declare a float variable
+    float amount = 0;
+
+    // Loop that will go around MINTABLESIZE times
+    for (int i = 0; i < MINTABLESIZE; i++)
+    {
+
+        // Navigate a linked list horizontally
+        for (product *tmp = table_product[i]; tmp != NULL; tmp = tmp->next)
+        {
+            amount = amount + atoi(tmp->total_value);
+        }
+    }
+
+    // Unload all loaded databasess
+    unload_product_databases();
+
+    return amount;
+}
+
+// Function to calculate the arithmetical medium of total product value
+float calculate_medium_money_amount_product()
+{
+    return calculate_total_money_amount_product() / count_numerical_quantity_product();
+}
+
+// Function that will return the value off all items present at all databases summed up
+int count_item_total()
+{
+    return count_numerical_quantity_dealer() + count_numerical_quantity_employee() + count_numerical_quantity_product();
 }
 
 //
@@ -431,8 +482,7 @@ void answer_admin()
     case '6':
         remove_account_menu_and_answer();
     case '7':
-        /* code */
-        break;
+        report();
     case '8':
         menu_manual_admin();
         break;

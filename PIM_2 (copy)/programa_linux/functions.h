@@ -84,7 +84,7 @@ typedef struct dealer
     struct dealer *previous;
 } dealer;
 
-// Counters XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// REPORT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 int count_numerical_quantity_employee();
 
@@ -92,11 +92,17 @@ int count_numerical_quantity_product();
 
 int count_numerical_quantity_dealer();
 
-void count_total_money_amount_employee();
+float calculate_total_money_amount_employee();
 
-void count_total_money_amount_product();
+float calculate_medium_money_amount_employee();
 
-// Tutorials XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+float calculate_total_money_amount_product();
+
+float calculate_medium_money_amount_product();
+
+int count_item_total();
+
+// TUTORIALS XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void newcomer_message_first();
 
@@ -106,7 +112,13 @@ void tutorial_accounts();
 
 void first_steps();
 
-// General purpose functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+void item_modality();
+
+void item_signup();
+
+void item_view();
+
+// GENERAL functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 void clear();
 
@@ -147,6 +159,8 @@ void answer_manual_admin();
 void answer_manual_limited();
 
 int check_account_type();
+
+void report();
 
 // LIMITED functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

@@ -706,6 +706,10 @@ void menu_manual_admin()
 
     // Boilerplate
     puts("1 - Diferança entre as contas do SLS 1.0\n");
+    puts("2 - Primeiros passos\n");
+    puts("3 - Modalidades de items\n");
+    puts("4 - Como criar um item\n");
+    puts("5 - Como vizualizar um item\n");
     puts("e - voltar");
 
     // Call answer_manual function
@@ -716,7 +720,11 @@ void menu_manual_limited()
     boilerplate();
 
     // Boilerplate
-    puts("1 - Diferança entras as contas do SLS 1.0\n");
+    puts("1 - Diferança entre as contas do SLS 1.0\n");
+    puts("2 - Primeiros passos\n");
+    puts("3 - Modalidades de items\n");
+    puts("4 - Como criar um item\n");
+    puts("5 - Como vizualizar um item\n");
     puts("e - voltar");
 
     // Call answer_manual function
@@ -750,7 +758,14 @@ void answer_manual_admin()
         getchar();
         press_to_continue();
         menu_manual_admin();
-        break;
+    case '2':
+        first_steps();
+    case '3':
+        item_modality();
+    case '4':
+        item_signup();
+    case '5':
+        item_view();
     case 'e':
         increment_answer_manual = 0;
         getchar();
@@ -791,6 +806,14 @@ void answer_manual_limited()
         getchar();
         press_to_continue();
         menu_manual_limited();
+    case '2':
+        first_steps();
+    case '3':
+        item_modality();
+    case '4':
+        item_signup();
+    case '5':
+        item_view();
     case 'e':
         increment_answer_manual = 0;
         getchar();
@@ -814,5 +837,66 @@ int check_account_type()
     else
     {
         return 0;
+    }
+}
+
+// Function to print on screen a report
+void report()
+{
+
+    boilerplate();
+
+    // Declare a storage variable
+    char storage;
+
+    // Declare a variable to get current time
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    printf("RELATÓRIO - %d-%02d-%02d\n\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+
+    puts("\n\nProdutos --------------------------------------------\n\n");
+    printf("Quantidade total de produtos cadastrados: %i\n\n", count_numerical_quantity_product());
+    printf("Valor total de todos os produtos somados: %.2f\n\n", calculate_total_money_amount_product());
+    printf("Média do valor total: %.2f\n\n", calculate_medium_money_amount_product());
+
+    puts("\n\nFornecedores ----------------------------------------\n\n");
+    printf("Quantidade total de fornecedores cadastrados: %i\n\n", count_numerical_quantity_dealer());
+
+    puts("\n\nFuncionários ----------------------------------------\n\n");
+    printf("Quantidade total de funcionarios cadastrados: %i\n\n", count_numerical_quantity_employee());
+    printf("Valor total de todos os salarios somados: %.2f\n\n", calculate_total_money_amount_employee());
+    printf("Média do valor total: %.2f\n\n", calculate_medium_money_amount_employee());
+
+    puts("\n\nDados Gerais ----------------------------------------\n\n");
+    printf("Total de items cadastrados no sistema: %i\n\n\n\n", count_item_total());
+
+    // Boilerplate
+    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+
+    puts("1 - Salvar no computador\n");
+    puts("Qualquer tecla - Voltar\n");
+
+    printf("\nFerramenta escolhida (Insira o numero): ");
+
+    // Get user input
+    scanf("%c", &storage);
+
+    switch (tolower((char)storage))
+    {
+    case '1':
+        /* Function to save on computer */
+        break;
+    default:
+        getchar();
+        press_to_continue();
+        if (check_account_type() == 0)
+        {
+            menu_admin();
+        }
+        else
+        {
+            menu_limited();
+        }
     }
 }

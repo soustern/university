@@ -16,7 +16,8 @@ void menu_limited()
 
     // Available tools
     puts("1 - Vizualizar item\n");
-    puts("2 - Manual\n");
+    puts("2 - Relatório\n");
+    puts("3 - Manual\n");
     puts("e - Sair\n");
 
     // Call answer_limited function
@@ -42,6 +43,9 @@ void answer_limited()
         menu_show_items();
         break;
     case '2':
+        report();
+        break;
+    case '3':
         menu_manual_limited();
         break;
     case 'e':
