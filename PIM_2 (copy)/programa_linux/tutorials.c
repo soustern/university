@@ -29,7 +29,6 @@ void newcomer_message_second()
     // Clear terminal screen
     boilerplate();
 
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
     puts("Conta criada com sucesso!\n");
     puts("Não se esqueça de guardar as credenciaus fornecidas");
     puts("em um lugar seguro.\n");

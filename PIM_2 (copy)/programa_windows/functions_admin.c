@@ -265,23 +265,35 @@ void signup_admin()
         puts("Conta com status 'ADMINISTRADORA'\n");
 
         // Start asking for user input
-        printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
-        puts("\n\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+        printf("Nome de usuario (Entre 5 e 10 caracteres): %s\n", storage.username);
 
         // Turn off terminal echoing to mask password
         // TODO: REDO THIS FUNCTIONS FOR WINDOWS
-        printf("Senha:\n");
-        int p = 0;
-        do
+        printf("Senha: ");
+
+        char c;
+        int i;
+        fflush(stdin);
+        for (i = 0; i < MAXSIZE; i++)
         {
-            storage.password[p] = getch();
-            if (storage.password[p] != '\r')
+
+            fflush(stdin);
+            c = getch();
+            storage.password[i] = c;
+            if (storage.password[i] == '\b')
             {
-                printf("*");
+                printf("\b \b");
+                i -= 2;
+                continue;
             }
-            p++;
-        } while (storage.password[p - 1] != '\r');
-        storage.password[p - 1] = '\0';
+            if (storage.password[i] == ' ' || storage.password[i] == '\r')
+                printf(" ");
+            else
+                printf("*");
+            if (storage.password[i] == '\r')
+                break;
+        }
+        storage.password[i] = '\0';
 
     } while (check_password(storage.password, confirmation) == false);
 
@@ -364,23 +376,35 @@ void signup_limited()
         puts("Conta com status 'LIMITADA'\n");
 
         // Start asking for user input
-        printf("Nome de usuario (Entre 5 e 10 caracteres): %s", storage.username);
-        puts("\n\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+        printf("Nome de usuario (Entre 5 e 10 caracteres): %s\n", storage.username);
 
         // Turn off terminal echoing to mask password
         // TODO: REDO THIS FUNCTIONS FOR WINDOWS
-        printf("Senha:\n");
-        int p = 0;
-        do
+        printf("Senha: ");
+
+        char c;
+        int i;
+        fflush(stdin);
+        for (i = 0; i < MAXSIZE; i++)
         {
-            storage.password[p] = getch();
-            if (storage.password[p] != '\r')
+
+            fflush(stdin);
+            c = getch();
+            storage.password[i] = c;
+            if (storage.password[i] == '\b')
             {
-                printf("*");
+                printf("\b \b");
+                i -= 2;
+                continue;
             }
-            p++;
-        } while (storage.password[p - 1] != '\r');
-        storage.password[p - 1] = '\0';
+            if (storage.password[i] == ' ' || storage.password[i] == '\r')
+                printf(" ");
+            else
+                printf("*");
+            if (storage.password[i] == '\r')
+                break;
+        }
+        storage.password[i] = '\0';
 
     } while (check_password(storage.password, confirmation) == false);
 
@@ -466,7 +490,7 @@ void menu_admin()
     puts("5 - Cadastrar conta");
     puts("6 - Excluir conta\n");
 
-    puts("7 - Relatórios");
+    puts("7 - Relatorios");
     puts("8 - Manual\n");
 
     puts("e - Sair\n");
@@ -513,7 +537,7 @@ void answer_admin()
         press_to_continue();
         exit(0);
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_admin();
     }
@@ -527,7 +551,7 @@ void menu_register_item()
     // Available tools
     puts("1 - Cadastar PRODUTO\n");
     puts("2 - Cadastrar FORNECEDOR\n");
-    puts("3 - Cadastrar FUNCIONÁRIO\n");
+    puts("3 - Cadastrar FUNCIONARIO\n");
 
     puts("e - Voltar");
 
@@ -573,7 +597,7 @@ void answer_register_item()
         menu_admin();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_register_item();
     }
@@ -588,7 +612,7 @@ void menu_remove_item()
     // Boilerplate
     puts("1 - Remover PRODUTO\n");
     puts("2 - Remover FORNECEDOR\n");
-    puts("3 - Remover FUNCIONÁRIO\n");
+    puts("3 - Remover FUNCIONARIO\n");
 
     puts("e - Voltar");
 
@@ -633,7 +657,7 @@ void answer_remove_item()
         menu_admin();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_remove_item();
         break;
@@ -649,7 +673,7 @@ void menu_edit_item()
     // boilerplate
     puts("1 - Editar PRODUTO\n");
     puts("2 - Editar FORNECEDOR\n");
-    puts("3 - Editar FUNCIONÁRIO\n");
+    puts("3 - Editar FUNCIONARIO\n");
 
     puts("e - Voltar");
 
@@ -694,7 +718,7 @@ void answer_edit_item()
         menu_admin();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_edit_item();
         break;
@@ -766,7 +790,7 @@ void answer_signup_account()
         menu_admin();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_signup_account();
         break;
@@ -785,11 +809,11 @@ void remove_account_menu_and_answer()
 
     boilerplate();
 
-    puts("Para que seja possível remover uma conta");
-    puts("será necessário inserir seu nome de usuário.\n");
-    puts("Uma vez que uma conta é excluida com sucesso");
-    puts("não será possível recuperar a mesma.\n");
-    puts("Não é possível exlcluir a conta");
+    puts("Para que seja possivel remover uma conta");
+    puts("sera necessario inserir seu nome de usuario.\n");
+    puts("Uma vez que uma conta e excluida com sucesso");
+    puts("nao sera possível recuperar a mesma.\n");
+    puts("Nao e possivel exlcluir a conta");
     puts("que esta sendo utilizada no momento!\n");
 
     puts("1 - Continuar\n");
@@ -827,7 +851,7 @@ void remove_account_menu_and_answer()
                 printf("%i tentativas restantes.\n", decrement);
                 increment++;
                 decrement--;
-                printf("Nome de usuário da conta: ");
+                printf("Nome de usuario da conta: ");
 
                 // Get trailing newline "\n" in the buffer if this is the first iteration of this loop
                 if (increment == 1)
@@ -867,7 +891,7 @@ void remove_account_menu_and_answer()
     }
     default:
     {
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         remove_account_menu_and_answer();
     }
@@ -913,11 +937,7 @@ void signup_employee()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Star asking for user input
     printf("Nome do funcionario: ");
@@ -929,11 +949,7 @@ void signup_employee()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Start asking for user input
     printf("Nome do funcionario: %s\n", storage.name);
@@ -946,11 +962,7 @@ void signup_employee()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Star asking for user input
     printf("Nome do funcionario: %s\n", storage.name);
@@ -964,15 +976,11 @@ void signup_employee()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // star asking fot user input
-    printf("Nome do funcionário: %s\n", storage.name);
-    printf("Cargo do funcionário: %s\n", storage.role);
+    printf("Nome do funcionario: %s\n", storage.name);
+    printf("Cargo do funcionario: %s\n", storage.role);
     printf("Salario do funcionario: %.2f\n", storage.salary);
 
     printf("Data de admissao (ex.: 01/01/22): ");
@@ -993,13 +1001,9 @@ void signup_employee()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
+    boilerplate();
 
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
-
-    puts("Funcionário salvo com sucesso!");
+    puts("Funcionario salvo com sucesso!");
 
     press_to_continue();
 }
@@ -1054,7 +1058,7 @@ void show_employee_database_all()
 
     boilerplate();
 
-    puts("FUNCIONÁRIOS:\n");
+    puts("FUNCIONARIOS:\n");
 
     // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
     for (int i = 0; i < MINTABLESIZE; i++)
@@ -1076,7 +1080,7 @@ void show_employee_database_all()
     unload_employee_databases();
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -1255,11 +1259,11 @@ void show_employee_database_detailed()
 
     boilerplate();
 
-    puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+    puts("VIZUALIZAR FUNCIONARIOS:\n");
 
     puts("1 - Pesquisar por NOME\n");
     puts("2 - Pesquisar por CARGO\n");
-    puts("3 - Pesquisar por SALÁRIO\n");
+    puts("3 - Pesquisar por SALARIO\n");
     puts("e - Voltar");
 
     printf("\nFerramenta escolhida (Insira o numero): ");
@@ -1279,7 +1283,7 @@ void show_employee_database_detailed()
         fgets(answer, MAXMAXSIZE, stdin);
 
         boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+        puts("VIZUALIZAR FUNCIONARIOS:\n");
 
         // All possible positions at a table of MINTABLESIZE size
         for (int i = 0; i < MINTABLESIZE; i++)
@@ -1322,7 +1326,7 @@ void show_employee_database_detailed()
         // answer[strcspn(answer, "\n")] = 0;
 
         boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+        puts("VIZUALIZAR FUNCIONARIOS:\n");
 
         // All possible positions at a table of MINTABLESIZE size
         for (int i = 0; i < MINTABLESIZE; i++)
@@ -1364,7 +1368,7 @@ void show_employee_database_detailed()
         fgets(answer, MAXMAXSIZE, stdin);
 
         boilerplate();
-        puts("VIZUALIZAR FUNCIONÁRIOS:\n");
+        puts("VIZUALIZAR FUNCIONARIOS:\n");
 
         // All possible positions at a table of MINTABLESIZE size
         for (int i = 0; i < MINTABLESIZE; i++)
@@ -1403,7 +1407,7 @@ void show_employee_database_detailed()
         getchar();
         menu_show_items();
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         show_employee_database_detailed();
     }
@@ -1412,7 +1416,7 @@ void show_employee_database_detailed()
     free(answer);
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -1528,7 +1532,7 @@ void remove_employee()
 
     boilerplate();
 
-    puts("Funcionário excluído com sucesso!");
+    puts("Funcionario excluido com sucesso!");
     press_to_continue();
     menu_remove_item();
 }
@@ -1589,7 +1593,7 @@ void edit_employee()
             if (strcasecmp(answer, tmp->name) == 0)
             {
                 boilerplate();
-                puts("Item encontrado. Insira as novas informações.\n");
+                puts("Item encontrado. Insira as novas informacaes.\n");
                 increment++;
 
                 // Get user input
@@ -1640,7 +1644,7 @@ void edit_employee()
 
     boilerplate();
 
-    puts("Funcionário editado com sucesso!");
+    puts("Funcionario editado com sucesso!");
     press_to_continue();
     menu_edit_item();
 }
@@ -1685,16 +1689,12 @@ void signup_product()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Start asking for user input
     printf("Nome do produto: %s\n", storage.name);
 
-    printf("Quantidade do produto (Número inteiro): ");
+    printf("Quantidade do produto (Numero inteiro): ");
     scanf("%i", &storage.quantity);
 
     // Use a getchar here to get the trailing newline (\n) character scanf leave behind
@@ -1702,15 +1702,11 @@ void signup_product()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     // Start asking for user input
     printf("Nome do produto: %s\n", storage.name);
-    printf("Quantidade do produto (Número inteiro): %i\n", storage.quantity);
+    printf("Quantidade do produto (Numero inteiro): %i\n", storage.quantity);
 
     printf("Valor por unidade metrica: ");
     scanf("%f", &storage.unitary_value);
@@ -1728,11 +1724,7 @@ void signup_product()
 
     // -------------------------------------------------
 
-    // Clear terminal screen
-    clear();
-
-    // Boilerplate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
+    boilerplate();
 
     puts("Produto salvo com sucesso!");
 
@@ -1787,11 +1779,8 @@ void show_product_database_all()
     // Load all product databases
     load_product_databases();
 
-    // Clear terminal screen
-    clear();
+    boilerplate();
 
-    // Boiler plate
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
     puts("PRODUTOS:\n");
 
     // loop that will go around the amount of time it is specified in the MIN and MAX TABLESIZE consts
@@ -1814,7 +1803,7 @@ void show_product_database_all()
     unload_product_databases();
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -1998,7 +1987,7 @@ void show_product_database_detailed()
 
     puts("1 - Pesquisar por NOME\n");
     puts("2 - Pesquisar por QUANTIDADE\n");
-    puts("3 - Pesquisar por VALOR UNITÁRIO\n");
+    puts("3 - Pesquisar por VALOR UNITARIO\n");
     puts("4 - Pesquisar por VALOR TOTAL\n");
     puts("e - Voltar");
 
@@ -2185,7 +2174,7 @@ void show_product_database_detailed()
         getchar();
         menu_show_items();
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         show_product_database_detailed();
     }
@@ -2194,7 +2183,7 @@ void show_product_database_detailed()
     free(answer);
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -2310,7 +2299,7 @@ void remove_product()
 
     boilerplate();
 
-    puts("Produto excluído com sucesso!");
+    puts("Produto excluido com sucesso!");
     press_to_continue();
     menu_remove_item();
 }
@@ -2371,7 +2360,7 @@ void edit_product()
             if (strcasecmp(answer, tmp->name) == 0)
             {
                 boilerplate();
-                puts("Item encontrado. Insira as novas informações.\n");
+                puts("Item encontrado. Insira as novas informacoes.\n");
                 increment++;
 
                 // Get user input
@@ -2503,7 +2492,7 @@ void signup_dealer()
     // Start asking for user input
     printf("Nome da empresa: %s\n", storage.name);
 
-    printf("Nome do/da responsável: ");
+    printf("Nome do/da responsavel: ");
     fgets(storage.owner_name, MAXMAXSIZE, stdin);
 
     // Remove trailing newline that comes together with user input when fgets() is used
@@ -2515,7 +2504,7 @@ void signup_dealer()
 
     // Star asking for user input
     printf("Nome da empresa: %s\n", storage.name);
-    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Nome do/da responsavel: %s\n", storage.owner_name);
 
     printf("Cidade: ");
     fgets(storage.city, MAXMAXSIZE, stdin);
@@ -2528,7 +2517,7 @@ void signup_dealer()
 
     // Start asking for user input
     printf("Nome da empresa: %s\n", storage.name);
-    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Nome do/da responsavel: %s\n", storage.owner_name);
     printf("Cidade: %s\n", storage.city);
 
     printf("Tipo de servico: ");
@@ -2542,7 +2531,7 @@ void signup_dealer()
 
     // Start asking for user input
     printf("Nome da empresa: %s\n", storage.name);
-    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Nome do/da responsavel: %s\n", storage.owner_name);
     printf("Cidade: %s\n", storage.city);
     printf("Tipo de servico: %s\n", storage.service_type);
 
@@ -2557,7 +2546,7 @@ void signup_dealer()
 
     // Start asking for user input
     printf("Nome da empresa: %s\n", storage.name);
-    printf("Nome do/da responsável: %s\n", storage.owner_name);
+    printf("Nome do/da responsavel: %s\n", storage.owner_name);
     printf("Cidade: %s\n", storage.city);
     printf("Tipo de servico: %s\n", storage.service_type);
     printf("Contato: %s\n", storage.contact);
@@ -2643,7 +2632,7 @@ void show_dealer_database_all()
             increment++;
             printf("\n%i ---------------------------------------------------\n", increment);
             printf("Nome da empresa: %s\n", tmp->name);
-            printf("Nome do/da responsável: %s\n", tmp->owner_name);
+            printf("Nome do/da responsavel: %s\n", tmp->owner_name);
             printf("Cidade: %s\n", tmp->city);
             printf("Tipo de servico: %s\n", tmp->service_type);
             printf("Contato: %s\n", tmp->contact);
@@ -2656,7 +2645,7 @@ void show_dealer_database_all()
     unload_dealer_databases();
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -2846,9 +2835,9 @@ void show_dealer_database_detailed()
     puts("VIZUALIZAR FORNECEDORES:\n");
 
     puts("1 - Pesquisar por NOME\n");
-    puts("2 - Pesquisar por NOME DO RESPONSÁVEL\n");
+    puts("2 - Pesquisar por NOME DO RESPONSAVEL\n");
     puts("3 - Pesquisar por CIDADE\n");
-    puts("4 - Pesquisar por TIPO DE SERVIÇO\n");
+    puts("4 - Pesquisar por TIPO DE SERVICO\n");
     puts("e - Voltar");
 
     printf("\nFerramenta escolhida (Insira o numero): ");
@@ -2884,7 +2873,7 @@ void show_dealer_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
-                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Nome do/da responsAvel: %s\n", tmp->owner_name);
                     printf("Cidade: %s\n", tmp->city);
                     printf("Tipo de servico: %s\n", tmp->service_type);
                     printf("Contato: %s\n", tmp->contact);
@@ -2929,7 +2918,7 @@ void show_dealer_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
-                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Nome do/da responsAvel: %s\n", tmp->owner_name);
                     printf("Cidade: %s\n", tmp->city);
                     printf("Tipo de servico: %s\n", tmp->service_type);
                     printf("Contato: %s\n", tmp->contact);
@@ -2973,7 +2962,7 @@ void show_dealer_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
-                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Nome do/da responsAvel: %s\n", tmp->owner_name);
                     printf("Cidade: %s\n", tmp->city);
                     printf("Tipo de servico: %s\n", tmp->service_type);
                     printf("Contato: %s\n", tmp->contact);
@@ -3017,7 +3006,7 @@ void show_dealer_database_detailed()
                     increment++;
                     printf("\n%i ---------------------------------------------------\n", increment);
                     printf("Nome da empresa: %s\n", tmp->name);
-                    printf("Nome do/da responsável: %s\n", tmp->owner_name);
+                    printf("Nome do/da responsavel: %s\n", tmp->owner_name);
                     printf("Cidade: %s\n", tmp->city);
                     printf("Tipo de servico: %s\n", tmp->service_type);
                     printf("Contato: %s\n", tmp->contact);
@@ -3042,7 +3031,7 @@ void show_dealer_database_detailed()
         getchar();
         menu_show_items();
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         show_dealer_database_detailed();
     }
@@ -3051,7 +3040,7 @@ void show_dealer_database_detailed()
     free(answer);
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
@@ -3171,7 +3160,7 @@ void remove_dealer()
 
     boilerplate();
 
-    puts("Fornecedor excluído com sucesso!");
+    puts("Fornecedor excluido com sucesso!");
     press_to_continue();
     menu_remove_item();
 }
@@ -3232,7 +3221,7 @@ void edit_dealer()
             if (strcasecmp(answer, tmp->name) == 0)
             {
                 boilerplate();
-                puts("Item encontrado. Insira as novas informações.\n");
+                puts("Item encontrado. Insira as novas informacoes.\n");
                 increment++;
 
                 // Get user input

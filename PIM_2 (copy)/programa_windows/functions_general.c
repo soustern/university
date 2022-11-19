@@ -80,7 +80,7 @@ bool check_length(char *credential)
             // puts("check == 10 && increment < 10 || increment > 10");
 
             puts("\nNome de Usuario/Senha INVALIDO!");
-            puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espaços");
+            puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espacos");
 
             press_to_continue();
 
@@ -99,7 +99,7 @@ bool check_length(char *credential)
         // puts("check == 10 && increment < 10 || increment > 10");
 
         puts("\nNome de Usuario/Senha INVALIDO!");
-        puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espaços");
+        puts("Seu Nome de Usuario/Senha devem ter entre 5 e 10 caracteres sem espacos");
 
         press_to_continue();
     }
@@ -126,18 +126,31 @@ bool check_password(char *password, char *confirmation)
     int increment = 0;
 
     // Ask for password confirmation
-    printf("Insira a senha novamente:\n");
-    int p = 0;
-    do
+    printf("\nInsira a senha novamente: ");
+
+    char c;
+    int i;
+    fflush(stdin);
+    for (i = 0; i < MAXSIZE; i++)
     {
-        confirmation[p] = getch();
-        if (confirmation[p] != '\r')
+
+        fflush(stdin);
+        c = getch();
+        confirmation[i] = c;
+        if (confirmation[i] == '\b')
         {
-            printf("*");
+            printf("\b \b");
+            i -= 2;
+            continue;
         }
-        p++;
-    } while (confirmation[p - 1] != '\r');
-    confirmation[p - 1] = '\0';
+        if (confirmation[i] == ' ' || confirmation[i] == '\r')
+            printf(" ");
+        else
+            printf("*");
+        if (confirmation[i] == '\r')
+            break;
+    }
+    confirmation[i] = '\0';
 
     // Check each character on the array of the newly received string
     // // Loop that will go around strlen(password) times
@@ -153,7 +166,7 @@ bool check_password(char *password, char *confirmation)
         }
         else
         {
-            puts("\nAs senhas inseridas não são iguais!");
+            puts("\nAs senhas inseridas nao sao iguais!");
 
             press_to_continue();
 
@@ -331,20 +344,31 @@ void login()
         // Remove trailing newline that comes together with user input when fgets() is used
         storage->username[strcspn(storage->username, "\n")] = 0;
 
-        puts("\n*****A senha não aparecerá enquanto a digitação ocorrer*****");
+        printf("\nSenha: ");
 
-        printf("Senha:\n");
-        int p = 0;
-        do
+        char c;
+        int i;
+        fflush(stdin);
+        for (i = 0; i < MAXSIZE; i++)
         {
-            storage->password[p] = getch();
-            if (storage->password[p] != '\r')
+
+            fflush(stdin);
+            c = getch();
+            storage->password[i] = c;
+            if (storage->password[i] == '\b')
             {
-                printf("*");
+                printf("\b \b");
+                i -= 2;
+                continue;
             }
-            p++;
-        } while (storage->password[p - 1] != '\r');
-        storage->password[p - 1] = '\0';
+            if (storage->password[i] == ' ' || storage->password[i] == '\r')
+                printf(" ");
+            else
+                printf("*");
+            if (storage->password[i] == '\r')
+                break;
+        }
+        storage->password[i] = '\0';
     } while (check_login(storage) == false);
 
     // Copy user input to current_account of struct of account type
@@ -391,7 +415,7 @@ bool check_login(account *input)
     }
 
     // unload_account_databases();
-    puts("\nNome de usuário e/ou senha não encontrados.");
+    puts("\nNome de usuario e/ou senha nao encontrados.");
     press_to_continue();
     return false;
 }
@@ -412,7 +436,7 @@ bool check_username(char *username)
         {
 
             // If so, return false, that name already exists
-            puts("\nNome de usuário já existe!");
+            puts("\nNome de usuario ja existe!");
             press_to_continue();
             return false;
         }
@@ -452,7 +476,7 @@ void menu_show_items()
 
     puts("1 - Vizualizar PRODUTOS\n");
     puts("2 - Vizualizar FORNECEDORES\n");
-    puts("3 - Vizualizar FUNCIONÁRIOS\n");
+    puts("3 - Vizualizar FUNCIONARIOS\n");
 
     puts("e - Voltar");
 
@@ -517,7 +541,7 @@ void answer_show_items()
             getchar();
             menu_show_items();
         default:
-            puts("Opção inválida!");
+            puts("Opção invalida!");
             press_to_continue();
             menu_show_items();
         }
@@ -552,7 +576,7 @@ void answer_show_items()
             getchar();
             menu_show_items();
         default:
-            puts("Opção inválida!");
+            puts("Opção invalida!");
             press_to_continue();
             menu_show_items();
         }
@@ -591,7 +615,7 @@ void answer_show_items()
             getchar();
             menu_show_items();
         default:
-            puts("Opção inválida!");
+            puts("Opção invalida!");
             press_to_continue();
             menu_show_items();
         }
@@ -607,7 +631,7 @@ void answer_show_items()
             menu_limited();
         }
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_show_items();
     }
@@ -624,7 +648,7 @@ bool check_if_current_account(char *username)
     if (strcmp(current_account, username) == 0)
     {
         boilerplate();
-        puts("Não é possível excluir a conta que");
+        puts("Nao e possivel excluir a conta que");
         puts("esta sendo utilizada no momento!\n");
         press_to_continue();
         return false;
@@ -730,7 +754,7 @@ void menu_manual_admin()
     boilerplate();
 
     // Boilerplate
-    puts("1 - Diferança entre as contas do SLS 1.0\n");
+    puts("1 - Diferanca entre as contas do SLS 1.0\n");
     puts("2 - Primeiros passos\n");
     puts("3 - Modalidades de items\n");
     puts("4 - Como criar um item\n");
@@ -745,7 +769,7 @@ void menu_manual_limited()
     boilerplate();
 
     // Boilerplate
-    puts("1 - Diferança entre as contas do SLS 1.0\n");
+    puts("1 - Diferanca entre as contas do SLS 1.0\n");
     puts("2 - Primeiros passos\n");
     puts("3 - Modalidades de items\n");
     puts("4 - Como criar um item\n");
@@ -797,7 +821,7 @@ void answer_manual_admin()
         menu_admin();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_manual_admin();
         break;
@@ -845,7 +869,7 @@ void answer_manual_limited()
         menu_limited();
         break;
     default:
-        puts("Opção inválida!");
+        puts("Opção invalida!");
         press_to_continue();
         menu_manual_limited();
         break;
@@ -878,12 +902,12 @@ void report()
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
-    printf("RELATÓRIO - %d-%02d-%02d\n\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+    printf("RELATORIO - %d-%02d-%02d\n\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
 
     puts("\n\nProdutos --------------------------------------------\n\n");
     printf("Quantidade total de produtos cadastrados: %i\n\n", count_numerical_quantity_product());
     printf("Valor total de todos os produtos somados: %.2f\n\n", calculate_total_money_amount_product());
-    printf("Média do valor total: %.2f\n\n", calculate_medium_money_amount_product());
+    printf("Media do valor total: %.2f\n\n", calculate_medium_money_amount_product());
 
     puts("\n\nFornecedores ----------------------------------------\n\n");
     printf("Quantidade total de fornecedores cadastrados: %i\n\n", count_numerical_quantity_dealer());
@@ -891,13 +915,13 @@ void report()
     puts("\n\nFuncionários ----------------------------------------\n\n");
     printf("Quantidade total de funcionarios cadastrados: %i\n\n", count_numerical_quantity_employee());
     printf("Valor total de todos os salarios somados: %.2f\n\n", calculate_total_money_amount_employee());
-    printf("Média do valor total: %.2f\n\n", calculate_medium_money_amount_employee());
+    printf("Media do valor total: %.2f\n\n", calculate_medium_money_amount_employee());
 
     puts("\n\nDados Gerais ----------------------------------------\n\n");
     printf("Total de items cadastrados no sistema: %i\n\n\n\n", count_item_total());
 
     // Boilerplate
-    puts("\t\t\t<<<<<<<<<< OPCÕES >>>>>>>>>>\n");
+    puts("\t\t\t<<<<<<<<<< OPCOES >>>>>>>>>>\n");
 
     puts("1 - Salvar no computador\n");
     puts("Qualquer tecla - Voltar\n");
