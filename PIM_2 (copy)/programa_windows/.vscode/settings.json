@@ -4,7 +4,8 @@
         "stdio.h": "c",
         "string.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "ctype.h": "c"
     },
     "cSpell.words": [
         "MAXMAXSIZE"

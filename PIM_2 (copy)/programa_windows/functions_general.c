@@ -25,9 +25,9 @@ int increment_answer_manual = 0;
 void clear()
 {
     // For linux
-    system("clear");
+    // system("clear");
     // For windows
-    // system("clr");
+    system("cls");
 }
 
 // Print boilerplate on screen

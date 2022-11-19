@@ -11,7 +11,6 @@ void newcomer_message_first()
     // Clear terminal screen
     boilerplate();
 
-    puts("\t\t\t<<<<< SLS 1.0 >>>>>\n");
     puts("Seja bem-vindo(a) ao Simple Logistical System!\n");
     puts("Para começar a utilizar o sistema, cadastre sua primeira conta");
     puts("que, por padrão, tera o escopo de CONTA ADMINISTRADORA.\n");
