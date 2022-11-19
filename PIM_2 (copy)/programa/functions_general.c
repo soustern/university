@@ -10,7 +10,8 @@
 
 // Declare global structs
 account *table_account[MINTABLESIZE];
-char current_account[MAXMAXSIZE];
+char current_account[MAXMAXSIZE];      // <- Only username
+char current_account_type[MAXMAXSIZE]; // <- Only type
 
 // Declare global variables
 int increment_answer_debug = 0;
@@ -323,6 +324,7 @@ void login()
 
     // Copy user input to current_account of struct of account type
     strcpy(current_account, storage->username);
+    strcpy(current_account_type, storage->type);
 
     // If the value at memory location "storage->type" is "admin"
     if (strcmp(storage->type, "admin") == 0)
@@ -355,6 +357,7 @@ bool check_login(account *input)
         // If the the values of both input and tmp locations "->username" and "->password" are equal
         if (strcmp(input->username, tmp->username) == 0 && strcmp(input->password, tmp->password) == 0)
         {
+
             // We copy the value present at the memory location "tmp->type" is pointing to
             // To the memory location "input->type" is pointing to
             strcpy(input->type, tmp->type);
@@ -570,7 +573,14 @@ void answer_show_items()
     case 'e':
         increment_answer_debug = 0;
         getchar();
-        menu_admin();
+        if (check_account_type() == 0)
+        {
+            menu_admin();
+        }
+        else
+        {
+            menu_limited();
+        }
     default:
         puts("Opção inválida!");
         press_to_continue();
@@ -701,7 +711,6 @@ void menu_manual_admin()
     // Call answer_manual function
     answer_manual_admin();
 }
-
 void menu_manual_limited()
 {
     boilerplate();
@@ -792,5 +801,18 @@ void answer_manual_limited()
         press_to_continue();
         menu_manual_limited();
         break;
+    }
+}
+
+// Function that will check if the current account type is admin or limited
+int check_account_type()
+{
+    if (strcmp(current_account_type, "limited") == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
     }
 }

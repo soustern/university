@@ -138,8 +138,6 @@ bool check_if_current_account(char *username);
 
 bool remove_account(char *username);
 
-// // // // // // // //
-
 void menu_manual_admin();
 
 void menu_manual_limited();
@@ -147,6 +145,8 @@ void menu_manual_limited();
 void answer_manual_admin();
 
 void answer_manual_limited();
+
+int check_account_type();
 
 // LIMITED functions XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
