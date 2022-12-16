@@ -238,7 +238,7 @@ void item_signup()
     puts("2 - Cadastrar FORNECEDOR\n");
     puts("3 - Cadastrar FUNCIONÁRIO\n");
 
-    puts("Ao digitar o número referente à modalidade de produto que devera ser registrada");
+    puts("Ao digitar o número referente à modalidade de item que devera ser registrada");
     puts("e apertar ENTER, uma nova tela aparecera e irá solicitar que seja digitada");
     puts("a informação referente a categoria especificada.");
     puts("Ex: Cidade: (O usuário devera digitar a cidade referente aquele item).\n\n");
@@ -299,7 +299,7 @@ void item_view()
     puts("daquela modalidade presentes na respectiva base de dados");
     puts("sem nenhuma sequência específica.\n");
 
-    puts("Pesquisar: Nesta modalidade, será possível selecioanar entre uma lista de opções,");
+    puts("Pesquisar: Nesta modalidade, será possível selecionar uma lista de opções,");
     puts(" específica à modalidade de item selecionada, e digitar uma busca relacionada");
     puts("aquele critério que retornara um ou mais items.");
     puts("(Sera exibida uma mensagem específica caso nenhum item seja encontrado na busca)\n");

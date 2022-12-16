@@ -16,7 +16,7 @@ void menu_limited()
 
     // Available tools
     puts("1 - Vizualizar item\n");
-    puts("2 - Relatório\n");
+    puts("2 - Relatorio\n");
     puts("3 - Manual\n");
     puts("e - Sair\n");
 
