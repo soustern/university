@@ -64,7 +64,7 @@ def index():
 def buy():
     if request.method == "POST":
         dic[request.form.get("nome")] = {"nome": request.form.get("nome"), "cpf":  request.form.get("cpf"), "cargo":  request.form.get("cargo"), "salario":  request.form.get("salario")}
-        return redirect("/")
+        return render_template("index.html", dic=dic)
     else:
         return render_template("buy.html")
 
@@ -143,7 +143,7 @@ def register():
         dicname[username] = {"name": username, "password": password}
 
         # Redirect user to login form
-        return redirect("/")
+        return render_template("index.html", dic=dic)
     else:
         return render_template("register.html")
 
@@ -152,6 +152,6 @@ def register():
 def sell():
     if request.method == "POST":
         dic.pop(request.form.get("nome"))
-        return redirect("/")
+        return render_template("index.html", dic=dic)
     else:
         return render_template("sell.html")
