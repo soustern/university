@@ -85,7 +85,7 @@ def login():
     if request.method == "POST":
             for dic in dicname:
                 if ({"name": request.form.get("username"), "password": request.form.get("password")} == dicname[dic]):
-                    return redirect("/")
+                    return render_template("index.html", dic=dic)
 
             return apology("invalid username and/or password", 403)
 
