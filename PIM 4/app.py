@@ -38,7 +38,6 @@ def after_request(response):
 
 
 @app.route("/")
-@login_required
 def index():
 
     # Declare a variable that will increment
@@ -62,7 +61,6 @@ def index():
 
 
 @app.route("/buy", methods=["GET", "POST"])
-@login_required
 def buy():
     if request.method == "POST":
         dic[request.form.get("nome")] = {"nome": request.form.get("nome"), "cpf":  request.form.get("cpf"), "cargo":  request.form.get("cargo"), "salario":  request.form.get("salario")}
@@ -73,7 +71,6 @@ def buy():
 
 
 @app.route("/history")
-@login_required
 def history():
     """Show history of transactions"""
     return apology("TODO")
@@ -107,7 +104,6 @@ def logout():
 
 
 @app.route("/quote", methods=["GET", "POST"])
-@login_required
 def quote():
     """Get stock quote."""
     if request.method == "POST":
@@ -153,7 +149,6 @@ def register():
 
 
 @app.route("/sell", methods=["GET", "POST"])
-@login_required
 def sell():
     if request.method == "POST":
         dic.pop(request.form.get("nome"))
