@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="text-start">Nome</th>
+            <th class="text-start">CPF</th>
+            <th class="text-end">Cargo</th>
+            <th class="text-end">Salario</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for di in dic %}
+        <tr>
+            <td class="text-start">{{ dic[di]["nome"] }}</td>
+            <td class="text-start">{{ dic[di]["cpf"] }}</td>
+            <td class="text-end">{{ dic[di]["cargo"] }}</td>
+            <td class="text-end">{{ dic[di]["salario"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

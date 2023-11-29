@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+<form action="/sell" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" required autofocus class="form-control mx-auto w-auto" id="nome" name="nome"
+            placeholder="Nome Completo" type="">
+    </div>
+    <button class="btn btn-primary" type="submit">Deletar</button>
+</form>
+{% endblock %}

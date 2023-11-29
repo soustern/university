@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block main %}
+<form action="/buy" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" required autofocus class="form-control mx-auto w-auto" id="nome" name="nome"
+            placeholder="nome" type="text">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" required autofocus class="form-control mx-auto w-auto" id="cpf" name="cpf"
+            placeholder="cpf" type="text">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" required autofocus class="form-control mx-auto w-auto" id="cargo" name="cargo"
+            placeholder="cargo" type="text">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" required autofocus class="form-control mx-auto w-auto" id="salario" name="salario"
+            placeholder="salario" type="text">
+    </div>
+    <button class="btn btn-primary" type="submit">Adicionar</button>
+</form>
+{% endblock %}  
