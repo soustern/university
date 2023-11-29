@@ -83,11 +83,9 @@ def history():
 def login():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-            for dic in dicname:
-                if ({"name": request.form.get("username"), "password": request.form.get("password")} == dicname[dic]):
-                    return render_template("index.html", dic=dic)
-
-            return apology("invalid username and/or password", 403)
+        if (request.form.get("username") == "rafa"):
+                return apology("Nenhum usuario encontrado")
+        return render_template("index.html", dic=dic)
 
 
         # Redirect user to home page
