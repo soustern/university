@@ -89,7 +89,6 @@ def login():
 
             return apology("invalid username and/or password", 403)
 
-        # Remember which user has logged in
 
         # Redirect user to home page
 
